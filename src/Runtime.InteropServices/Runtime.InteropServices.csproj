@@ -1,7 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="..\..\build\versions.props"/>
+
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>$(NetStandardId)</TargetFramework>
     <RootNamespace>NStuff.Runtime.InteropServices</RootNamespace>
     <AssemblyName>NStuff.Runtime.InteropServices</AssemblyName>
     <LangVersion>latest</LangVersion>
