@@ -7,9 +7,12 @@ namespace NStuff.Runtime.InteropServices
     {
         internal enum Key
         {
+            ClassAllocationFailed,
             OpenLibraryFailed,
             OSDetectionFailed,
+            UndefinedClass,
             UndefinedLibrarySymbol,
+            UndefinedProtocol,
         }
 
         internal static ResourceManager ResourceManager { get; } =

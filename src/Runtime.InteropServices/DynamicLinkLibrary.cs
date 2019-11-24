@@ -17,7 +17,7 @@ namespace NStuff.Runtime.InteropServices
         private NativeLibraryBase? nativeLibrary;
 
         /// <summary>
-        /// Initializes a new instance of the <b>DynamicLinkLibrary</b> class.
+        /// Initializes a new instance of the <b>DynamicLinkLibrary</b> class using the supplied <paramref name="name"/>.
         /// </summary>
         /// <param name="name">The name of the native library.</param>
         public DynamicLinkLibrary(string name) => nativeLibrary = NativeLibraryCreator(name);

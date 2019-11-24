@@ -8,7 +8,7 @@ namespace NStuff.Runtime.InteropServices
     public abstract class NativeLibraryBase
     {
         /// <summary>
-        /// Initializes a new instance of the <b>NativeLibraryBase</b> class.
+        /// Initializes a new instance of the <b>NativeLibraryBase</b> class using the supplied <paramref name="name"/>.
         /// </summary>
         /// <param name="name">The name of the native library.</param>
         protected NativeLibraryBase(string name)

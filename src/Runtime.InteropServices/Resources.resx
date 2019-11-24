@@ -117,13 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ClassAllocationFailed" xml:space="preserve">
+    <value>Cannot allocate class "{0}".</value>
+  </data>
   <data name="OpenLibraryFailed" xml:space="preserve">
-    <value>Cannot open library {0}.</value>
+    <value>Cannot open library "{0}".</value>
   </data>
   <data name="OSDetectionFailed" xml:space="preserve">
     <value>Failed to detect a supported OS: Windows, macOS, or Linux.</value>
   </data>
+  <data name="UndefinedClass" xml:space="preserve">
+    <value>A class named "{0}" does not exist.</value>
+  </data>
   <data name="UndefinedLibrarySymbol" xml:space="preserve">
     <value>A symbol named "{0}" does not exist.</value>
+  </data>
+  <data name="UndefinedProtocol" xml:space="preserve">
+    <value>A protocol named "{0}" does not exist.</value>
   </data>
 </root>
