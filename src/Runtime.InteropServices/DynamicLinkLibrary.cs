@@ -12,9 +12,15 @@ namespace NStuff.Runtime.InteropServices
         /// The delegate called by the instances of <c>DynamicLinkLibrary</c> to create <see cref="NativeLibraryBase"/> instances.
         /// </summary>
         /// <value>By default it is initialized with a delegate that supports Windows, macOS, and Linux.</value>
-        public static NativeLibraryCreator NativeLibraryCreator { get; set; } = CreateNativeLibrary;
+        public static Func<string, NativeLibraryBase> NativeLibraryCreator { get; set; } = CreateNativeLibrary;
 
         private NativeLibraryBase? nativeLibrary;
+
+        /// <summary>
+        /// A value indicating whether the cursor's <see cref="Dispose"/> method was called.
+        /// </summary>
+        /// <value><c>true</c> if <c>Dispose</c> was called.</value>
+        public bool Disposed => nativeLibrary == null;
 
         /// <summary>
         /// Initializes a new instance of the <b>DynamicLinkLibrary</b> class using the supplied <paramref name="name"/>.
@@ -23,12 +29,13 @@ namespace NStuff.Runtime.InteropServices
         public DynamicLinkLibrary(string name) => nativeLibrary = NativeLibraryCreator(name);
 
         /// <summary>
-        /// Called by the garbage collector to free the resources associated with this object.
+        /// Ensures that resources are freed and other cleanup operations are performed when the garbage collector
+        /// reclaims the <see cref="DynamicLinkLibrary"/>.
         /// </summary>
         ~DynamicLinkLibrary() => FreeResources();
 
         /// <summary>
-        /// Frees the resources associated with this object. After calling this method, calling the other methods of this object
+        /// Releases the resources associated with this object. After calling this method, calling the other methods of this object
         /// is throwing an <c>ObjectDisposedException</c>.
         /// </summary>
         public void Dispose()

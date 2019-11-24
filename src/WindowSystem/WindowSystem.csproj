@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\build\versions.props" />
+
+  <PropertyGroup>
+    <TargetFramework>$(NetStandardId)</TargetFramework>
+    <RootNamespace>NStuff.WindowSystem</RootNamespace>
+    <AssemblyName>NStuff.WindowSystem</AssemblyName>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+</Project>

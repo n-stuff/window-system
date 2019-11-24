@@ -5,11 +5,13 @@ VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{240E79C5-99F9-458A-A113-0E46F3292E17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Runtime.InteropServices", "src\Runtime.InteropServices\Runtime.InteropServices.csproj", "{9B36972F-D9A3-4BF6-8A4A-956DEE9DE48E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Runtime.InteropServices", "src\Runtime.InteropServices\Runtime.InteropServices.csproj", "{9B36972F-D9A3-4BF6-8A4A-956DEE9DE48E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{FCD5B6B5-961E-4253-89A6-67B93B5ED5BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Runtime.InteropServices.Tests", "test\Runtime.InteropServices.Tests\Runtime.InteropServices.Tests.csproj", "{A955B370-6B19-4863-82AB-2C116FA84D9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Runtime.InteropServices.Tests", "test\Runtime.InteropServices.Tests\Runtime.InteropServices.Tests.csproj", "{A955B370-6B19-4863-82AB-2C116FA84D9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowSystem", "src\WindowSystem\WindowSystem.csproj", "{5C796585-E4EA-4617-9EFD-71D5DFED5A10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +27,10 @@ Global
 		{A955B370-6B19-4863-82AB-2C116FA84D9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A955B370-6B19-4863-82AB-2C116FA84D9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A955B370-6B19-4863-82AB-2C116FA84D9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C796585-E4EA-4617-9EFD-71D5DFED5A10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C796585-E4EA-4617-9EFD-71D5DFED5A10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C796585-E4EA-4617-9EFD-71D5DFED5A10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C796585-E4EA-4617-9EFD-71D5DFED5A10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +38,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{9B36972F-D9A3-4BF6-8A4A-956DEE9DE48E} = {240E79C5-99F9-458A-A113-0E46F3292E17}
 		{A955B370-6B19-4863-82AB-2C116FA84D9C} = {FCD5B6B5-961E-4253-89A6-67B93B5ED5BB}
+		{5C796585-E4EA-4617-9EFD-71D5DFED5A10} = {240E79C5-99F9-458A-A113-0E46F3292E17}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D77C5DCD-21D7-4A13-ADA3-237857B51B7F}
