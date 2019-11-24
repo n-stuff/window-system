@@ -8,14 +8,14 @@ namespace NStuff.WindowSystem
     public abstract class NativeWindowServerBase
     {
         /// <summary>
-        /// The preferred viewport width when a window is created.
+        /// The preferred surface width when a window is created.
         /// </summary>
-        protected const int DefaultViewportWidth = 480;
+        protected const int DefaultSurfaceWidth = 480;
 
         /// <summary>
-        /// The preferred viewport height when a window is created.
+        /// The preferred surface height when a window is created.
         /// </summary>
-        protected const int DefaultViewportHeight = 300;
+        protected const int DefaultSurfaceHeight = 300;
 
         /// <summary>
         /// Tells whether the server is currently running.

@@ -9,7 +9,10 @@ namespace NStuff.WindowSystem
     {
         private NativeWindowServerBase? nativeWindowServer;
 
-        internal object? NativeData { get; private set; }
+        /// <summary>
+        /// A platform-dependent object set by the native window server.
+        /// </summary>
+        public object? NativeData { get; set; }
 
         /// <summary>
         /// A value indicating whether the cursor's <see cref="Dispose"/> method was called.

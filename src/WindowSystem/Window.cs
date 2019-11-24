@@ -132,9 +132,9 @@ namespace NStuff.WindowSystem
         }
 
         /// <summary>
-        /// A platform-dependent object set by the window server.
+        /// A platform-dependent object set by the native window server.
         /// </summary>
-        public object? NativeData { get; internal set; }
+        public object? NativeData { get; set; }
 
         /// <summary>
         /// The opacity of this window. When the opacity is 0.0, the window is completely transparent,

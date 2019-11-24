@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace NStuff.WindowSystem
 {
@@ -182,6 +183,10 @@ namespace NStuff.WindowSystem
 
         private static NativeWindowServerBase CreateNativeWindowServer()
         {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return new Windows.NativeWindowServer();
+            }
             throw new NotImplementedException();
         }
     }

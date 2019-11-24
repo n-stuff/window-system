@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\build\versions.props" />
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>$(NetCoreAppId)</TargetFramework>
+    <RootNamespace>NStuff.ManualTest</RootNamespace>
+    <AssemblyName>NStuff.ManualTest</AssemblyName>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\WindowSystem\WindowSystem.csproj" />
+  </ItemGroup>
+
+</Project>

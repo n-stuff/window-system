@@ -7,6 +7,11 @@ namespace NStuff.WindowSystem
     {
         internal enum Key
         {
+            ImageCreationFailed,
+            OpenClipboardFailed,
+            PredefinedCursorCreationFailed,
+            ServerAlreadyInitialized,
+            SetClipboardFailed,
             WrongCursorImageFormat,
         }
 
