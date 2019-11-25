@@ -5,6 +5,9 @@ using static NStuff.WindowSystem.macOS.NativeMethods;
 
 namespace NStuff.WindowSystem.macOS
 {
+    /// <summary>
+    /// Provides methods to send messages to an Objective C object.
+    /// </summary>
     public static class ReceiverExtensions
     {
         public static Id Get(this IReceiver receiver, SEL selector, bool arg0) =>
@@ -67,10 +70,6 @@ namespace NStuff.WindowSystem.macOS
 
         public static NSSize GetSize(this IReceiver receiver, SEL selector) =>
             Size_objc_msgSend(receiver.Handle, selector.Handle);
-
-        [CLSCompliant(false)]
-        public static void Send(this IReceiver receiver, SEL selector, IntPtr arg0, ulong arg1) =>
-            Void_objc_msgSend(receiver.Handle, selector.Handle, arg0, new IntPtr((long)arg1));
 
         public static void Send(this IReceiver receiver, SEL selector, NSPoint arg0) =>
             Void_objc_msgSend(receiver.Handle, selector.Handle, arg0);

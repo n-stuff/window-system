@@ -2,18 +2,36 @@
 
 namespace NStuff.WindowSystem.macOS
 {
+    /// <summary>
+    /// A point in a Cartesian coordinate system.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct NSPoint
     {
-        public static implicit operator (double x, double y)(NSPoint size) => (size.x, size.y);
+        /// <summary>
+        /// Implicitely converts a <c>NSPoint</c> to a tuple.
+        /// </summary>
+        /// <param name="size">The point to convert.</param>
+        public static implicit operator (double x, double y)(NSPoint point) => (point.x, point.y);
 
-        private double x;
-        private double y;
+        private readonly double x;
+        private readonly double y;
 
-        public double X { get => x; set => x = value; }
+        /// <summary>
+        /// The x coordinate of the point.
+        /// </summary>
+        public double X => x;
 
-        public double Y { get => y; set => y = value; }
+        /// <summary>
+        /// The y coordinate of the point.
+        /// </summary>
+        public double Y => y;
 
+        /// <summary>
+        /// Initializes a new instance of the <c>NSPoint</c> struct.
+        /// </summary>
+        /// <param name="x">The x coordinate of the point.</param>
+        /// <param name="y">The y coordinate of the point.</param>
         public NSPoint(double x, double y)
         {
             this.x = x;

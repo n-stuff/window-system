@@ -3,7 +3,7 @@
 namespace NStuff.Runtime.InteropServices.ObjectiveC
 {
     /// <summary>
-    /// Represents an Objective C instance.
+    /// Represents an Objective C object.
     /// </summary>
     public struct Id : IReceiver
     {

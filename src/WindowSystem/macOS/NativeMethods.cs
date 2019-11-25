@@ -155,9 +155,6 @@ namespace NStuff.WindowSystem.macOS
         internal extern static sbyte SByte_objc_msgSend(IntPtr receiver, IntPtr selector, NSPoint arg0, NSRect arg1);
 
         [DllImport(Libobjc, EntryPoint = "objc_msgSend")]
-        internal extern static void Void_objc_msgSend(IntPtr receiver, IntPtr selector, IntPtr arg0, IntPtr arg1);
-
-        [DllImport(Libobjc, EntryPoint = "objc_msgSend")]
         internal extern static void Void_objc_msgSend(IntPtr receiver, IntPtr selector, NSPoint arg0);
 
         [DllImport(Libobjc, EntryPoint = "objc_msgSend")]
