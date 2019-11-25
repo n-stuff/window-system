@@ -117,8 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CursorCreationFailed" xml:space="preserve">
+    <value>Cursor creation failed.</value>
+  </data>
+  <data name="DetectableKeyboardRepeatFailure" xml:space="preserve">
+    <value>Could not set detectable keyboard repeat.</value>
+  </data>
+  <data name="EWMHNotSupported" xml:space="preserve">
+    <value>EWMH not supported by the window manager.</value>
+  </data>
   <data name="ImageCreationFailed" xml:space="preserve">
     <value>Image creation failed.</value>
+  </data>
+  <data name="MissingKeyboardExtension" xml:space="preserve">
+    <value>The keyboard extension was not found.</value>
   </data>
   <data name="OpenClipboardFailed" xml:space="preserve">
     <value>Cannot open clipboard.</value>
@@ -132,7 +144,13 @@
   <data name="SetClipboardFailed" xml:space="preserve">
     <value>Cannot set clipboard string '{0}'.</value>
   </data>
+  <data name="SettingSelectionOwnerFailed" xml:space="preserve">
+    <value>Cannot take selection ownership.</value>
+  </data>
   <data name="WrongCursorImageFormat" xml:space="preserve">
     <value>The image format for cursors must be 8-bit TrueColorAlpha.</value>
+  </data>
+  <data name="XServerConnectionFailed" xml:space="preserve">
+    <value>An error occurred while connecting to X server.</value>
   </data>
 </root>

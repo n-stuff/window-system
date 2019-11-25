@@ -7,12 +7,18 @@ namespace NStuff.WindowSystem
     {
         internal enum Key
         {
+            CursorCreationFailed,
+            DetectableKeyboardRepeatFailure,
+            EWMHNotSupported,
             ImageCreationFailed,
+            MissingKeyboardExtension,
             OpenClipboardFailed,
             PredefinedCursorCreationFailed,
             ServerAlreadyInitialized,
             SetClipboardFailed,
+            SettingSelectionOwnerFailed,
             WrongCursorImageFormat,
+            XServerConnectionFailed,
         }
 
         internal static ResourceManager ResourceManager { get; } =

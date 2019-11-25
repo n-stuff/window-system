@@ -1270,27 +1270,13 @@ namespace NStuff.WindowSystem.Windows
             }
         }
 
-        private static WindowData GetData(Window window)
-        {
-            var data = (WindowData?)window.NativeData;
-            if (data == null)
-            {
-                throw new InvalidOperationException();
-            }
-            return data;
-        }
+        private static WindowData GetData(Window window) =>
+            (WindowData?)window.NativeData ?? throw new InvalidOperationException();
 
         private static IntPtr GetHandle(Window window) => GetData(window).Handle;
 
-        private static IntPtr GetHandle(Cursor cursor)
-        {
-            var data = (CursorData?)cursor.NativeData;
-            if (data == null)
-            {
-                throw new InvalidOperationException();
-            }
-            return data.Handle;
-        }
+        private static IntPtr GetHandle(Cursor cursor) =>
+            ((CursorData?)cursor.NativeData ?? throw new InvalidOperationException()).Handle;
 
         private static int GET_X_LPARAM(IntPtr lParam) => (short)((long)lParam);
 

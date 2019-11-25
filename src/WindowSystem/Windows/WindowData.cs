@@ -3,7 +3,7 @@
 namespace NStuff.WindowSystem.Windows
 {
     /// <summary>
-    /// Represents the data needed by the window server to manage a window.
+    /// Represents the data used by the native window server to manage a window.
     /// </summary>
     public class WindowData
     {

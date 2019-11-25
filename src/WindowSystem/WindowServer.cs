@@ -187,6 +187,10 @@ namespace NStuff.WindowSystem
             {
                 return new Windows.NativeWindowServer();
             }
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                return new Linux.NativeWindowServer();
+            }
             throw new NotImplementedException();
         }
     }
