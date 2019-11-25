@@ -1,4 +1,6 @@
-# window-system
+# Windowing Toolking
+
+This repository provides building blocks to write GUI applications on Windows, macOS, and Linux (X11).
 
 ## Acknowledgments
 
