@@ -7,12 +7,14 @@ namespace NStuff.WindowSystem
     {
         internal enum Key
         {
+            CocoaAlreadyInitialized,
             CursorCreationFailed,
             DetectableKeyboardRepeatFailure,
             EWMHNotSupported,
             ImageCreationFailed,
             MissingKeyboardExtension,
             OpenClipboardFailed,
+            OSDetectionFailed,
             PredefinedCursorCreationFailed,
             ServerAlreadyInitialized,
             SetClipboardFailed,

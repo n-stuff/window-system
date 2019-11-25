@@ -187,11 +187,15 @@ namespace NStuff.WindowSystem
             {
                 return new Windows.NativeWindowServer();
             }
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                return new macOS.NativeWindowServer();
+            }
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 return new Linux.NativeWindowServer();
             }
-            throw new NotImplementedException();
+            throw new InvalidOperationException(Resources.GetMessage(Resources.Key.OSDetectionFailed));
         }
     }
 }
