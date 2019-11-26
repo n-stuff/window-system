@@ -7,9 +7,11 @@ namespace NStuff.OpenGL.Context
     {
         internal enum Key
         {
+            DeviceContextRetrievalFailed,
             OpenGLEntryPointNotPresent,
             OSDetectionFailed,
-            RenderingContextNotSet
+            RenderingContextNotSet,
+            RenderingContextSharingNotSupported,
         }
 
         internal static ResourceManager ResourceManager { get; } =

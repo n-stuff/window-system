@@ -172,6 +172,10 @@ namespace NStuff.OpenGL.Context
 
         private static NativeRenderingContextBase CreateNativeRenderingContext()
         {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return new Windows.NativeRenderingContext();
+            }
             throw new InvalidOperationException(Resources.GetMessage(Resources.Key.OSDetectionFailed));
         }
     }

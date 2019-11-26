@@ -150,6 +150,11 @@ namespace NStuff.WindowSystem
         internal IRenderingContext? RenderingContext { get; private set; }
 
         /// <summary>
+        /// A value to be used by the rendering context in order to manage this window.
+        /// </summary>
+        public object? RenderingData { get; set; }
+
+        /// <summary>
         /// The size of this window.
         /// </summary>
         public (double width, double height) Size {

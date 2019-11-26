@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\OpenGL.Context\OpenGL.Context.csproj" />
     <ProjectReference Include="..\..\src\WindowSystem\WindowSystem.csproj" />
   </ItemGroup>
 
