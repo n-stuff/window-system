@@ -23,10 +23,10 @@ namespace NStuff.OpenGL.Context.macOS
             openGLLibrary = null;
         }
 
-        public override void AttachRenderingData(RenderingContext context, WindowServer windowServer, Window window) =>
+        public override void AttachRenderingData(RenderingContext context, WindowServer server, Window window) =>
             window.RenderingData = new RenderingData();
 
-        public override unsafe void SetupRenderingData(RenderingContext context, WindowServer windowServer, Window window)
+        public override unsafe void SetupRenderingData(RenderingContext context, WindowServer server, Window window)
         {
             if (NSOpenGLContext.Handle == IntPtr.Zero)
             {

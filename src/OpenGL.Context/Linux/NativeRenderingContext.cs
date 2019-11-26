@@ -17,14 +17,14 @@ namespace NStuff.OpenGL.Context.Linux
         {
         }
 
-        public override unsafe void AttachRenderingData(RenderingContext renderingContext, WindowServer windowServer, Window window)
+        public override unsafe void AttachRenderingData(RenderingContext context, WindowServer server, Window window)
         {
             var windowData = GetWindowData(window);
             if (swapInterval == null)
             {
                 display = windowData.Display;
                 var extensions = Marshal.PtrToStringAnsi(glXQueryExtensionsString(display, XDefaultScreen(display)));
-                if (extensions.IndexOf("GLX_EXT_swap_control") >= 0)
+                if (HasExtension(extensions, "GLX_EXT_swap_control"))
                 {
                     var proc = Marshal.GetDelegateForFunctionPointer<PFNGLXSWAPINTERVALEXTPROC>(GetCommandAddress("glXSwapIntervalEXT"));
                     swapInterval = (w, sync) => {
@@ -32,7 +32,7 @@ namespace NStuff.OpenGL.Context.Linux
                         proc(d.Display, d.Id, sync ? 1 : 0);
                     };
                 }
-                else if (extensions.IndexOf("GLX_MESA_swap_control") >= 0)
+                else if (HasExtension(extensions, "GLX_MESA_swap_control"))
                 {
                     var proc = Marshal.GetDelegateForFunctionPointer<PFNGLXSWAPINTERVALMESAPROC>(GetCommandAddress("glXSwapIntervalMESA"));
                     swapInterval = (d, sync) => proc(sync ? 1u : 0u);
@@ -41,10 +41,10 @@ namespace NStuff.OpenGL.Context.Linux
                 {
                     swapInterval = (d, sync) => { };
                 }
-                multisample = extensions.IndexOf("GLX_ARB_multisample") >= 0;
+                multisample = HasExtension(extensions, "GLX_ARB_multisample");
             }
 
-            var settings = renderingContext.Settings ?? throw new InvalidOperationException();
+            var settings = context.Settings ?? throw new InvalidOperationException();
             var attributeList = stackalloc int[32];
             attributeList[0] = GLX_RGBA;
             attributeList[1] = GLX_DOUBLEBUFFER;
@@ -113,15 +113,14 @@ namespace NStuff.OpenGL.Context.Linux
             }
             var shareContext = settings.ShareContext;
             var shareContextHandle = (shareContext != null) ? GetData(shareContext).Context : IntPtr.Zero;
-            var context = glXCreateContext(display, visualInfo, shareContextHandle, 1);
 
-            var data = new RenderingData { Context = context };
+            var data = new RenderingData { Context = glXCreateContext(display, visualInfo, shareContextHandle, 1) };
             window.RenderingData = data;
 
             windowData.Visual = visualInfo->visual;
         }
 
-        public override void SetupRenderingData(RenderingContext context, WindowServer windowServer, Window window)
+        public override void SetupRenderingData(RenderingContext context, WindowServer server, Window window)
         {
         }
 
@@ -163,5 +162,8 @@ namespace NStuff.OpenGL.Context.Linux
 
         private static RenderingData GetData(Window window) =>
             (RenderingData?)window.RenderingData ?? throw new InvalidOperationException();
+
+        private static bool HasExtension(string extensions, string extension) =>
+            extensions.IndexOf(extension, StringComparison.Ordinal) >= 0;
     }
 }

@@ -1373,13 +1373,11 @@ namespace NStuff.WindowSystem.macOS
         private static Id GetId(Cursor cursor) => ((CursorData?)cursor.NativeData ?? throw new InvalidOperationException()).Id;
 
         private static void AddMethod<TDelegate>(ClassBuilder builder, string selector, TDelegate implementation, string types)
-        {
-            AddMethod(builder, SEL.Register(selector), implementation, types);
-        }
+            where TDelegate : class => AddMethod(builder, SEL.Register(selector), implementation, types);
 
-        private static void AddMethod<TDelegate>(ClassBuilder builder, SEL selector, TDelegate implementation, string types)
+        private static void AddMethod<TDelegate>(ClassBuilder builder, SEL selector, TDelegate implementation, string types) where TDelegate : class
         {
-            implementations.Add(implementation ?? throw new InvalidOperationException());
+            implementations.Add(implementation);
             builder.AddMethod(selector, implementation, types);
         }
 

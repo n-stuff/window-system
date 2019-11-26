@@ -34,7 +34,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// <param name="types">The Objective C runtime argument types string.</param>
         /// <returns><c>true</c> if the method was successfully added.</returns>
         /// <remarks>The <paramref name="implementation"/> value should be stored to avoid garbage collection.</remarks>
-        public bool AddMethod<TDelegate>(SEL selector, TDelegate implementation, string types) =>
+        public bool AddMethod<TDelegate>(SEL selector, TDelegate implementation, string types) where TDelegate : class =>
             class_addMethod(NewClass.Handle, selector.Handle, Marshal.GetFunctionPointerForDelegate(implementation), types);
     }
 }

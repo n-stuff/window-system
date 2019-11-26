@@ -52,7 +52,7 @@ namespace NStuff.OpenGL.Context
         }
 
         /// <summary>
-        /// A value indicating whether the cursor's <see cref="Dispose"/> method was called.
+        /// A value indicating whether the rendering context's <see cref="Dispose"/> method was called.
         /// </summary>
         /// <value><c>true</c> if <c>Dispose</c> was called.</value>
         public bool Disposed => nativeRenderingContext == null;

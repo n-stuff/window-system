@@ -14,7 +14,7 @@ namespace NStuff.OpenGL.Context
         /// <param name="context">The rendering context.</param>
         /// <param name="server">The window server.</param>
         /// <param name="window">The window to manage.</param>
-        public abstract void AttachRenderingData(RenderingContext context, WindowServer windowServer, Window window);
+        public abstract void AttachRenderingData(RenderingContext context, WindowServer server, Window window);
 
         /// <summary>
         /// Called just after the native window was created.
@@ -22,7 +22,7 @@ namespace NStuff.OpenGL.Context
         /// <param name="context">The rendering context.</param>
         /// <param name="server">The window server.</param>
         /// <param name="window">The window to manage.</param>
-        public abstract void SetupRenderingData(RenderingContext context, WindowServer windowServer, Window window);
+        public abstract void SetupRenderingData(RenderingContext context, WindowServer server, Window window);
 
         /// <summary>
         /// Called just before the native window is destroyed.

@@ -23,12 +23,12 @@ namespace NStuff.OpenGL.Context.Windows
             openGLLibrary = null;
         }
 
-        public override void AttachRenderingData(RenderingContext context, WindowServer windowServer, Window window)
+        public override void AttachRenderingData(RenderingContext context, WindowServer server, Window window)
         {
             window.RenderingData = new RenderingData();
         }
 
-        public override void SetupRenderingData(RenderingContext context, WindowServer windowServer, Window window)
+        public override void SetupRenderingData(RenderingContext context, WindowServer server, Window window)
         {
             var dc = GetDC(((WindowData?)window.NativeData ?? throw new InvalidOperationException()).Handle);
             if (dc == IntPtr.Zero)
@@ -61,7 +61,7 @@ namespace NStuff.OpenGL.Context.Windows
                     extensionsARB = Marshal.PtrToStringAnsi(getExtensions(dc));
                 }
 
-                if (extensionsEXT.IndexOf("WGL_EXT_swap_control") >= 0 || extensionsARB.IndexOf("WGL_EXT_swap_control") >= 0)
+                if (HasExtension(extensionsEXT, extensionsARB, "WGL_EXT_swap_control"))
                 {
                     var swapIntervalEXT = LoadEntryPoint<PFNWGLSWAPINTERVALEXTPROC>("wglSwapIntervalEXT");
                     swapInterval = (sync) => swapIntervalEXT(sync ? 1 : 0);
@@ -71,17 +71,17 @@ namespace NStuff.OpenGL.Context.Windows
                     swapInterval = (sync) => { };
                 }
 
-                if (extensionsEXT.IndexOf("WGL_ARB_create_context") >= 0 || extensionsARB.IndexOf("WGL_ARB_create_context") >= 0)
+                if (HasExtension(extensionsEXT, extensionsARB, "WGL_ARB_create_context"))
                 {
                     createContextAttribs = LoadEntryPoint<PFNWGLCREATECONTEXTATTRIBSARBPROC>("wglCreateContextAttribsARB");
                 }
 
-                if (extensionsEXT.IndexOf("WGL_ARB_pixel_format") >= 0 || extensionsARB.IndexOf("WGL_ARB_pixel_format") >= 0)
+                if (HasExtension(extensionsEXT, extensionsARB, "WGL_ARB_pixel_format"))
                 {
                     choosePixelFormat = LoadEntryPoint<PFNWGLCHOOSEPIXELFORMATARBPROC>("wglChoosePixelFormatARB");
                 }
 
-                multisample = extensionsEXT.IndexOf("WGL_ARB_multisample") >= 0 || extensionsARB.IndexOf("WGL_ARB_multisample") >= 0;
+                multisample = HasExtension(extensionsEXT, extensionsARB, "WGL_ARB_multisample");
 
                 wglMakeCurrent(IntPtr.Zero, IntPtr.Zero);
                 if (CurrentWindow != null)
@@ -96,8 +96,8 @@ namespace NStuff.OpenGL.Context.Windows
                 if (choosePixelFormat != null && multisample && settings.Samples > 0)
                 {
                     wglDeleteContext(data.Handle);
-                    windowServer.RecreateWindow(window);
-                    SetupRenderingData(context, windowServer, window);
+                    server.RecreateWindow(window);
+                    SetupRenderingData(context, server, window);
                 }
             }
         }
@@ -253,5 +253,8 @@ namespace NStuff.OpenGL.Context.Windows
 
         private static RenderingData GetData(Window window) =>
             (RenderingData?)window.RenderingData ?? throw new InvalidOperationException();
+
+        private static bool HasExtension(string extensions1, string extensions2, string extension) =>
+            extensions1.IndexOf(extension, StringComparison.Ordinal) >= 0 || extensions2.IndexOf(extension, StringComparison.Ordinal) >= 0;
     }
 }
