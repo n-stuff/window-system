@@ -176,6 +176,10 @@ namespace NStuff.OpenGL.Context
             {
                 return new Windows.NativeRenderingContext();
             }
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                return new Linux.NativeRenderingContext();
+            }
             throw new InvalidOperationException(Resources.GetMessage(Resources.Key.OSDetectionFailed));
         }
     }

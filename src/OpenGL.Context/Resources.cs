@@ -12,6 +12,7 @@ namespace NStuff.OpenGL.Context
             OSDetectionFailed,
             RenderingContextNotSet,
             RenderingContextSharingNotSupported,
+            Visual_Selection_Failed
         }
 
         internal static ResourceManager ResourceManager { get; } =

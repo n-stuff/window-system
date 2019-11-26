@@ -132,4 +132,7 @@
   <data name="RenderingContextSharingNotSupported" xml:space="preserve">
     <value>Rendering context sharing is not supported.</value>
   </data>
+  <data name="VisualSelectionFailed" xml:space="preserve">
+    <value>An error occurred while selecting a visual.</value>
+  </data>
 </root>
