@@ -4,8 +4,8 @@ This repository provides building blocks to write GUI applications on Windows, m
 * The **WindowSystem** project provides classes to create main windows and to handle events.
 * The **OpenGL.Context** project provides classes to associate OpenGL contexts to windows.
 
-To run an example of window creation:
-`dotnet run -p test/ManualTest`
+To run an example of window creation and event handling:
+`dotnet run -p test/WindowSystem.ManualTest`
 
 ## Acknowledgments
 
