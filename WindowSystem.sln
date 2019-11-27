@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Runtime.InteropServices.Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowSystem", "src\WindowSystem\WindowSystem.csproj", "{5C796585-E4EA-4617-9EFD-71D5DFED5A10}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManualTest", "test\ManualTest\ManualTest.csproj", "{06D7CF12-9D5E-48BC-A3A0-89C2FF6AC610}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowSystem.ManualTest", "test\WindowSystem.ManualTest\WindowSystem.ManualTest.csproj", "{06D7CF12-9D5E-48BC-A3A0-89C2FF6AC610}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenGL.Context", "src\OpenGL.Context\OpenGL.Context.csproj", "{36107956-6C8F-4CAE-83C2-AD763E1F161C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenGL.Context", "src\OpenGL.Context\OpenGL.Context.csproj", "{36107956-6C8F-4CAE-83C2-AD763E1F161C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

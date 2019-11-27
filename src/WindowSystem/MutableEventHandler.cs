@@ -6,5 +6,5 @@
     /// <typeparam name="TEventArgs">The type representing the arguments of the event.</typeparam>
     /// <param name="sender">The source of the event.</param>
     /// <param name="e">The arguments of the event.</param>
-    public delegate void MutableEventHandler<TEventArgs>(object sender, ref TEventArgs e) where TEventArgs : struct;
+    public delegate void MutableEventHandler<TEventArgs>(object? sender, ref TEventArgs e) where TEventArgs : struct;
 }

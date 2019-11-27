@@ -1,5 +1,6 @@
 ﻿using NStuff.WindowSystem;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 namespace NStuff.OpenGL.Context
@@ -106,13 +107,13 @@ namespace NStuff.OpenGL.Context
         public void SyncWithVerticalBlank(Window window, bool sync) => GetNativeRenderingContext().SyncWithVerticalBlank(window, sync);
 
         /// <summary>
-        /// Gets an OpenGL entry point.
+        /// Gets an OpenGL entry point, or null.
         /// </summary>
         /// <typeparam name="TDelegate">The delegate type of the entry point.</typeparam>
         /// <param name="commandName">The name of command associated with the entry point.</param>
-        /// <param name="throwIfNotFound"><c>true</c> to throw an exception if the entry point is not found.</param>
-        /// <returns>A delegate that can be used to invoke an OpenGL command.</returns>
-        public TDelegate? GetOpenGLEntryPoint<TDelegate>(string commandName, bool throwIfNotFound) where TDelegate : class
+        /// <param name="result">A delegate that can be used to invoke an OpenGL command.</param>
+        public bool TryGetOpenGLEntryPoint<TDelegate>(string commandName, [NotNullWhen(returnValue: true)] out TDelegate? result)
+            where TDelegate : class
         {
             if (nativeRenderingContext == null)
             {
@@ -125,13 +126,27 @@ namespace NStuff.OpenGL.Context
             var address = nativeRenderingContext.GetCommandAddress(commandName);
             if (address == IntPtr.Zero)
             {
-                if (throwIfNotFound)
-                {
-                    throw new InvalidOperationException(Resources.FormatMessage(Resources.Key.OpenGLEntryPointNotPresent, commandName));
-                }
-                return default;
+                result = default;
+                return false;
             }
-            return Marshal.GetDelegateForFunctionPointer<TDelegate>(address);
+            result = Marshal.GetDelegateForFunctionPointer<TDelegate>(address);
+            return true;
+        }
+
+        /// <summary>
+        /// Gets an OpenGL entry point, or throws an exception if not found.
+        /// </summary>
+        /// <typeparam name="TDelegate">The delegate type of the entry point.</typeparam>
+        /// <param name="commandName">The name of command associated with the entry point.</param>
+        /// <returns>A delegate that can be used to invoke an OpenGL command.</returns>
+        /// <exception cref="InvalidOperationException">If the entry point was not found.</exception>
+        public TDelegate GetOpenGLEntryPoint<TDelegate>(string commandName) where TDelegate : class
+        {
+            if (TryGetOpenGLEntryPoint<TDelegate>(commandName, out var result))
+            {
+                return result;
+            }
+            throw new InvalidOperationException(Resources.FormatMessage(Resources.Key.OpenGLEntryPointNotPresent, commandName));
         }
 
         void IRenderingContext.AttachRenderingData(WindowServer server, Window window)
