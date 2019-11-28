@@ -5,14 +5,30 @@ using static NStuff.Runtime.InteropServices.ObjectiveC.NativeMethods;
 namespace NStuff.Runtime.InteropServices.ObjectiveC
 {
     /// <summary>
-    /// Represents an Object C class.
+    /// Represents an Objective C class.
     /// </summary>
-    public struct Class : IReceiver
+    public struct Class : IReceiver, IEquatable<Class>
     {
+        /// <summary>
+        /// Compares two <see cref="Class"/> objects. 
+        /// </summary>
+        /// <param name="class1">A class.</param>
+        /// <param name="class2">A class.</param>
+        /// <returns><c>true</c> if <see cref="Handle"/> has the same value.</returns>
+        public static bool operator ==(Class class1, Class class2) => class1.Equals(class2);
+
+        /// <summary>
+        /// Compares two <see cref="Class"/> objects. 
+        /// </summary>
+        /// <param name="class1">A class.</param>
+        /// <param name="class2">A class.</param>
+        /// <returns><c>true</c> if <see cref="Handle"/> has the different values.</returns>
+        public static bool operator !=(Class class1, Class class2) => !class1.Equals(class2);
+
         /// <summary>
         /// The internal handle of the class.
         /// </summary>
-        public IntPtr Handle { get; }
+        public readonly IntPtr Handle { get; }
 
         /// <summary>
         /// Loads an Objective C class.
@@ -53,5 +69,16 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// </summary>
         /// <param name="handle">The internal handle of an Objective C class.</param>
         public Class(IntPtr handle) => Handle = handle;
+
+        public override readonly int GetHashCode() => Handle.GetHashCode();
+
+        public override readonly bool Equals(object obj) => obj is Class && Equals((Class)obj);
+
+        /// <summary>
+        /// Compares this <see cref="Class"/> object with another one.
+        /// </summary>
+        /// <param name="other">A class.</param>
+        /// <returns><c>true</c> if <see cref="Handle"/> has the same value as <c>other.Handle</c>.</returns>
+        public readonly bool Equals(Class other) => Handle == other.Handle;
     }
 }

@@ -5,8 +5,24 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
     /// <summary>
     /// Represents an Objective C object.
     /// </summary>
-    public struct Id : IReceiver
+    public struct Id : IReceiver, IEquatable<Id>
     {
+        /// <summary>
+        /// Compares two <see cref="Id"/> objects. 
+        /// </summary>
+        /// <param name="id1">An id.</param>
+        /// <param name="id2">An id.</param>
+        /// <returns><c>true</c> if <see cref="Handle"/> has the same value.</returns>
+        public static bool operator ==(Id id1, Id id2) => id1.Equals(id2);
+
+        /// <summary>
+        /// Compares two <see cref="Id"/> objects. 
+        /// </summary>
+        /// <param name="id1">An id.</param>
+        /// <param name="id2">An id.</param>
+        /// <returns><c>true</c> if <see cref="Handle"/> has different values.</returns>
+        public static bool operator !=(Id id1, Id id2) => !id1.Equals(id2);
+
         /// <summary>
         /// The nil id.
         /// </summary>
@@ -27,5 +43,16 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// Whether the id is nil.
         /// </summary>
         public bool IsNil => Handle == IntPtr.Zero;
+
+        public override readonly int GetHashCode() => Handle.GetHashCode();
+
+        public override readonly bool Equals(object obj) => obj is Id && Equals((Id)obj);
+
+        /// <summary>
+        /// Compares this <see cref="Id"/> object with another one.
+        /// </summary>
+        /// <param name="other">An id.</param>
+        /// <returns><c>true</c> if <see cref="Handle"/> has the same value as <c>other.Handle</c>.</returns>
+        public readonly bool Equals(Id other) => Handle == other.Handle;
     }
 }
