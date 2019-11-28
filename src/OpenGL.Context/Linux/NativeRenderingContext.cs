@@ -56,7 +56,7 @@ namespace NStuff.OpenGL.Context.Linux
             if (settings.AuxBuffers > 0)
             {
                 attributeList[index++] = GLX_AUX_BUFFERS;
-                attributeList[index++] = (int)settings.AuxBuffers;
+                attributeList[index++] = settings.AuxBuffers;
             }
             if (settings.ColorBits >= 3)
             {

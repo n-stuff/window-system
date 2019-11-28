@@ -116,82 +116,82 @@ namespace NStuff.WindowSystem.ManualTest
         void Moved(object? sender, EmptyEventArgs _)
         {
             var window = (Window?)sender ?? throw new InvalidOperationException();
-            entries.Add(new LogEntry { label = window.Title, type = "Moved     ", message = window.Location.ToString() }); ;
+            entries.Add(new LogEntry { label = window.Title, type = "Moved     ", message = window.Location.ToString() });
         }
 
         void MouseMoved(object? sender, MousePositionEventArgs args)
         {
             var window = (Window?)sender ?? throw new InvalidOperationException();
-            entries.Add(new LogEntry { label = window.Title, type = "MouseMoved", message = args.Position.ToString() }); ;
+            entries.Add(new LogEntry { label = window.Title, type = "MouseMoved", message = args.Position.ToString() });
         }
 
         void MouseEnter(object? sender, EmptyEventArgs _)
         {
             var window = (Window?)sender ?? throw new InvalidOperationException();
-            entries.Add(new LogEntry { label = window.Title, type = "MouseEnter", message = "" }); ;
+            entries.Add(new LogEntry { label = window.Title, type = "MouseEnter", message = "" });
         }
 
         void MouseLeave(object? sender, EmptyEventArgs _)
         {
             var window = (Window?)sender ?? throw new InvalidOperationException();
-            entries.Add(new LogEntry { label = window.Title, type = "MouseLeave", message = "" }); ;
+            entries.Add(new LogEntry { label = window.Title, type = "MouseLeave", message = "" });
         }
 
         void MouseDown(object? sender, MouseButtonEventArgs args)
         {
             var window = (Window?)sender ?? throw new InvalidOperationException();
-            entries.Add(new LogEntry { label = window.Title, type = "MouseDown ", message = $"Button: {args.ChangedButton}" }); ;
+            entries.Add(new LogEntry { label = window.Title, type = "MouseDown ", message = $"Button: {args.ChangedButton}" });
         }
 
         void MouseUp(object? sender, MouseButtonEventArgs args)
         {
             var window = (Window?)sender ?? throw new InvalidOperationException();
-            entries.Add(new LogEntry { label = window.Title, type = "MouseUp   ", message = $"Button: {args.ChangedButton}" }); ;
+            entries.Add(new LogEntry { label = window.Title, type = "MouseUp   ", message = $"Button: {args.ChangedButton}" });
         }
 
         void Scroll(object? sender, ScrollEventArgs args)
         {
             var window = (Window?)sender ?? throw new InvalidOperationException();
-            entries.Add(new LogEntry { label = window.Title, type = "Scroll    ", message = $"dx: {args.DeltaX}, dy: {args.DeltaY}" }); ;
+            entries.Add(new LogEntry { label = window.Title, type = "Scroll    ", message = $"dx: {args.DeltaX}, dy: {args.DeltaY}" });
         }
 
         void KeyDown(object? sender, KeyEventArgs args)
         {
             var window = (Window?)sender ?? throw new InvalidOperationException();
             entries.Add(new LogEntry { label = window.Title, type = "KeyDown   ",
-                message = $"Key: {args.Keycode}, Modifiers: [{args.ModifierKeys}] repeat? {args.IsRepeat}" }); ;
+                message = $"Key: {args.Keycode}, Modifiers: [{args.ModifierKeys}] repeat? {args.IsRepeat}" });
         }
 
         void KeyUp(object? sender, KeyEventArgs args)
         {
             var window = (Window?)sender ?? throw new InvalidOperationException();
             entries.Add(new LogEntry { label = window.Title, type = "KeyUp     ",
-                message = $"Key: {args.Keycode}, Modifiers [{args.ModifierKeys}]" }); ;
+                message = $"Key: {args.Keycode}, Modifiers [{args.ModifierKeys}]" });
         }
 
         void TextInput(object? sender, TextInputEventArgs args)
         {
             var window = (Window?)sender ?? throw new InvalidOperationException();
             entries.Add(new LogEntry { label = window.Title, type = "TextInput ",
-                message = $"'{char.ConvertFromUtf32(args.CodePoint)}', CodePoint: {args.CodePoint}, Modifiers [{args.ModifierKeys}]" }); ;
+                message = $"'{char.ConvertFromUtf32(args.CodePoint)}', CodePoint: {args.CodePoint}, Modifiers [{args.ModifierKeys}]" });
         }
 
         void GotFocus(object? sender, EmptyEventArgs _)
         {
             var window = (Window?)sender ?? throw new InvalidOperationException();
-            entries.Add(new LogEntry { label = window.Title, type = "GotFocus  ", message = "" }); ;
+            entries.Add(new LogEntry { label = window.Title, type = "GotFocus  ", message = "" });
         }
 
         void LostFocus(object? sender, EmptyEventArgs _)
         {
             var window = (Window?)sender ?? throw new InvalidOperationException();
-            entries.Add(new LogEntry { label = window.Title, type = "LostFocus ", message = "" }); ;
+            entries.Add(new LogEntry { label = window.Title, type = "LostFocus ", message = "" });
         }
 
         void Resize(object? sender, EmptyEventArgs _)
         {
             var window = (Window?)sender ?? throw new InvalidOperationException();
-            entries.Add(new LogEntry { label = window.Title, type = "Resize    ", message = $"{window.Size}" }); ;
+            entries.Add(new LogEntry { label = window.Title, type = "Resize    ", message = $"{window.Size}" });
         }
 
         void FileDrop(object? sender, FileDropEventArgs args)

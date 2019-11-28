@@ -113,6 +113,7 @@ namespace NStuff.OpenGL.Context
         /// <param name="commandName">The name of command associated with the entry point.</param>
         /// <param name="result">A delegate that can be used to invoke an OpenGL command.</param>
         /// <returns><c>true</c> if the entry point was found.</returns>
+        /// <exception cref="InvalidOperationException">If the current window was not set.</exception>
         public bool TryGetOpenGLEntryPoint<TDelegate>(string commandName, [NotNullWhen(returnValue: true)] out TDelegate? result)
             where TDelegate : class
         {
@@ -140,7 +141,7 @@ namespace NStuff.OpenGL.Context
         /// <typeparam name="TDelegate">The delegate type of the entry point.</typeparam>
         /// <param name="commandName">The name of command associated with the entry point.</param>
         /// <returns>A delegate that can be used to invoke an OpenGL command.</returns>
-        /// <exception cref="InvalidOperationException">If the entry point was not found.</exception>
+        /// <exception cref="InvalidOperationException">If the entry point was not found or if the current window was not set.</exception>
         public TDelegate GetOpenGLEntryPoint<TDelegate>(string commandName) where TDelegate : class
         {
             if (TryGetOpenGLEntryPoint<TDelegate>(commandName, out var result))

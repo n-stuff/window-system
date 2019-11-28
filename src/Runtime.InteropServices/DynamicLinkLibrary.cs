@@ -70,6 +70,7 @@ namespace NStuff.Runtime.InteropServices
         /// </summary>
         /// <param name="symbol">The name of the exported symbol.</param>
         /// <returns>The address of the exported symbol.</returns>
+        /// <exception cref="ArgumentException">If the supplied symbol was not found.</exception>
         public IntPtr GetSymbolAddress(string symbol) => GetNativeLibrary().GetSymbolAddress(symbol, true);
 
         private NativeLibraryBase GetNativeLibrary()

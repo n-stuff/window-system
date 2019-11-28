@@ -21,7 +21,7 @@ namespace NStuff.WindowSystem
         /// The content of the clipboard.
         /// </summary>
         public string ClipboardString {
-            get => GetNativeWindowServer().GetClipboardString() ?? string.Empty;
+            get => GetNativeWindowServer().GetClipboardString();
             set => GetNativeWindowServer().SetClipboardString(value ?? string.Empty);
         }
 

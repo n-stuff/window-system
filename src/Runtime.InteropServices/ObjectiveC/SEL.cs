@@ -48,8 +48,17 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// <param name="handle">The internal handle of the selector.</param>
         public SEL(IntPtr handle) => Handle = handle;
 
+        /// <summary>
+        /// Returns the hash code for this instance.
+        /// </summary>
+        /// <returns>A 32-bit signed integer that is the hash code for this instance.</returns>
         public override readonly int GetHashCode() => Handle.GetHashCode();
 
+        /// <summary>
+        /// Compares this object with <paramref name="obj"/>.
+        /// </summary>
+        /// <param name="obj">An object.</param>
+        /// <returns><c>true</c> if the supplied object is equal to this instance.</returns>
         public override readonly bool Equals(object obj) => obj is SEL && Equals((SEL)obj);
 
         /// <summary>
