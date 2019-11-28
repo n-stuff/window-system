@@ -5,8 +5,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>$(NetCoreAppId)</TargetFramework>
-    <RootNamespace>NStuff.ManualTest</RootNamespace>
-    <AssemblyName>NStuff.ManualTest</AssemblyName>
+    <RootNamespace>NStuff.WindowSystem.ManualTest</RootNamespace>
+    <AssemblyName>NStuff.WindowSystem.ManualTest</AssemblyName>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>

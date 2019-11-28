@@ -1,12 +1,11 @@
 ﻿using NStuff.OpenGL.Context;
-using NStuff.WindowSystem;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using GLbitfield = System.UInt32;
 using GLfloat = System.Single;
 
-namespace NStuff.ManualTest
+namespace NStuff.WindowSystem.ManualTest
 {
     class Program
     {
@@ -70,11 +69,14 @@ namespace NStuff.ManualTest
             window.MouseMove += MouseMoved;
             window.MouseDown += MouseDown;
             window.MouseUp += MouseUp;
+            window.Scroll += Scroll;
             window.KeyDown += KeyDown;
             window.KeyUp += KeyUp;
             window.TextInput += TextInput;
             window.GotFocus += GotFocus;
             window.LostFocus += LostFocus;
+            window.Resize += Resize;
+            window.FileDrop += FileDrop;
         }
 
         internal void PrintLog(long milliseconds)
@@ -147,6 +149,12 @@ namespace NStuff.ManualTest
             entries.Add(new LogEntry { label = window.Title, type = "MouseUp   ", message = $"Button: {args.ChangedButton}" }); ;
         }
 
+        void Scroll(object? sender, ScrollEventArgs args)
+        {
+            var window = (Window?)sender ?? throw new InvalidOperationException();
+            entries.Add(new LogEntry { label = window.Title, type = "Scroll    ", message = $"dx: {args.DeltaX}, dy: {args.DeltaY}" }); ;
+        }
+
         void KeyDown(object? sender, KeyEventArgs args)
         {
             var window = (Window?)sender ?? throw new InvalidOperationException();
@@ -164,12 +172,8 @@ namespace NStuff.ManualTest
         void TextInput(object? sender, TextInputEventArgs args)
         {
             var window = (Window?)sender ?? throw new InvalidOperationException();
-            entries.Add(new LogEntry
-            {
-                label = window.Title,
-                type = "TextInput ",
-                message = $"'{char.ConvertFromUtf32(args.CodePoint)}', CodePoint: {args.CodePoint}, Modifiers [{args.ModifierKeys}]"
-            }); ;
+            entries.Add(new LogEntry { label = window.Title, type = "TextInput ",
+                message = $"'{char.ConvertFromUtf32(args.CodePoint)}', CodePoint: {args.CodePoint}, Modifiers [{args.ModifierKeys}]" }); ;
         }
 
         void GotFocus(object? sender, EmptyEventArgs _)
@@ -182,6 +186,27 @@ namespace NStuff.ManualTest
         {
             var window = (Window?)sender ?? throw new InvalidOperationException();
             entries.Add(new LogEntry { label = window.Title, type = "LostFocus ", message = "" }); ;
+        }
+
+        void Resize(object? sender, EmptyEventArgs _)
+        {
+            var window = (Window?)sender ?? throw new InvalidOperationException();
+            entries.Add(new LogEntry { label = window.Title, type = "Resize    ", message = $"{window.Size}" }); ;
+        }
+
+        void FileDrop(object? sender, FileDropEventArgs args)
+        {
+            var window = (Window?)sender ?? throw new InvalidOperationException();
+            var builder = new System.Text.StringBuilder();
+            builder.Append(args.Position);
+            builder.Append(":\n");
+            foreach (var path in args.Paths)
+            {
+                builder.Append("  - '");
+                builder.Append(path);
+                builder.Append("'\n");
+            }
+            entries.Add(new LogEntry { label = window.Title, type = "FileDrop  ", message = builder.ToString() });
         }
 
         internal class LogEntry
