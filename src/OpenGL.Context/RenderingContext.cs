@@ -112,6 +112,7 @@ namespace NStuff.OpenGL.Context
         /// <typeparam name="TDelegate">The delegate type of the entry point.</typeparam>
         /// <param name="commandName">The name of command associated with the entry point.</param>
         /// <param name="result">A delegate that can be used to invoke an OpenGL command.</param>
+        /// <returns><c>true</c> if the entry point was found.</returns>
         public bool TryGetOpenGLEntryPoint<TDelegate>(string commandName, [NotNullWhen(returnValue: true)] out TDelegate? result)
             where TDelegate : class
         {

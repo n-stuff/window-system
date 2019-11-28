@@ -138,7 +138,7 @@ namespace NStuff.OpenGL.Context.Windows
                 {
                     openGLLibrary = new DynamicLinkLibrary("OpenGL32");
                 }
-                result = openGLLibrary.GetSymbolAddress(commandName, false);
+                openGLLibrary.TryGetSymbolAddress(commandName, out result);
             }
             return result;
         }

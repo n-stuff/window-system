@@ -57,16 +57,23 @@ namespace NStuff.Runtime.InteropServices
         /// Gets the address of an exported symbol.
         /// </summary>
         /// <param name="symbol">The name of the exported symbol.</param>
-        /// <param name="throwIfNotFound">Whether or not the method must throw an exception if the symbol was not found.</param>
-        /// <returns>The address of the exported symbol.</returns>
-        public IntPtr GetSymbolAddress(string symbol, bool throwIfNotFound)
+        /// <param name="result">The address of the exported symbol.</param>
+        /// <returns><c>true</c> if the symbol was found.</returns>
+        public bool TryGetSymbolAddress(string symbol, out IntPtr result)
         {
-            if (nativeLibrary == null)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
-            return nativeLibrary.GetSymbolAddress(symbol, throwIfNotFound);
+            result = GetNativeLibrary().GetSymbolAddress(symbol, false);
+            return result != IntPtr.Zero;
         }
+
+        /// <summary>
+        /// Gets the address of an exported symbol.
+        /// </summary>
+        /// <param name="symbol">The name of the exported symbol.</param>
+        /// <returns>The address of the exported symbol.</returns>
+        public IntPtr GetSymbolAddress(string symbol) => GetNativeLibrary().GetSymbolAddress(symbol, true);
+
+        private NativeLibraryBase GetNativeLibrary()
+            => nativeLibrary ?? throw new ObjectDisposedException(GetType().FullName);
 
         private static NativeLibraryBase CreateNativeLibrary(string name)
         {

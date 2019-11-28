@@ -45,7 +45,7 @@ namespace NStuff.Runtime.InteropServices.Tests
         public void GetSymbolAddressTest()
         {
             using var dll = new DynamicLinkLibrary(LibraryName);
-            var pointer = dll.GetSymbolAddress(EntryPointName, true);
+            var pointer = dll.GetSymbolAddress(EntryPointName);
             Assert.NotEqual(IntPtr.Zero, pointer);
         }
 
@@ -53,7 +53,7 @@ namespace NStuff.Runtime.InteropServices.Tests
         public void GetWrongSymbolAddressTest()
         {
             using var dll = new DynamicLinkLibrary(LibraryName);
-            var pointer = dll.GetSymbolAddress("the quick brown fox jumps of the lazy dog", false);
+            Assert.False(dll.TryGetSymbolAddress("the quick brown fox jumps of the lazy dog", out var pointer));
             Assert.Equal(IntPtr.Zero, pointer);
         }
 
@@ -63,7 +63,7 @@ namespace NStuff.Runtime.InteropServices.Tests
             using var dll = new DynamicLinkLibrary(LibraryName);
             Assert.Throws<ArgumentException>(() =>
             {
-                var pointer = dll.GetSymbolAddress("the quick brown fox jumps of the lazy dog", true);
+                var pointer = dll.GetSymbolAddress("the quick brown fox jumps of the lazy dog");
             });
         }
     }

@@ -78,17 +78,17 @@ namespace NStuff.WindowSystem.macOS
             NSPasteboard = Class.Lookup("NSPasteboard");
             NSTrackingArea = Class.Lookup("NSTrackingArea");
             NSView = Class.Lookup("NSView");
-            NSDefaultRunLoopMode = new Id(Marshal.ReadIntPtr(appKitFramework.GetSymbolAddress("NSDefaultRunLoopMode", true)));
-            NSStringPboardType = new Id(Marshal.ReadIntPtr(appKitFramework.GetSymbolAddress("NSStringPboardType", true)));
-            NSFilenamesPboardType = new Id(Marshal.ReadIntPtr(appKitFramework.GetSymbolAddress("NSFilenamesPboardType", true)));
-            NSCalibratedRGBColorSpace = new Id(Marshal.ReadIntPtr(appKitFramework.GetSymbolAddress("NSCalibratedRGBColorSpace", true)));
-            KTISPropertyUnicodeKeyLayoutData = Marshal.ReadIntPtr(carbonFramework.GetSymbolAddress("kTISPropertyUnicodeKeyLayoutData", true));
+            NSDefaultRunLoopMode = new Id(Marshal.ReadIntPtr(appKitFramework.GetSymbolAddress("NSDefaultRunLoopMode")));
+            NSStringPboardType = new Id(Marshal.ReadIntPtr(appKitFramework.GetSymbolAddress("NSStringPboardType")));
+            NSFilenamesPboardType = new Id(Marshal.ReadIntPtr(appKitFramework.GetSymbolAddress("NSFilenamesPboardType")));
+            NSCalibratedRGBColorSpace = new Id(Marshal.ReadIntPtr(appKitFramework.GetSymbolAddress("NSCalibratedRGBColorSpace")));
+            KTISPropertyUnicodeKeyLayoutData = Marshal.ReadIntPtr(carbonFramework.GetSymbolAddress("kTISPropertyUnicodeKeyLayoutData"));
             distantFutureDate = NSDate.Get(distantFuture);
             distantPastDate = NSDate.Get(distantPast);
             inputSource = TISCopyCurrentKeyboardInputSource();
 
             Class NStuffApplicationDelegate;
-            NSApp = new Id(Marshal.ReadIntPtr(appKitFramework.GetSymbolAddress("NSApp", true)));
+            NSApp = new Id(Marshal.ReadIntPtr(appKitFramework.GetSymbolAddress("NSApp")));
             if (NSApp.IsNil)
             {
                 NStuffApplicationDelegate = CreateApplicationDelegateClass();

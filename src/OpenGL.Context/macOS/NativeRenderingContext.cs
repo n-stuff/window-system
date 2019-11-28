@@ -128,9 +128,9 @@ namespace NStuff.OpenGL.Context.macOS
             {
                 openGLLibrary = new DynamicLinkLibrary("OpenGL.framework/OpenGL");
             }
-            return openGLLibrary.GetSymbolAddress(commandName, false);
+            openGLLibrary.TryGetSymbolAddress(commandName, out var result);
+            return result;
         }
-
 
         private static RenderingData GetData(Window window) =>
             (RenderingData?)window.RenderingData ?? throw new InvalidOperationException();
