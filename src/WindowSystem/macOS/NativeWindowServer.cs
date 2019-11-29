@@ -612,7 +612,7 @@ namespace NStuff.WindowSystem.macOS
         public override bool ProcessEvents()
         {
             var result = false;
-            for (; ; )
+            for (;;)
             {
                 var @event = NSApp.Get(nextEventMatchingMask_untilDate_inMode_dequeue_, NSEventMaskAny,
                     distantPastDate, NSDefaultRunLoopMode, true);

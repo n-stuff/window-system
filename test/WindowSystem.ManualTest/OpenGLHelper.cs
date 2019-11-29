@@ -1,6 +1,7 @@
 ﻿using NStuff.RasterGraphics;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -138,6 +139,19 @@ namespace NStuff.WindowSystem.ManualTest
                     var (width, height) = image.Size;
                     gl.TexImage2D(target, level, textureFormat, width, height, 0, format, PixelType.UnsignedByte, new IntPtr(p));
                 }
+            }
+        }
+
+        internal static void UniformMatrix(GraphicsLibrary gl, int uniform, Matrix4x4 matrix)
+        {
+            unsafe
+            {
+                var t = stackalloc float[16];
+                t[0] = matrix.M11; t[1] = matrix.M12; t[2] = matrix.M13; t[3] = matrix.M14;
+                t[4] = matrix.M21; t[5] = matrix.M22; t[6] = matrix.M23; t[7] = matrix.M24;
+                t[8] = matrix.M31; t[9] = matrix.M32; t[10] = matrix.M33; t[11] = matrix.M34;
+                t[12] = matrix.M41; t[13] = matrix.M42; t[14] = matrix.M43; t[15] = matrix.M44;
+                gl.UniformMatrix4fv(uniform, 1, Boolean.False, t);
             }
         }
 

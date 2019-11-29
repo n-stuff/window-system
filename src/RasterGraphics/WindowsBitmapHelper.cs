@@ -15,7 +15,7 @@ namespace NStuff.RasterGraphics
         /// </summary>
         /// <param name="stream">The stream containing the image.</param>
         /// <param name="rasterImage">The image storage.</param>
-        /// <exception cref="InvalidOperationException">If the stream represents an invalid image.</exception>
+        /// <exception cref="InvalidOperationException">If the stream represents an invalid or unsupported image format.</exception>
         public static void Load(Stream stream, RasterImage rasterImage)
         {
             var decoder = new BinaryDecoder(stream);
@@ -140,7 +140,7 @@ namespace NStuff.RasterGraphics
             int bytesPerPixel = (maskAlpha == 0) ? 3 : 4;
             var imageLength = bytesPerPixel * imageWidth * imageHeight;
             byte[] image;
-            if (rasterImage.Data != null && rasterImage.Data.Length >= imageLength)
+            if (rasterImage.Data.Length >= imageLength)
             {
                 image = rasterImage.Data;
             }

@@ -882,7 +882,7 @@ namespace NStuff.WindowSystem.Linux
                 var decoder = encoding.GetDecoder();
                 var charCount = encoding.GetMaxCharCount(1024);
                 var charBuffer = new char[charCount];
-                for (; ; )
+                for (;;)
                 {
                     Free(data);
                     if (WaitForPropertyNotifyEvent(selectionDisplay, arguments, 500) != WaitStatus.Success)
@@ -1794,7 +1794,7 @@ namespace NStuff.WindowSystem.Linux
             {
                 XConvertSelection(display, CLIPBOARD_MANAGER, SAVE_TARGETS, None, helperWindow, CurrentTime);
                 var predicatePtr = Marshal.GetFunctionPointerForDelegate<XCheckIfPredicate>(IsSelectionEvent);
-                for (; ; )
+                for (;;)
                 {
                     while (XCheckIfEvent(display, out var xevent, predicatePtr, IntPtr.Zero) != 0)
                     {

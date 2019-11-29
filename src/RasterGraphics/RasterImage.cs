@@ -27,6 +27,6 @@ namespace NStuff.RasterGraphics
         /// <summary>
         /// Gets or sets the bytes composing the pixels of this image.
         /// </summary>
-        public byte[] Data { get; set; }
+        public byte[] Data { get; set; } = Array.Empty<byte>();
     }
 }

@@ -5,7 +5,7 @@ This repository provides building blocks to write GUI applications on Windows, m
 * The **OpenGL.Context** project provides classes to associate OpenGL contexts to windows.
 * The **RasterGraphics** project provides classes to manipulate raster images.
 
-To run an example of window creation and event handling:
+To run examples of window creation, event handling, and OpenGL rendering:
 `dotnet run -p test/WindowSystem.ManualTest`
 
 ## Acknowledgments

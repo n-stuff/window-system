@@ -14,10 +14,12 @@
 
   <ItemGroup>
     <None Remove="Resources\kitten.bmp" />
+    <None Remove="Resources\kitten.png" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\kitten.bmp" />
+    <EmbeddedResource Include="Resources\kitten.png" />
   </ItemGroup>
 
   <ItemGroup>

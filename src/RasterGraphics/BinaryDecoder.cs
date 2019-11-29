@@ -62,7 +62,7 @@ namespace NStuff.RasterGraphics
         public int Read(byte[] buffer, int offset, int count)
         {
             var result = 0;
-            for (; ; )
+            for (;;)
             {
                 var requested = Math.Min(count, this.buffer.Length);
                 FillBuffer(requested, false);
