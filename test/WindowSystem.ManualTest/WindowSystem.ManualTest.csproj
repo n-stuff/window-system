@@ -13,11 +13,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\dirt.png" />
+    <None Remove="Resources\grass.png" />
+    <None Remove="Resources\grass_side.png" />
     <None Remove="Resources\kitten.bmp" />
     <None Remove="Resources\kitten.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\dirt.png" />
+    <EmbeddedResource Include="Resources\grass.png" />
+    <EmbeddedResource Include="Resources\grass_side.png" />
     <EmbeddedResource Include="Resources\kitten.bmp" />
     <EmbeddedResource Include="Resources\kitten.png" />
   </ItemGroup>

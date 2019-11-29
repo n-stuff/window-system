@@ -15,11 +15,7 @@ namespace NStuff.WindowSystem.ManualTest
             var namePrefix = typeof(DrawTextureLauncher).Namespace + ".Resources.";
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(namePrefix + "kitten.bmp"))
             {
-                if (stream == null)
-                {
-                    throw new InvalidOperationException();
-                }
-                WindowsBitmapHelper.Load(stream, image);
+                WindowsBitmapHelper.Load(stream ?? throw new InvalidOperationException(), image);
             }
 
             using var windowServer = new WindowServer();

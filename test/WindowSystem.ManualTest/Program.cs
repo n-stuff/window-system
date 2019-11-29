@@ -16,6 +16,7 @@ namespace NStuff.WindowSystem.ManualTest
                 Console.WriteLine("  b - Draw Polygon.");
                 Console.WriteLine("  c - Draw Texture.");
                 Console.WriteLine("  d - Rotate Cube.");
+                Console.WriteLine("  e - Terrain.");
                 Console.WriteLine("  q - Quit.");
                 var line = Console.ReadLine();
                 switch (line.Trim())
@@ -38,6 +39,10 @@ namespace NStuff.WindowSystem.ManualTest
 
                     case "d":
                         new RotateCubeLauncher().Launch();
+                        break;
+
+                    case "e":
+                        new TerrainLauncher().Launch();
                         break;
                 }
             }
