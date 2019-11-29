@@ -35,6 +35,6 @@ namespace NStuff.WindowSystem.Linux
         /// The internal handle on the window.
         /// </summary>
         [CLSCompliant(false)]
-        public ulong Id { get; set; }
+        public ulong Id { get; internal set; }
     }
 }

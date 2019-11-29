@@ -1,4 +1,6 @@
-﻿namespace NStuff.WindowSystem
+﻿using System.Collections.Generic;
+
+namespace NStuff.WindowSystem
 {
     /// <summary>
     /// Holds the arguments of an event involving a files drag and drop.
@@ -13,7 +15,7 @@
         /// <summary>
         /// The paths associated with this event.
         /// </summary>
-        public string[] Paths { get; }
+        public ICollection<string> Paths { get; }
 
         /// <summary>
         /// Initializes a new instance of the <c>FileDropEvenArgs</c> struct using supplied <paramref name="position"/> and <paramref name="paths"/>.

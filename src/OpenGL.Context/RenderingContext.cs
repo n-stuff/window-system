@@ -24,6 +24,7 @@ namespace NStuff.OpenGL.Context
         /// <summary>
         /// The target of drawing orders in the calling thread, or null.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public Window? CurrentWindow {
             get {
                 if (nativeRenderingContext == null)
@@ -66,6 +67,7 @@ namespace NStuff.OpenGL.Context
         /// <summary>
         /// Initializes a new instance of the <c>RenderingContext</c> class.
         /// </summary>
+        /// <exception cref="InvalidOperationException">If the current operating system is not supported.</exception>
         public RenderingContext() => nativeRenderingContext = NativeRenderingContextCreator();
 
         /// <summary>
@@ -97,6 +99,7 @@ namespace NStuff.OpenGL.Context
         /// Exchanges the front and back buffers.
         /// </summary>
         /// <param name="window">The window associated with the context to update.</param>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public void SwapBuffers(Window window) => GetNativeRenderingContext().SwapBuffers(window);
 
         /// <summary>
@@ -104,6 +107,7 @@ namespace NStuff.OpenGL.Context
         /// </summary>
         /// <param name="window">The window associated with the context to configure.</param>
         /// <param name="sync"><c>true</c> to synchronize the rendering with the vertical blank signal.</param>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public void SyncWithVerticalBlank(Window window, bool sync) => GetNativeRenderingContext().SyncWithVerticalBlank(window, sync);
 
         /// <summary>
@@ -113,7 +117,8 @@ namespace NStuff.OpenGL.Context
         /// <param name="commandName">The name of command associated with the entry point.</param>
         /// <param name="result">A delegate that can be used to invoke an OpenGL command.</param>
         /// <returns><c>true</c> if the entry point was found.</returns>
-        /// <exception cref="InvalidOperationException">If the current window was not set.</exception>
+        /// <exception cref="InvalidOperationException">If the <see cref="CurrentWindow"/> was not set.</exception>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public bool TryGetOpenGLEntryPoint<TDelegate>(string commandName, [NotNullWhen(returnValue: true)] out TDelegate? result)
             where TDelegate : class
         {
@@ -141,7 +146,8 @@ namespace NStuff.OpenGL.Context
         /// <typeparam name="TDelegate">The delegate type of the entry point.</typeparam>
         /// <param name="commandName">The name of command associated with the entry point.</param>
         /// <returns>A delegate that can be used to invoke an OpenGL command.</returns>
-        /// <exception cref="InvalidOperationException">If the entry point was not found or if the current window was not set.</exception>
+        /// <exception cref="InvalidOperationException">If the entry point was not found or if <see cref="CurrentWindow"/> was not set.</exception>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public TDelegate GetOpenGLEntryPoint<TDelegate>(string commandName) where TDelegate : class
         {
             if (TryGetOpenGLEntryPoint<TDelegate>(commandName, out var result))
@@ -151,6 +157,12 @@ namespace NStuff.OpenGL.Context
             throw new InvalidOperationException(Resources.FormatMessage(Resources.Key.OpenGLEntryPointNotPresent, commandName));
         }
 
+        /// <summary>
+        /// Called just before the native window is created.
+        /// </summary>
+        /// <param name="server">The window server.</param>
+        /// <param name="window">The window to manage.</param>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         void IRenderingContext.AttachRenderingData(WindowServer server, Window window)
         {
             if (nativeRenderingContext == null)
@@ -164,6 +176,11 @@ namespace NStuff.OpenGL.Context
             nativeRenderingContext.AttachRenderingData(this, server, window);
         }
 
+        /// <summary>
+        /// Called just before the native window is destroyed.
+        /// </summary>
+        /// <param name="window">The managed window.</param>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         void IRenderingContext.DetachRenderingData(Window window)
         {
             if (nativeRenderingContext == null)
@@ -178,9 +195,20 @@ namespace NStuff.OpenGL.Context
             nativeRenderingContext.DetachRenderingData(window);
         }
 
+        /// <summary>
+        /// Called just after the native window was created.
+        /// </summary>
+        /// <param name="server">The window server.</param>
+        /// <param name="window">The window to manage.</param>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         void IRenderingContext.SetupRenderingData(WindowServer server, Window window) =>
             GetNativeRenderingContext().SetupRenderingData(this, server, window);
 
+        /// <summary>
+        /// Called when the window is moved and/or resized.
+        /// </summary>
+        /// <param name="window">The managed window.</param>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         void IRenderingContext.UpdateRenderingData(Window window) =>
             GetNativeRenderingContext().UpdateRenderingData(window);
 

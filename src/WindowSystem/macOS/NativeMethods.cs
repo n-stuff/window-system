@@ -105,18 +105,6 @@ namespace NStuff.WindowSystem.macOS
         internal static extern IntPtr TISCopyCurrentKeyboardInputSource();
 
         [DllImport(Libobjc, EntryPoint = "objc_msgSend")]
-        internal extern static IntPtr IntPtr_objc_msgSend(IntPtr receiver, IntPtr selector, sbyte arg0);
-
-        [DllImport(Libobjc, EntryPoint = "objc_msgSend")]
-        internal extern static IntPtr IntPtr_objc_msgSend(IntPtr receiver, IntPtr selector, IntPtr arg0, IntPtr arg1);
-
-        [DllImport(Libobjc, EntryPoint = "objc_msgSend")]
-        internal extern static IntPtr IntPtr_objc_msgSend(IntPtr receiver, IntPtr selector, IntPtr arg0, IntPtr arg1, IntPtr arg2);
-
-        [DllImport(Libobjc, EntryPoint = "objc_msgSend")]
-        internal extern static IntPtr IntPtr_objc_msgSend(IntPtr receiver, IntPtr selector, IntPtr arg0, IntPtr arg1, IntPtr arg2, sbyte arg3);
-
-        [DllImport(Libobjc, EntryPoint = "objc_msgSend")]
         internal extern static IntPtr IntPtr_objc_msgSend(IntPtr receiver, IntPtr selector, NSRect arg0, IntPtr arg1, IntPtr arg2, IntPtr arg3);
 
         [DllImport(Libobjc, EntryPoint = "objc_msgSend")]
@@ -127,10 +115,6 @@ namespace NStuff.WindowSystem.macOS
 
         [DllImport(Libobjc, EntryPoint = "objc_msgSend")]
         internal extern static IntPtr IntPtr_objc_msgSend(IntPtr receiver, IntPtr selector, NSSize arg0);
-
-        [DllImport(Libobjc, EntryPoint = "objc_msgSend")]
-        internal extern static IntPtr IntPtr_objc_msgSend(IntPtr receiver, IntPtr selector, IntPtr arg0, long arg1, long arg2, long arg3, long arg4,
-            sbyte arg5, sbyte arg6, IntPtr arg7, ulong arg8, long arg9, long arg10);
 
         [DllImport(Libobjc, EntryPoint = "objc_msgSend")]
         internal extern static IntPtr IntPtr_objc_msgSend(IntPtr receiver, IntPtr selector, ulong arg0, NSPoint arg1, ulong arg2, double arg3,

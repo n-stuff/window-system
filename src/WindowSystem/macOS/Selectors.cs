@@ -44,21 +44,6 @@ namespace NStuff.WindowSystem.macOS
         public static SEL arrangeInFront_ { get; } = SEL.Register("arrangeInFront:");
 
         /// <summary>
-        /// The <c>array</c> selector.
-        /// </summary>
-        public static SEL array { get; } = SEL.Register("array");
-
-        /// <summary>
-        /// The <c>arrayWithObject:</c> selector.
-        /// </summary>
-        public static SEL arrayWithObject_ { get; } = SEL.Register("arrayWithObject:");
-
-        /// <summary>
-        /// The <c>arrayWithObjects:count:</c> selector.
-        /// </summary>
-        public static SEL arrayWithObjects_count_ { get; } = SEL.Register("arrayWithObjects:count:");
-
-        /// <summary>
         /// The <c>arrowCursor</c> selector.
         /// </summary>
         public static SEL arrowCursor { get; } = SEL.Register("arrowCursor");
@@ -137,11 +122,6 @@ namespace NStuff.WindowSystem.macOS
         /// The <c>convertRectToScreen:</c> selector.
         /// </summary>
         public static SEL convertRectToScreen_ { get; } = SEL.Register("convertRectToScreen:");
-
-        /// <summary>
-        /// The <c>count</c> selector.
-        /// </summary>
-        public static SEL count { get; } = SEL.Register("count");
 
         /// <summary>
         /// The <c>crosshairCursor</c> selector.
@@ -382,34 +362,14 @@ namespace NStuff.WindowSystem.macOS
         public static SEL mouseLocationOutsideOfEventStream { get; } = SEL.Register("mouseLocationOutsideOfEventStream");
 
         /// <summary>
-        /// The <c>mutableString</c> selector.
-        /// </summary>
-        public static SEL mutableString { get; } = SEL.Register("mutableString");
-
-        /// <summary>
         /// The <c>nextEventMatchingMask:untilDate:inMode:dequeue:</c> selector.
         /// </summary>
         public static SEL nextEventMatchingMask_untilDate_inMode_dequeue_ = SEL.Register("nextEventMatchingMask:untilDate:inMode:dequeue:");
 
         /// <summary>
-        /// The <c>nextObject</c> selector.
-        /// </summary>
-        public static SEL nextObject { get; } = SEL.Register("nextObject");
-
-        /// <summary>
         /// The <c>numberWithBool:</c> selector.
         /// </summary>
         public static SEL numberWithBool_ { get; } = SEL.Register("numberWithBool:");
-
-        /// <summary>
-        /// The <c>object</c> selector.
-        /// </summary>
-        public static SEL @object { get; } = SEL.Register("object");
-
-        /// <summary>
-        /// The <c>objectEnumerator</c> selector.
-        /// </summary>
-        public static SEL objectEnumerator { get; } = SEL.Register("objectEnumerator");
 
         /// <summary>
         /// The <c>orderOut:</c> selector.
@@ -641,11 +601,6 @@ namespace NStuff.WindowSystem.macOS
         /// The <c>stop:</c> selector.
         /// </summary>
         public static SEL stop_ { get; } = SEL.Register("stop:");
-
-        /// <summary>
-        /// The <c>string</c> selector.
-        /// </summary>
-        public static SEL @string { get; } = SEL.Register("string");
 
         /// <summary>
         /// The <c>stringForType:</c> selector.

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
-
-namespace NStuff.OpenGL.Context.macOS
+﻿namespace NStuff.OpenGL.Context.macOS
 {
     internal static class NativeMethods
     {
@@ -23,12 +20,5 @@ namespace NStuff.OpenGL.Context.macOS
         internal const uint NSOpenGLProfileVersion4_1Core = 0x4100;
 
         internal const ulong NSOpenGLCPSwapInterval = 222;
-
-
-        [DllImport(Libobjc, EntryPoint = "objc_msgSend")]
-        internal extern static IntPtr IntPtr_objc_msgSend(IntPtr receiver, IntPtr selector, IntPtr arg0);
-
-        [DllImport(Libobjc, EntryPoint = "objc_msgSend")]
-        internal extern static void Void_objc_msgSend(IntPtr receiver, IntPtr selector, IntPtr arg0, IntPtr arg1);
     }
 }

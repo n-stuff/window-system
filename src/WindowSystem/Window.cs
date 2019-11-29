@@ -14,6 +14,7 @@ namespace NStuff.WindowSystem
         /// <summary>
         /// The style of this window's borders.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public WindowBorderStyle BorderStyle {
             get => GetNativeWindowServer().GetWindowBorderStyle(this);
             set => GetNativeWindowServer().SetWindowBorderStyle(this, value);
@@ -22,11 +23,13 @@ namespace NStuff.WindowSystem
         /// <summary>
         /// The size of each border of this window.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public (double top, double left, double bottom, double right) BorderSize => GetNativeWindowServer().GetWindowBorderSize(this);
 
         /// <summary>
         /// The cursor displayed when this window is active.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public Cursor? Cursor {
             get {
                 if (Disposed)
@@ -48,6 +51,7 @@ namespace NStuff.WindowSystem
         /// <summary>
         /// The position of the cursor relative to the window.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public (double x, double y) CursorPosition {
             get {
                 if (nativeWindowServer == null)
@@ -81,11 +85,13 @@ namespace NStuff.WindowSystem
         /// <summary>
         /// A value indicating whether the control has input focus.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public bool Focused => GetNativeWindowServer().IsWindowFocused(this);
 
         /// <summary>
         /// A value indicating whether the mouse is currently in free look mode.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public bool FreeLookMouse {
             get {
                 if (Disposed)
@@ -110,6 +116,7 @@ namespace NStuff.WindowSystem
         /// <summary>
         /// The point that represents the upper-left corner of the window in screen coordinates.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public (double x, double y) Location {
             get => GetNativeWindowServer().GetWindowLocation(this);
             set => GetNativeWindowServer().SetWindowLocation(this, value);
@@ -118,6 +125,7 @@ namespace NStuff.WindowSystem
         /// <summary>
         /// The maximum size the window can be resized to.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public (double width, double height) MaximumSize {
             get => GetNativeWindowServer().GetWindowMaximumSize(this);
             set => GetNativeWindowServer().SetWindowMaximumSize(this, value);
@@ -126,6 +134,7 @@ namespace NStuff.WindowSystem
         /// <summary>
         /// The minimum size the window can be resized to.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public (double width, double height) MinimumSize {
             get => GetNativeWindowServer().GetWindowMinimumSize(this);
             set => GetNativeWindowServer().SetWindowMinimumSize(this, value);
@@ -140,6 +149,7 @@ namespace NStuff.WindowSystem
         /// The opacity of this window. When the opacity is 0.0, the window is completely transparent,
         /// when the opacity is 1.0, the window is opaque.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public double Opacity {
             get => GetNativeWindowServer().GetWindowOpacity(this);
             set => GetNativeWindowServer().SetWindowOpacity(this, value);
@@ -157,6 +167,7 @@ namespace NStuff.WindowSystem
         /// <summary>
         /// The size of this window.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public (double width, double height) Size {
             get => GetNativeWindowServer().GetWindowSize(this);
             set => GetNativeWindowServer().SetWindowSize(this, value);
@@ -165,6 +176,7 @@ namespace NStuff.WindowSystem
         /// <summary>
         /// A value indicating the size state of the window, for example whether it is maximized or minimized.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public WindowSizeState SizeState {
             get => GetNativeWindowServer().GetWindowSizeState(this);
             set => GetNativeWindowServer().SetWindowSizeState(this, value);
@@ -173,6 +185,7 @@ namespace NStuff.WindowSystem
         /// <summary>
         /// The title of the window.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public string Title {
             get => GetNativeWindowServer().GetWindowTitle(this);
             set => GetNativeWindowServer().SetWindowTitle(this, value);
@@ -181,6 +194,7 @@ namespace NStuff.WindowSystem
         /// <summary>
         /// A value indicating whether the window should be displayed as the top-most window.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public bool TopMost {
             get => GetNativeWindowServer().IsWindowTopMost(this);
             set => GetNativeWindowServer().SetWindowTopMost(this, value);
@@ -194,6 +208,7 @@ namespace NStuff.WindowSystem
         /// <summary>
         /// A value indicating whether the window is displayed.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public bool Visible {
             get => GetNativeWindowServer().IsWindowVisible(this);
             set => GetNativeWindowServer().SetWindowVisible(this, value);
@@ -342,11 +357,13 @@ namespace NStuff.WindowSystem
         /// <summary>
         /// Attempts to bring the window to the foreground and activates it.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public void Activate() => GetNativeWindowServer().ActivateWindow(this);
 
         /// <summary>
         /// Closes the window. It is also disposed.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public void Close()
         {
             if (nativeWindowServer == null)
@@ -362,6 +379,7 @@ namespace NStuff.WindowSystem
         /// </summary>
         /// <param name="keycode">A keycode that identifies a keyboard key.</param>
         /// <returns><c>true</c> if the key is in a pressed state.</returns>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public bool IsKeyPressed(Keycode keycode)
         {
             if (Disposed)
@@ -376,6 +394,7 @@ namespace NStuff.WindowSystem
         /// </summary>
         /// <param name="point">The point to convert.</param>
         /// <returns>A point in window coordinate space.</returns>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public (double x, double y) PointFromScreen((double x, double y) point) => GetNativeWindowServer().ConvertFromScreen(this, point);
 
         /// <summary>
@@ -383,11 +402,13 @@ namespace NStuff.WindowSystem
         /// </summary>
         /// <param name="point">The point to convert.</param>
         /// <returns>A point in screen coordinate space.</returns>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public (double x, double y) PointToScreen((double x, double y) point) => GetNativeWindowServer().ConvertToScreen(this, point);
 
         /// <summary>
         /// Requests the attention of the user if the window in not visible. For example the icon of the window in the taskbar flashes in Windows.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public void RequestAttention() => GetNativeWindowServer().RequestWindowAttention(this);
 
         internal void OnClosed(EmptyEventArgs e) => Closed?.Invoke(this, e);

@@ -60,6 +60,16 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         internal extern static IntPtr IntPtr_objc_msgSend(IntPtr receiver, IntPtr selector, IntPtr arg0, IntPtr arg1);
 
         [DllImport(Libobjc, EntryPoint = "objc_msgSend")]
+        internal extern static IntPtr IntPtr_objc_msgSend(IntPtr receiver, IntPtr selector, IntPtr arg0, IntPtr arg1, IntPtr arg2);
+
+        [DllImport(Libobjc, EntryPoint = "objc_msgSend")]
+        internal extern static IntPtr IntPtr_objc_msgSend(IntPtr receiver, IntPtr selector, IntPtr arg0, IntPtr arg1, IntPtr arg2, sbyte arg3);
+
+        [DllImport(Libobjc, EntryPoint = "objc_msgSend")]
+        internal extern static IntPtr IntPtr_objc_msgSend(IntPtr receiver, IntPtr selector, IntPtr arg0, IntPtr arg1, IntPtr arg2, IntPtr arg3,
+            IntPtr arg4, sbyte arg5, sbyte arg6, IntPtr arg7, IntPtr arg8, IntPtr arg9, IntPtr arg10);
+
+        [DllImport(Libobjc, EntryPoint = "objc_msgSend")]
         internal extern static sbyte SByte_objc_msgSend(IntPtr receiver, IntPtr selector);
 
         [DllImport(Libobjc, EntryPoint = "objc_msgSend")]

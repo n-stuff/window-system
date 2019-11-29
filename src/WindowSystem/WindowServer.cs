@@ -20,6 +20,7 @@ namespace NStuff.WindowSystem
         /// <summary>
         /// The content of the clipboard.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public string ClipboardString {
             get => GetNativeWindowServer().GetClipboardString();
             set => GetNativeWindowServer().SetClipboardString(value ?? string.Empty);
@@ -29,26 +30,31 @@ namespace NStuff.WindowSystem
         /// A value indicating whether the window server's <see cref="Dispose"/> method was called.
         /// </summary>
         /// <value><c>true</c> if <c>Dispose</c> was called.</value>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public bool Disposed => NativeWindowServer == null;
 
         /// <summary>
         /// The time of the last key or mouse event, in seconds with a millisecond precision.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public double EvenTime => GetNativeWindowServer().GetEventTime();
 
         /// <summary>
         /// The set of active modifier keys.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public ModifierKeys ModifierKeys => GetNativeWindowServer().GetModifierKeys();
 
         /// <summary>
         /// The windows currently alive.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public ICollection<Window> Windows => GetNativeWindowServer().GetWindows();
 
         /// <summary>
         /// Initializes a new instance of the <c>WindowServer</c> class.
         /// </summary>
+        /// <exception cref="InvalidOperationException">If the current operating system is not supported.</exception>
         public WindowServer() => NativeWindowServer = NativeWindowServerCreator();
 
         /// <summary>
@@ -85,6 +91,7 @@ namespace NStuff.WindowSystem
         /// </summary>
         /// <param name="cursorShape">The shape of the cursor.</param>
         /// <returns>A new cursor object.</returns>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public Cursor CreateCursor(CursorShape cursorShape)
         {
             if (Disposed)
@@ -101,6 +108,7 @@ namespace NStuff.WindowSystem
         /// <param name="size">The size of the image representing the cursor.</param>
         /// <param name="hotSpot">The hot spot of the cursor inside the image representing the cursor.</param>
         /// <returns>A new cursor object.</returns>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public Cursor CreateCursor(byte[] imageData, (int width, int height) size, (double x, double y) hotSpot)
         {
             if (Disposed)
@@ -119,6 +127,7 @@ namespace NStuff.WindowSystem
         /// </summary>
         /// <param name="renderingContext">The object used to initialize the rendering of the client area of the window.</param>
         /// <returns>A new window object.</returns>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public Window CreateWindow(IRenderingContext renderingContext)
         {
             if (Disposed)
@@ -132,6 +141,7 @@ namespace NStuff.WindowSystem
         /// Recreates if needed the supplied window in response to a graphic mode modification.
         /// </summary>
         /// <param name="window">The window to recreate.</param>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public void RecreateWindow(Window window) => GetNativeWindowServer().RecreateNativeWindow(window);
 
         /// <summary>
@@ -139,6 +149,7 @@ namespace NStuff.WindowSystem
         /// </summary>
         /// <param name="keycode">A code representing a keyboard key.</param>
         /// <returns>A string representing the specified keycode, or the empty string.</returns>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public string GetKeyName(Keycode keycode)
         {
             if (NativeWindowServer == null)
@@ -158,6 +169,7 @@ namespace NStuff.WindowSystem
         /// <param name="timeoutInSeconds">Specify the maximum amount of time, in seconds, the method should wait for an event to occur.
         ///     A negative value means that the method should wait indefinitely.</param>
         /// <returns><c>true</c> if at least one event was handled.</returns>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public bool ProcessEvents(double timeoutInSeconds)
         {
             if (timeoutInSeconds < 0)
@@ -177,6 +189,7 @@ namespace NStuff.WindowSystem
         /// <summary>
         /// If <see cref="ProcessEvents(double)"/> is waiting for events, this method unblocks it.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public void UnblockProcessEvents() => GetNativeWindowServer().UnblockProcessEvents();
 
         private NativeWindowServerBase GetNativeWindowServer() => NativeWindowServer ?? throw new ObjectDisposedException(GetType().FullName);

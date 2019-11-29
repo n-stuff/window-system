@@ -16,6 +16,6 @@ namespace NStuff.WindowSystem.macOS
         /// <summary>
         /// The internal handle on the native window.
         /// </summary>
-        public Id Id { get; set; }
+        public Id Id { get; internal set; }
     }
 }

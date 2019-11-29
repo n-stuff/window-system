@@ -1272,7 +1272,7 @@ namespace NStuff.WindowSystem.macOS
                 var nsString = new Id(stringPtr);
                 if (nsString.GetBool(isKindOfClass_, Shared.NSAttributedString.Get(@class)))
                 {
-                    nsString = nsString.Get(Selectors.@string);
+                    nsString = nsString.Get(@string);
                 }
                 var text = new NSString(nsString.Handle).ToString();
                 if (text.Length > 0)
