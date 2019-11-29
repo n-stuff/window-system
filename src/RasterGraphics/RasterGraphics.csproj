@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\build\versions.props" />
+
+  <PropertyGroup>
+    <TargetFramework>$(NetStandardId)</TargetFramework>
+    <RootNamespace>NStuff.RasterGraphics</RootNamespace>
+    <AssemblyName>NStuff.RasterGraphics</AssemblyName>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

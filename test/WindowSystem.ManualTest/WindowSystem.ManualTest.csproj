@@ -13,7 +13,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\kitten.bmp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\kitten.bmp" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\OpenGL.Context\OpenGL.Context.csproj" />
+    <ProjectReference Include="..\..\src\RasterGraphics\RasterGraphics.csproj" />
   </ItemGroup>
 
 </Project>

@@ -14,6 +14,7 @@ namespace NStuff.WindowSystem.ManualTest
                 Console.WriteLine();
                 Console.WriteLine("  a - Windows, Events.");
                 Console.WriteLine("  b - Draw Polygon.");
+                Console.WriteLine("  c - Draw Texture.");
                 Console.WriteLine("  q - Quit.");
                 var line = Console.ReadLine();
                 switch (line.Trim())
@@ -28,6 +29,10 @@ namespace NStuff.WindowSystem.ManualTest
 
                     case "b":
                         new DrawPolygonLauncher().Launch();
+                        break;
+
+                    case "c":
+                        new DrawTextureLauncher().Launch();
                         break;
                 }
             }

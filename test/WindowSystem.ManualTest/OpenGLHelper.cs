@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NStuff.RasterGraphics;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -72,6 +73,16 @@ namespace NStuff.WindowSystem.ManualTest
             }
         }
 
+        internal static unsafe void BindAttribLocation(GraphicsLibrary gl, uint program, uint attribute, string name)
+        {
+            var byteCount = Encoding.UTF8.GetBytes(name, 0, name.Length, byteBuffer, 0);
+            byteBuffer[byteCount] = 0;
+            fixed (byte* p = byteBuffer)
+            {
+                gl.BindAttribLocation(program, attribute, p);
+            }
+        }
+
         internal static unsafe void BufferData(GraphicsLibrary gl, BufferTarget target, byte[] data, BufferUsage usage)
         {
             fixed (byte* b = data)
@@ -85,6 +96,48 @@ namespace NStuff.WindowSystem.ManualTest
             fixed (float* b = data)
             {
                 gl.BufferData(target, new IntPtr(data.Length * sizeof(float)), new IntPtr(b), usage);
+            }
+        }
+
+        internal static unsafe void BufferData(GraphicsLibrary gl, BufferTarget target, ushort[] data, BufferUsage usage)
+        {
+            fixed (ushort* b = data)
+            {
+                gl.BufferData(target, new IntPtr(data.Length * sizeof(ushort)), new IntPtr(b), usage);
+            }
+        }
+
+        internal static unsafe int GetUniformLocation(GraphicsLibrary gl, uint program, string name)
+        {
+            var byteCount = Encoding.UTF8.GetBytes(name, 0, name.Length, byteBuffer, 0);
+            byteBuffer[byteCount] = 0;
+            fixed (byte* p = byteBuffer)
+            {
+                return gl.GetUniformLocation(program, p);
+            }
+        }
+
+        internal static void TexImage2D(GraphicsLibrary gl, RasterImage image, TextureTarget2D target, int level)
+        {
+            TexturePixelFormat textureFormat;
+            PixelFormat format;
+            if (image.Format == RasterImageFormat.TrueColor)
+            {
+                textureFormat = TexturePixelFormat.Rgb8;
+                format = PixelFormat.Rgb;
+            }
+            else
+            {
+                textureFormat = TexturePixelFormat.Rgba8;
+                format = PixelFormat.Rgba;
+            }
+            unsafe
+            {
+                fixed (byte* p = image.Data)
+                {
+                    var (width, height) = image.Size;
+                    gl.TexImage2D(target, level, textureFormat, width, height, 0, format, PixelType.UnsignedByte, new IntPtr(p));
+                }
             }
         }
 
