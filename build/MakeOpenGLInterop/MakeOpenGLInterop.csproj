@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\versions.props" />
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>$(NetCoreAppId)</TargetFramework>
+    <RootNamespace>NStuff.MakeOpenGLInterop</RootNamespace>
+    <AssemblyName>NStuff.MakeOpenGLInterop</AssemblyName>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="gl.xml" />
+    <None Remove="gl_override.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="gl.xml" />
+    <EmbeddedResource Include="gl_override.xml" />
+  </ItemGroup>
+
+</Project>

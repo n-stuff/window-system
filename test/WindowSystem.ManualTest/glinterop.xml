@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Configuration file for build/MakeOpenGLInterop -->
+<!-- dotnet run -p build/MakeOpenGLInterop test/WindowServer.ManualTest/glinterop.xml  -->
+<glinterop>
+    <files namespace="NStuff.WindowSystem.ManualTest" visibility="internal">
+        <enums name="GLEnums.generated.cs"/>
+        <delegates name="GLDelegates.generated.cs"/>
+        <commands name="GraphicsLibrary.generated.cs" class="GraphicsLibrary"/>
+    </files>
+    <api name="gl">
+        <version major="3" minor="3"/>
+    </api>
+    <extensions>
+        <extension name="GL_ARB_ES2_compatibility"/>
+    </extensions>
+    <groups>
+        <group name="TextureParameterValue" type="GLint"/>
+    </groups>
+    <commands>
+        <command name="glActiveTexture" binding="lazy"/>
+        <command name="glAttachShader"/>
+        <command name="glBindAttribLocation" binding="lazy"/>
+        <command name="glBindBuffer"/>
+        <command name="glBindTexture" binding="lazy"/>
+        <command name="glBindVertexArray"/>
+        <command name="glBlendFunc" binding="lazy"/>
+        <command name="glBufferData"/>
+        <command name="glBufferSubData"/>
+        <command name="glClear"/>
+        <command name="glClearColor"/>
+        <command name="glCompileShader"/>
+        <command name="glCreateProgram"/>
+        <command name="glCreateShader"/>
+        <command name="glDeleteBuffers"/>
+        <command name="glDeleteProgram"/>
+        <command name="glDeleteShader"/>
+        <command name="glDeleteTextures" binding="lazy"/>
+        <command name="glDeleteVertexArrays"/>
+        <command name="glDisable"/>
+        <command name="glDrawArrays"/>
+        <command name="glDrawElements"/>
+        <command name="glEnable"/>
+        <command name="glEnableVertexAttribArray"/>
+        <command name="glGenBuffers"/>
+        <command name="glGenTextures" binding="lazy"/>
+        <command name="glGenVertexArrays"/>
+        <command name="glGetProgramInfoLog"/>
+        <command name="glGetProgramiv"/>
+        <command name="glGetShaderInfoLog"/>
+        <command name="glGetShaderiv"/>
+        <command name="glGetString"/>
+        <command name="glGetUniformLocation" binding="lazy"/>
+        <command name="glLinkProgram"/>
+        <command name="glPixelStorei" binding="lazy"/>
+        <command name="glShaderSource"/>
+        <command name="glScissor"/>
+        <command name="glTexImage2D" binding="lazy"/>
+        <command name="glTexSubImage2D" binding="lazy"/>
+        <command name="glTexParameteri" binding="lazy"/>
+        <command name="glUniform1i" binding="lazy"/>
+        <command name="glUniform3f" binding="lazy"/>
+        <command name="glUniformMatrix4fv" binding="lazy"/>
+        <command name="glUseProgram"/>
+        <command name="glVertexAttribPointer"/>
+        <command name="glViewport"/>
+    </commands>
+</glinterop>
