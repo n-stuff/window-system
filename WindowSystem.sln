@@ -19,9 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenGL.Context", "src\OpenG
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{E2AE1F03-6228-4EFC-A645-5B05CF041D15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeOpenGLInterop", "build\MakeOpenGLInterop\MakeOpenGLInterop.csproj", "{C661C6D3-9DFB-4D8D-B732-F76882B7D885}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MakeOpenGLInterop", "build\MakeOpenGLInterop\MakeOpenGLInterop.csproj", "{C661C6D3-9DFB-4D8D-B732-F76882B7D885}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RasterGraphics", "src\RasterGraphics\RasterGraphics.csproj", "{443E3740-503F-4523-AF7B-08C2D1BFC325}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RasterGraphics", "src\RasterGraphics\RasterGraphics.csproj", "{443E3740-503F-4523-AF7B-08C2D1BFC325}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphicsBackend", "src\GraphicsBackend\GraphicsBackend.csproj", "{A2A2ECBE-00A1-4AFD-AE47-27A2455EF916}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{443E3740-503F-4523-AF7B-08C2D1BFC325}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{443E3740-503F-4523-AF7B-08C2D1BFC325}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{443E3740-503F-4523-AF7B-08C2D1BFC325}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2A2ECBE-00A1-4AFD-AE47-27A2455EF916}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2A2ECBE-00A1-4AFD-AE47-27A2455EF916}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2A2ECBE-00A1-4AFD-AE47-27A2455EF916}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2A2ECBE-00A1-4AFD-AE47-27A2455EF916}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +75,7 @@ Global
 		{36107956-6C8F-4CAE-83C2-AD763E1F161C} = {240E79C5-99F9-458A-A113-0E46F3292E17}
 		{C661C6D3-9DFB-4D8D-B732-F76882B7D885} = {E2AE1F03-6228-4EFC-A645-5B05CF041D15}
 		{443E3740-503F-4523-AF7B-08C2D1BFC325} = {240E79C5-99F9-458A-A113-0E46F3292E17}
+		{A2A2ECBE-00A1-4AFD-AE47-27A2455EF916} = {240E79C5-99F9-458A-A113-0E46F3292E17}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D77C5DCD-21D7-4A13-ADA3-237857B51B7F}

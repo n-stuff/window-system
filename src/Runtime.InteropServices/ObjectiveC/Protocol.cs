@@ -14,7 +14,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// </summary>
         /// <param name="protocol1">A protocol.</param>
         /// <param name="protocol2">A protocol.</param>
-        /// <returns><c>true</c> if <see cref="Handle"/> has the same value.</returns>
+        /// <returns><c>true</c> if <see cref="Handle"/> properties have the same value.</returns>
         public static bool operator ==(Protocol protocol1, Protocol protocol2) => protocol1.Equals(protocol2);
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// </summary>
         /// <param name="protocol1">A protocol.</param>
         /// <param name="protocol2">A protocol.</param>
-        /// <returns><c>true</c> if <see cref="Handle"/> has different values.</returns>
+        /// <returns><c>true</c> if <see cref="Handle"/> properties has different values.</returns>
         public static bool operator !=(Protocol protocol1, Protocol protocol2) => !protocol1.Equals(protocol2);
 
         /// <summary>

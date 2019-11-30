@@ -12,7 +12,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// </summary>
         /// <param name="id1">An id.</param>
         /// <param name="id2">An id.</param>
-        /// <returns><c>true</c> if <see cref="Handle"/> has the same value.</returns>
+        /// <returns><c>true</c> if <see cref="Handle"/> properties have the same value.</returns>
         public static bool operator ==(Id id1, Id id2) => id1.Equals(id2);
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// </summary>
         /// <param name="id1">An id.</param>
         /// <param name="id2">An id.</param>
-        /// <returns><c>true</c> if <see cref="Handle"/> has different values.</returns>
+        /// <returns><c>true</c> if <see cref="Handle"/> properties have different values.</returns>
         public static bool operator !=(Id id1, Id id2) => !id1.Equals(id2);
 
         /// <summary>
