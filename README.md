@@ -27,20 +27,26 @@ dotnet run -p test/WindowSystem.ManualTest
 
 It provides classes to create main windows and to handle events.
 
-### OpenGL.Context project
-
-It provides classes to associate OpenGL contexts to windows.
-
-The rendering relies on OpenGL 3.3/ES because it is available everywhere.
-Theoretically the code is structured in a way that allows any library that can render plain color and
-textured triangles to be used instead. And even more theoretically, any library that supports GPU command buffers (such as Vulkan, Direct3D, or Metal) might achieve great performances.
-
 ### RasterGraphics project
 
 It provides classes to manipulate raster images.
 
 For instance BMP and PNG images can be loaded.
 
+### Tessellation project
+
+It provides types to transform arbitrary polygons into graphics primitives.
+
+### OpenGL.Context project
+
+It provides classes to associate OpenGL contexts to windows.
+
+The rendering relies on OpenGL 3.3/ES because it is available everywhere.
+Theoretically the code is structured in a way that allows any library that can render plain color and
+textured triangles to be used instead. And even more theoretically, any library that supports GPU command buffers
+(such as Vulkan, Direct3D, or Metal) might achieve great performances.
+
 ## Acknowledgments
 
 * **OpenGL.Context** and **WindowSystem** projects borrow some ideas from [GLFW](https://github.com/glfw/glfw) and [SDL](https://www.libsdl.org/)
+* **Tessellation** project is based on the algorithm from [GLU libtess](https://gitlab.freedesktop.org/mesa/glu/tree/master/src/libtess)

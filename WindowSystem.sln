@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphicsBackend", "src\Grap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenGL.Backend", "src\OpenGL.Backend\OpenGL.Backend.csproj", "{E04A054A-767B-433B-B578-459669403920}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tessellation", "src\Tessellation\Tessellation.csproj", "{722763C1-EAA6-4B6D-A1C7-2E688D028EA8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{E04A054A-767B-433B-B578-459669403920}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E04A054A-767B-433B-B578-459669403920}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E04A054A-767B-433B-B578-459669403920}.Release|Any CPU.Build.0 = Release|Any CPU
+		{722763C1-EAA6-4B6D-A1C7-2E688D028EA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{722763C1-EAA6-4B6D-A1C7-2E688D028EA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{722763C1-EAA6-4B6D-A1C7-2E688D028EA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{722763C1-EAA6-4B6D-A1C7-2E688D028EA8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,6 +89,7 @@ Global
 		{443E3740-503F-4523-AF7B-08C2D1BFC325} = {240E79C5-99F9-458A-A113-0E46F3292E17}
 		{A2A2ECBE-00A1-4AFD-AE47-27A2455EF916} = {240E79C5-99F9-458A-A113-0E46F3292E17}
 		{E04A054A-767B-433B-B578-459669403920} = {240E79C5-99F9-458A-A113-0E46F3292E17}
+		{722763C1-EAA6-4B6D-A1C7-2E688D028EA8} = {240E79C5-99F9-458A-A113-0E46F3292E17}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D77C5DCD-21D7-4A13-ADA3-237857B51B7F}
