@@ -14,7 +14,7 @@ Native interoperability with these APIs is achieved through __P/Invoke__.
 ## Examples
 
 The code is developed on Windows 10 64bit, macOS Catalina, and Ubuntu 18.04 64bit installed in a virtual machine.
-Once .NET Core 3 is installed, it works out-of-the-box.
+Once .NET Core 3 is installed, examples and tests work out-of-the-box.
 
 To run examples of window creation, event handling, and OpenGL rendering, use the command:
 ```
@@ -33,7 +33,7 @@ It provides classes to associate OpenGL contexts to windows.
 
 The rendering relies on OpenGL 3.3/ES because it is available everywhere.
 Theoretically the code is structured in a way that allows any library that can render plain color and
-textured triangles to be used instead. And even more theoretically, any library that supports GPU command buffers (such as Vulkan, Direct3D, or Metal) might achieve great perfomances.
+textured triangles to be used instead. And even more theoretically, any library that supports GPU command buffers (such as Vulkan, Direct3D, or Metal) might achieve great performances.
 
 ### RasterGraphics project
 
