@@ -33,5 +33,39 @@ namespace NStuff.GraphicsBackend
         /// </summary>
         /// <param name="imageHandle">The handle of the image to destroy.</param>
         public abstract void DestroyImage(ImageHandle imageHandle);
+
+        /// <summary>
+        /// Creates a new uniform buffer.
+        /// </summary>
+        /// <param name="uniformType">The kind of uniforms to store in this buffer.</param>
+        /// <param name="maxUniformCount">The max number of uniforms this buffer can store.</param>
+        /// <returns></returns>
+        public abstract UniformBufferHandle CreateUniformBuffer(UniformType uniformType, int maxUniformCount);
+
+        /// <summary>
+        /// Updates a part of the specified buffer.
+        /// </summary>
+        /// <param name="uniformBufferHandle">A uniform buffer handle.</param>
+        /// <param name="uniforms">The data to transfer to the buffer.</param>
+        /// <param name="uniformOffset">The index of the first uniform to update.</param>
+        /// <param name="uniformCount">The number of uniforms to update.</param>
+        public abstract void UpdateUniformBuffer(UniformBufferHandle uniformBufferHandle, RgbaColor[] uniforms, int uniformOffset, int uniformCount);
+
+        /// <summary>
+        /// Updates a part of the specified buffer.
+        /// </summary>
+        /// <param name="uniformBufferHandle">A uniform buffer handle.</param>
+        /// <param name="uniforms">The data to transfer to the buffer.</param>
+        /// <param name="uniformOffset">The index of the first uniform to update.</param>
+        /// <param name="uniformCount">The number of uniforms to update.</param>
+        public abstract void UpdateUniformBuffer(UniformBufferHandle uniformBufferHandle, AffineTransform[] uniforms,
+            int uniformOffset, int uniformCount);
+
+        /// <summary>
+        /// Destroys the specified buffer.
+        /// </summary>
+        /// <param name="uniformBufferHandle">The handle of the buffer to destroy.</param>
+        public abstract void DestroyUniformBuffer(UniformBufferHandle uniformBufferHandle);
+
     }
 }

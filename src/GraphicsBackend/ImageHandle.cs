@@ -10,16 +10,16 @@ namespace NStuff.GraphicsBackend
         /// <summary>
         /// Compares two <see cref="ImageHandle"/> objects. 
         /// </summary>
-        /// <param name="image1">A class.</param>
-        /// <param name="image2">A class.</param>
+        /// <param name="image1">An image handle.</param>
+        /// <param name="image2">An image handle.</param>
         /// <returns><c>true</c> if <see cref="Value"/> properties have the same value.</returns>
         public static bool operator ==(ImageHandle image1, ImageHandle image2) => image1.Equals(image2);
 
         /// <summary>
         /// Compares two <see cref="ImageHandle"/> objects. 
         /// </summary>
-        /// <param name="image1">A class.</param>
-        /// <param name="image2">A class.</param>
+        /// <param name="image1">An image handle.</param>
+        /// <param name="image2">An image handle.</param>
         /// <returns><c>true</c> if <see cref="Value"/> properties have different values.</returns>
         public static bool operator !=(ImageHandle image1, ImageHandle image2) => !image1.Equals(image2);
 
@@ -50,7 +50,7 @@ namespace NStuff.GraphicsBackend
         /// <summary>
         /// Compares this <see cref="ImageHandle"/> object with another one.
         /// </summary>
-        /// <param name="other">A class.</param>
+        /// <param name="other">An image.</param>
         /// <returns><c>true</c> if <see cref="Value"/> has the same value as <c>other.Value</c>.</returns>
         public readonly bool Equals(ImageHandle other) => Value == other.Value;
     }
