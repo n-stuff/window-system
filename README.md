@@ -11,8 +11,15 @@ Because the aim is to continuously reinvent the wheel in __pure .NET__, this cod
 
 Native interoperability with these APIs is achieved through __P/Invoke__.
 
-It is developed on Windows 10 64bit, macOS Catalina, and Ubuntu 18.04 64bit installed in a virtual machine.
+## Examples
+
+The code is developed on Windows 10 64bit, macOS Catalina, and Ubuntu 18.04 64bit installed in a virtual machine.
 Once .NET Core 3 is installed, it works out-of-the-box.
+
+To run examples of window creation, event handling, and OpenGL rendering, use the command:
+```
+dotnet run -p test/WindowSystem.ManualTest
+```
 
 ## Modules
 
@@ -32,14 +39,7 @@ textured triangles to be used instead. And even more theoretically, any library 
 
 It provides classes to manipulate raster images.
 
-For instance BMP and PNG image can be read.
-
-## Examples
-
-To run examples of window creation, event handling, and OpenGL rendering, use the command:
-```
-dotnet run -p test/WindowSystem.ManualTest
-```
+For instance BMP and PNG images can be loaded.
 
 ## Acknowledgments
 
