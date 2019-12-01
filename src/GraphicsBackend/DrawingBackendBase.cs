@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NStuff.GraphicsBackend
+﻿namespace NStuff.GraphicsBackend
 {
     /// <summary>
     /// Provides a base class to implement a drawing backend with direct access to GPU.
