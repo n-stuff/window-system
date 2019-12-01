@@ -67,5 +67,39 @@ namespace NStuff.GraphicsBackend
         /// <param name="uniformBufferHandle">The handle of the buffer to destroy.</param>
         public abstract void DestroyUniformBuffer(UniformBufferHandle uniformBufferHandle);
 
+        /// <summary>
+        /// Creates a new vertex buffer.
+        /// </summary>
+        /// <param name="vertexType">The layout of the vertices in the buffer.</param>
+        /// <param name="maxVertexCount">The maximum number of vertex this buffer can store.</param>
+        /// <returns></returns>
+        public abstract VertexBufferHandle CreateVertexBuffer(VertexType vertexType, int maxVertexCount);
+
+        /// <summary>
+        /// Updates a part of the specified buffer.
+        /// </summary>
+        /// <param name="vertexBufferHandle">A vertex buffer handle.</param>
+        /// <param name="vertices">The data to transfer to the buffer.</param>
+        /// <param name="vertexOffset">The index of the first vertex to update.</param>
+        /// <param name="vertexCount">The number of vertices to update.</param>
+        public abstract void UpdateVertexBuffer(VertexBufferHandle vertexBufferHandle, PointCoordinates[] vertices,
+            int vertexOffset, int vertexCount);
+
+        /// <summary>
+        /// Updates a part of the specified buffer.
+        /// </summary>
+        /// <param name="vertexBufferHandle">A vertex buffer handle.</param>
+        /// <param name="vertices">The data to transfer to the buffer.</param>
+        /// <param name="vertexOffset">The index of the first vertex to update.</param>
+        /// <param name="vertexCount">The number of vertices to update.</param>
+        public abstract void UpdateVertexBuffer(VertexBufferHandle vertexBufferHandle, PointAndImageCoordinates[] vertices,
+            int vertexOffset, int vertexCount);
+
+        /// <summary>
+        /// Destroys the specified vertex buffer.
+        /// </summary>
+        /// <param name="vertexBufferHandle">The handle of the buffer to free.</param>
+        public abstract void DestroyVertexBuffer(VertexBufferHandle vertexBufferHandle);
+
     }
 }
