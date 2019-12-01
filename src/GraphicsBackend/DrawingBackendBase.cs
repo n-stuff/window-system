@@ -20,86 +20,105 @@ namespace NStuff.GraphicsBackend
         /// <summary>
         /// Updates a part of the image.
         /// </summary>
-        /// <param name="imageHandle">The handle of a image.</param>
+        /// <param name="handle">The handle of a image.</param>
         /// <param name="data">A buffer containing the pixels to copy to the image.</param>
         /// <param name="x">The x-coordinate of the top-left corner where the new pixels should be copied to.</param>
         /// <param name="y">The y-coordinate of the top-left corner where the new pixels should be copied to.</param>
         /// <param name="width">The width in pixels of the area to update.</param>
         /// <param name="height">The height in pixels of the area to update.</param>
-        public abstract void UpdateImage(ImageHandle imageHandle, byte[] data, int x, int y, int width, int height);
+        public abstract void UpdateImage(ImageHandle handle, byte[] data, int x, int y, int width, int height);
 
         /// <summary>
         /// Destroys the specified image.
         /// </summary>
         /// <param name="imageHandle">The handle of the image to destroy.</param>
-        public abstract void DestroyImage(ImageHandle imageHandle);
+        public abstract void DestroyImage(ImageHandle handle);
 
         /// <summary>
         /// Creates a new uniform buffer.
         /// </summary>
         /// <param name="uniformType">The kind of uniforms to store in this buffer.</param>
-        /// <param name="maxUniformCount">The max number of uniforms this buffer can store.</param>
+        /// <param name="capacity">The max number of uniforms this buffer can store.</param>
         /// <returns></returns>
-        public abstract UniformBufferHandle CreateUniformBuffer(UniformType uniformType, int maxUniformCount);
+        public abstract UniformBufferHandle CreateUniformBuffer(UniformType uniformType, int capacity);
 
         /// <summary>
         /// Updates a part of the specified buffer.
         /// </summary>
-        /// <param name="uniformBufferHandle">A uniform buffer handle.</param>
+        /// <param name="handle">A uniform buffer handle.</param>
         /// <param name="uniforms">The data to transfer to the buffer.</param>
-        /// <param name="uniformOffset">The index of the first uniform to update.</param>
-        /// <param name="uniformCount">The number of uniforms to update.</param>
-        public abstract void UpdateUniformBuffer(UniformBufferHandle uniformBufferHandle, RgbaColor[] uniforms, int uniformOffset, int uniformCount);
+        /// <param name="offset">The index of the first uniform to update.</param>
+        /// <param name="count">The number of uniforms to update.</param>
+        public abstract void UpdateUniformBuffer(UniformBufferHandle handle, RgbaColor[] uniforms, int offset, int count);
 
         /// <summary>
         /// Updates a part of the specified buffer.
         /// </summary>
-        /// <param name="uniformBufferHandle">A uniform buffer handle.</param>
+        /// <param name="handle">A uniform buffer handle.</param>
         /// <param name="uniforms">The data to transfer to the buffer.</param>
-        /// <param name="uniformOffset">The index of the first uniform to update.</param>
-        /// <param name="uniformCount">The number of uniforms to update.</param>
-        public abstract void UpdateUniformBuffer(UniformBufferHandle uniformBufferHandle, AffineTransform[] uniforms,
-            int uniformOffset, int uniformCount);
+        /// <param name="offset">The index of the first uniform to update.</param>
+        /// <param name="count">The number of uniforms to update.</param>
+        public abstract void UpdateUniformBuffer(UniformBufferHandle handle, AffineTransform[] uniforms, int offset, int count);
 
         /// <summary>
         /// Destroys the specified buffer.
         /// </summary>
-        /// <param name="uniformBufferHandle">The handle of the buffer to destroy.</param>
-        public abstract void DestroyUniformBuffer(UniformBufferHandle uniformBufferHandle);
+        /// <param name="handle">The handle of the buffer to destroy.</param>
+        public abstract void DestroyUniformBuffer(UniformBufferHandle handle);
 
         /// <summary>
         /// Creates a new vertex buffer.
         /// </summary>
         /// <param name="vertexType">The layout of the vertices in the buffer.</param>
-        /// <param name="maxVertexCount">The maximum number of vertex this buffer can store.</param>
+        /// <param name="capacity">The maximum number of vertex this buffer can store.</param>
         /// <returns></returns>
-        public abstract VertexBufferHandle CreateVertexBuffer(VertexType vertexType, int maxVertexCount);
+        public abstract VertexBufferHandle CreateVertexBuffer(VertexType vertexType, int capacity);
 
         /// <summary>
         /// Updates a part of the specified buffer.
         /// </summary>
-        /// <param name="vertexBufferHandle">A vertex buffer handle.</param>
+        /// <param name="handle">A vertex buffer handle.</param>
         /// <param name="vertices">The data to transfer to the buffer.</param>
-        /// <param name="vertexOffset">The index of the first vertex to update.</param>
-        /// <param name="vertexCount">The number of vertices to update.</param>
-        public abstract void UpdateVertexBuffer(VertexBufferHandle vertexBufferHandle, PointCoordinates[] vertices,
-            int vertexOffset, int vertexCount);
+        /// <param name="offset">The index of the first vertex to update.</param>
+        /// <param name="count">The number of vertices to update.</param>
+        public abstract void UpdateVertexBuffer(VertexBufferHandle handle, PointCoordinates[] vertices, int offset, int count);
 
         /// <summary>
         /// Updates a part of the specified buffer.
         /// </summary>
-        /// <param name="vertexBufferHandle">A vertex buffer handle.</param>
+        /// <param name="handle">A vertex buffer handle.</param>
         /// <param name="vertices">The data to transfer to the buffer.</param>
-        /// <param name="vertexOffset">The index of the first vertex to update.</param>
-        /// <param name="vertexCount">The number of vertices to update.</param>
-        public abstract void UpdateVertexBuffer(VertexBufferHandle vertexBufferHandle, PointAndImageCoordinates[] vertices,
-            int vertexOffset, int vertexCount);
+        /// <param name="offset">The index of the first vertex to update.</param>
+        /// <param name="count">The number of vertices to update.</param>
+        public abstract void UpdateVertexBuffer(VertexBufferHandle handle, PointAndImageCoordinates[] vertices, int offset, int count);
 
         /// <summary>
         /// Destroys the specified vertex buffer.
         /// </summary>
-        /// <param name="vertexBufferHandle">The handle of the buffer to free.</param>
-        public abstract void DestroyVertexBuffer(VertexBufferHandle vertexBufferHandle);
+        /// <param name="handle">The handle of the buffer to free.</param>
+        public abstract void DestroyVertexBuffer(VertexBufferHandle handle);
+
+        /// <summary>
+        /// Creates a new vertex range buffer.
+        /// </summary>
+        /// <param name="capacity">The maximum number of ranges this buffer can store.</param>
+        /// <returns></returns>
+        public abstract VertexRangeBufferHandle CreateVertexRangeBuffer(int capacity);
+
+        /// <summary>
+        /// Updates a part of the specified buffer.
+        /// </summary>
+        /// <param name="handle">A vertex range buffer handle.</param>
+        /// <param name="vertexRanges">The data to transfer to the buffer.</param>
+        /// <param name="offset">The index of the first range to update.</param>
+        /// <param name="count">The number of ranges to update.</param>
+        public abstract void UpdateVertexRangeBuffer(VertexRangeBufferHandle handle, VertexRange[] vertexRanges, int offset, int count);
+
+        /// <summary>
+        /// Destroys the specified vertex range buffer.
+        /// </summary>
+        /// <param name="handle">The handle of the buffer to free.</param>
+        public abstract void DestroyVertexRangeBuffer(VertexRangeBufferHandle handle);
 
     }
 }

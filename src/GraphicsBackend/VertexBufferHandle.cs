@@ -3,7 +3,7 @@
 namespace NStuff.GraphicsBackend
 {
     /// <summary>
-    /// Represents a handle to a uniform buffer allocated by the underlying graphics backend.
+    /// Represents a handle to a vertex buffer allocated by the underlying graphics backend.
     /// </summary>
     public struct VertexBufferHandle : IEquatable<VertexBufferHandle>
     {
