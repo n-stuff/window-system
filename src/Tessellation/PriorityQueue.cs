@@ -199,7 +199,7 @@ namespace NStuff.Tessellation
             if (Count == 1)
             {
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-                nodes[1] = null; // nodes[1] is outside de valid index range
+                nodes[1] = null; // nodes[1] is outside valid index range
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
                 Count = 0;
                 return returnMe;
@@ -209,7 +209,7 @@ namespace NStuff.Tessellation
             nodes[1] = formerLastNode;
             formerLastNode.queueHandle = 1;
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-            nodes[Count] = null; // nodes[Count] is outside de valid index range
+            nodes[Count] = null; // nodes[Count] is outside valid index range
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
             Count--;
 
@@ -224,7 +224,7 @@ namespace NStuff.Tessellation
             if (node.queueHandle == Count)
             {
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-                nodes[Count] = null; // nodes[Count] is outside de valid index range
+                nodes[Count] = null; // nodes[Count] is outside valid index range
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
                 Count--;
                 return;
@@ -234,7 +234,7 @@ namespace NStuff.Tessellation
             nodes[node.queueHandle] = formerLastNode;
             formerLastNode.queueHandle = node.queueHandle;
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-            nodes[Count] = null; // nodes[Count] is outside de valid index range
+            nodes[Count] = null; // nodes[Count] is outside valid index range
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
             Count--;
 
