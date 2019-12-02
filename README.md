@@ -2,12 +2,11 @@
 
 This repository provides building blocks to write __GUI__ applications.
 
-Because the aim here is to continuously reinvent the wheel in __pure .NET__, this code only relies on:
-* __[.NET Core](https://dotnet.microsoft.com/download) 3.0 64bit__
-* Win32 API on __Windows__
-* Cocoa API on __macOS__
-* Xlib API on __Linux__
-* default __OpenGL__ libraries on those three operating systems.
+Because the aim here is to continuously reinvent the wheel in __pure .NET__, this code only relies on __[.NET Core](https://dotnet.microsoft.com/download) 3.0 64bit__, and on a minimal set of functionalities from those APIs:
+* Win32 on __Windows__
+* Cocoa on __macOS__
+* Xlib on __Linux__
+* the __OpenGL__ libraries shipped with those three operating systems.
 
 Native interoperability with these APIs is achieved in C# through __P/Invoke__.
 
