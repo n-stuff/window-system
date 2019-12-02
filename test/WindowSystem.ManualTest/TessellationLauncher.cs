@@ -1,4 +1,5 @@
-﻿using NStuff.GraphicsBackend;
+﻿using NStuff.Geometry;
+using NStuff.GraphicsBackend;
 using NStuff.OpenGL.Backend;
 using NStuff.OpenGL.Context;
 using NStuff.Tessellation;
@@ -15,8 +16,9 @@ namespace NStuff.WindowSystem.ManualTest
             Console.WriteLine("Tessellation...");
             Console.WriteLine("    Left click to add a point.");
             Console.WriteLine("    'c' to close the current polyline and start a new one.");
-            Console.WriteLine("    'r' reset the polygon.");
+            Console.WriteLine("    's' stroke the polyline.");
             Console.WriteLine("    't' to tessellate the polygon.");
+            Console.WriteLine("    'r' reset the polygon.");
 
             using var windowServer = new WindowServer();
             using var renderingContext = new RenderingContext { Settings = new RenderingSettings { Samples = 8 } };
@@ -240,6 +242,25 @@ namespace NStuff.WindowSystem.ManualTest
                         requireRendering = true;
                         break;
 
+                    case 's':
+                        {
+                            var p = new List<List<(double x, double y)>>();
+                            var polylineStroker = new PolylineStroker(new StrokeHandler(p))
+                            {
+                                StrokeWidth = 20,
+                                StrokeLinecap = StrokeLinecap.Round,
+                                StrokeLineJoin = StrokeLineJoin.Round
+                            };
+                            foreach (var c in polygon)
+                            {
+                                polylineStroker.Stroke(c);
+                            }
+                            contour = null;
+                            polygon = p;
+                        }
+                        requireRendering = true;
+                        break;
+
                     case 't':
                         if (vertices.Count == 0)
                         {
@@ -394,6 +415,40 @@ namespace NStuff.WindowSystem.ManualTest
         }
 
         public void FlagEdges(bool onPolygonBoundary)
+        {
+        }
+    }
+
+    class StrokeHandler : IPolylineStrokeHandler
+    {
+        private readonly List<List<(double x, double y)>> polygon;
+        private List<(double x, double y)>? contour;
+
+        public StrokeHandler(List<List<(double x, double y)>> polygon)
+        {
+            this.polygon = polygon;
+        }
+
+        public void AddPoint(double x, double y)
+        {
+            contour!.Add((x, y));
+        }
+
+        public void BeginPolygon()
+        {
+        }
+
+        public void BeginContour()
+        {
+            contour = new List<(double x, double y)>();
+            polygon.Add(contour);
+        }
+
+        public void EndContour()
+        {
+        }
+
+        public void EndPolygon()
         {
         }
     }

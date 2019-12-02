@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Geometry\Geometry.csproj" />
     <ProjectReference Include="..\..\src\OpenGL.Backend\OpenGL.Backend.csproj" />
     <ProjectReference Include="..\..\src\OpenGL.Context\OpenGL.Context.csproj" />
     <ProjectReference Include="..\..\src\RasterGraphics\RasterGraphics.csproj" />
