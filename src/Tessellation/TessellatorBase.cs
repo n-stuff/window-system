@@ -19,8 +19,10 @@ namespace NStuff.Tessellation
 
         internal State state;
         internal readonly ITessellateHandler<TPolygonData, TVertexData> handler;
-        internal MeshBuilder<TPolygonData, TVertexDataContainer> meshBuilder;
-        internal TPolygonData polygonData;
+        internal MeshBuilder<TPolygonData, TVertexDataContainer>? meshBuilder;
+#pragma warning disable CS8653 // A default expression introduces a null value for a type parameter.
+        internal TPolygonData polygonData = default;
+#pragma warning restore CS8653 // A default expression introduces a null value for a type parameter.
 
         /// <summary>
         /// The winding rule to determine whether a part of a polygon is inside of outside of this polygon.
@@ -60,7 +62,7 @@ namespace NStuff.Tessellation
 
         internal void CallHandlerForBoundary()
         {
-            var faceHead = meshBuilder.Mesh.FaceHead;
+            var faceHead = meshBuilder!.Mesh.FaceHead;
             for (var f = faceHead.Next; f != faceHead; f = f.Next)
             {
                 if (f.Inside)
@@ -81,7 +83,7 @@ namespace NStuff.Tessellation
 
         internal void CallHandlerForTriangles()
         {
-            var faceHead = meshBuilder.Mesh.FaceHead;
+            var faceHead = meshBuilder!.Mesh.FaceHead;
             var firstFace = true;
             for (var f = faceHead.Next; f != faceHead; f = f.Next)
             {
@@ -127,8 +129,8 @@ namespace NStuff.Tessellation
 
         internal void ComputeStripsAndFans()
         {
-            Face<TVertexDataContainer> isolatedTriangles = null;
-            var faceHead = meshBuilder.Mesh.FaceHead;
+            Face<TVertexDataContainer>? isolatedTriangles = null;
+            var faceHead = meshBuilder!.Mesh.FaceHead;
             for (var f = faceHead.Next; f != faceHead; f = f.Next)
             {
                 if (f.Inside && !f.Marked)
@@ -154,7 +156,7 @@ namespace NStuff.Tessellation
             }
         }
 
-        private void ComputeMaximumFaceGroup(Face<TVertexDataContainer> face, ref Face<TVertexDataContainer> isolatedTriangles)
+        private void ComputeMaximumFaceGroup(Face<TVertexDataContainer> face, ref Face<TVertexDataContainer>? isolatedTriangles)
         {
             var e = face.Edge;
             (int size, HalfEdge<TVertexDataContainer> startEdge, PrimitiveKind primitiveKind) max = (1, e, PrimitiveKind.Triangles);
@@ -243,7 +245,7 @@ namespace NStuff.Tessellation
 
         private (int size, HalfEdge<TVertexDataContainer> startEdge, PrimitiveKind primitiveKind) ComputeMaximumFan(HalfEdge<TVertexDataContainer> edge)
         {
-            Face<TVertexDataContainer> trail = null;
+            Face<TVertexDataContainer>? trail = null;
             HalfEdge<TVertexDataContainer> e;
             var size = 0;
             for (e = edge; e.LeftFace.Inside && !e.LeftFace.Marked; e = e.OriginNext)
@@ -264,7 +266,7 @@ namespace NStuff.Tessellation
             return (size, e, PrimitiveKind.TriangleFan);
         }
 
-        private void AddToTrail(Face<TVertexDataContainer> face, ref Face<TVertexDataContainer> trail)
+        private void AddToTrail(Face<TVertexDataContainer> face, ref Face<TVertexDataContainer>? trail)
         {
             face.Trail = trail;
             trail = face;

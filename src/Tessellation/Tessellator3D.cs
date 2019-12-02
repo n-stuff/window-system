@@ -12,35 +12,22 @@ namespace NStuff.Tessellation
         IEdgeCombinator<TPolygonData, Tessellator3D<TPolygonData, TVertexData>.VertexData>
     {
         /// <summary>
-        /// Used internally to store 3D coordinates.
+        /// Used internally to store 3D coordinates along with actual data.
         /// </summary>
+#pragma warning disable CA1034, CA1815
         public struct VertexData
+#pragma warning restore CA1034, CA1815
         {
-            /// <summary>
-            /// The actual vertex data.
-            /// </summary>
-            public TVertexData data;
-
-            /// <summary>
-            /// The x-coordinate of the vertex.
-            /// </summary>
-            public double x;
-
-            /// <summary>
-            /// The y-coordinate of the vertex.
-            /// </summary>
-            public double y;
-
-            /// <summary>
-            /// The z-coordinate of the vertex.
-            /// </summary>
-            public double z;
+            internal TVertexData data;
+            internal double x;
+            internal double y;
+            internal double z;
         }
 
         private readonly SimpleTessellator3D<TVertexData> simpleTessellator = new SimpleTessellator3D<TVertexData>();
         private bool firstMove;
-        private Face<VertexData> currentFace;
-        private HalfEdge<VertexData> currentEdge;
+        private Face<VertexData>? currentFace;
+        private HalfEdge<VertexData>? currentEdge;
 
         /// <summary>
         /// The kind of output expected from the tessellator.
@@ -102,12 +89,9 @@ namespace NStuff.Tessellation
             if (meshBuilder == null && simpleTessellator.Count > 0)
             {
                 CreateMeshBuilder();
-                meshBuilder.EndContour();
+                meshBuilder!.EndContour();
             }
-            if (meshBuilder != null)
-            {
-                meshBuilder.BeginContour();
-            }
+            meshBuilder?.BeginContour();
         }
 
         /// <summary>
@@ -117,10 +101,7 @@ namespace NStuff.Tessellation
         {
             RequireState(State.InContour);
             state = State.InPolygon;
-            if (meshBuilder != null)
-            {
-                meshBuilder.EndContour();
-            }
+            meshBuilder?.EndContour();
         }
 
         /// <summary>
@@ -154,7 +135,7 @@ namespace NStuff.Tessellation
                 }
                 CreateMeshBuilder();
             }
-            meshBuilder.AddVertex(0, 0, new VertexData { data = data, x = x, y = y, z = z });
+            meshBuilder!.AddVertex(0, 0, new VertexData { data = data, x = x, y = y, z = z });
         }
 
         /// <summary>
@@ -168,11 +149,13 @@ namespace NStuff.Tessellation
             {
                 if (simpleTessellator.Tessellate(handler, Normal, WindingRule, polygonData, OutputKind))
                 {
+#pragma warning disable CS8653 // A default expression introduces a null value for a type parameter.
                     polygonData = default;
+#pragma warning restore CS8653 // A default expression introduces a null value for a type parameter.
                     return;
                 }
                 CreateMeshBuilder();
-                meshBuilder.EndContour();
+                meshBuilder!.EndContour();
             }
             ProjectPolygon();
             meshBuilder.EndPolygon();
@@ -201,7 +184,9 @@ namespace NStuff.Tessellation
                     throw new InvalidOperationException("Unhandled output kind: " + OutputKind);
             }
             meshBuilder = null;
+#pragma warning disable CS8653 // A default expression introduces a null value for a type parameter.
             polygonData = default;
+#pragma warning restore CS8653 // A default expression introduces a null value for a type parameter.
         }
 
         /// <summary>
@@ -226,7 +211,7 @@ namespace NStuff.Tessellation
                     simpleTessellator.Vertex = (v.Data.x, v.Data.y, v.Data.z, v.Data.data);
 
                     currentEdge = currentEdge.LeftFaceNext;
-                    if (currentEdge == currentFace.Edge)
+                    if (currentEdge == currentFace!.Edge)
                     {
                         currentEdge = null;
                         currentFace = currentFace.Next;
@@ -238,7 +223,7 @@ namespace NStuff.Tessellation
                 {
                     return false;
                 }
-                while (!currentFace.Inside)
+                while (!currentFace!.Inside)
                 {
                     currentFace = currentFace.Next;
                     if (currentFace == faceHead)
@@ -324,7 +309,7 @@ namespace NStuff.Tessellation
                     ypuy = (normal.z > 0) ? 1 : -1;
                     break;
             }
-            var vertexHead = meshBuilder.Mesh.VertexHead;
+            var vertexHead = meshBuilder!.Mesh.VertexHead;
             for (var v = vertexHead.Next; v != vertexHead; v = v.Next)
             {
                 v.X = v.Data.x * xpux + v.Data.y * xpuy + v.Data.z * xpuz;
@@ -339,7 +324,7 @@ namespace NStuff.Tessellation
         private void CheckOrientation()
         {
             var area = 0d;
-            var faceHead = meshBuilder.Mesh.FaceHead;
+            var faceHead = meshBuilder!.Mesh.FaceHead;
             for (var f = faceHead.Next; f != faceHead; f = f.Next)
             {
                 var e = f.Edge;
@@ -367,7 +352,7 @@ namespace NStuff.Tessellation
 
         private (double x, double y, double z) ComputeNormal()
         {
-            var vertexHead = meshBuilder.Mesh.VertexHead;
+            var vertexHead = meshBuilder!.Mesh.VertexHead;
             var xMin = 2 * MeshBuilder<TPolygonData, VertexData>.MaxCoordinate;
             var yMin = xMin;
             var zMin = xMin;
@@ -427,8 +412,8 @@ namespace NStuff.Tessellation
                     {
                         return (0, 0, 0);
                     }
-                    v1 = minVertexZ;
-                    v2 = maxVertexZ;
+                    v1 = minVertexZ!;
+                    v2 = maxVertexZ!;
                 }
                 else
                 {
@@ -436,8 +421,8 @@ namespace NStuff.Tessellation
                     {
                         return (0, 0, 0);
                     }
-                    v1 = minVertexY;
-                    v2 = maxVertexY;
+                    v1 = minVertexY!;
+                    v2 = maxVertexY!;
                 }
             }
             else
@@ -448,8 +433,8 @@ namespace NStuff.Tessellation
                     {
                         return (0, 0, 0);
                     }
-                    v1 = minVertexZ;
-                    v2 = maxVertexZ;
+                    v1 = minVertexZ!;
+                    v2 = maxVertexZ!;
                 }
                 else
                 {
@@ -457,8 +442,8 @@ namespace NStuff.Tessellation
                     {
                         return (0, 0, 0);
                     }
-                    v1 = minVertexX;
-                    v2 = maxVertexX;
+                    v1 = minVertexX!;
+                    v2 = maxVertexX!;
                 }
             }
 

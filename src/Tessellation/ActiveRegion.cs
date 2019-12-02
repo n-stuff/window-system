@@ -1,4 +1,5 @@
-﻿namespace NStuff.Tessellation
+﻿#nullable disable
+namespace NStuff.Tessellation
 {
     internal class ActiveRegion<TVertexData>
     {

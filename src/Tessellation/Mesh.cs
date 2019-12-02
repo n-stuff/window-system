@@ -1,4 +1,5 @@
-﻿using static NStuff.Tessellation.GeometryHelper;
+﻿#nullable disable
+using static NStuff.Tessellation.GeometryHelper;
 
 namespace NStuff.Tessellation
 {

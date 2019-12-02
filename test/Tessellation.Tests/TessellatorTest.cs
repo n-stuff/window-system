@@ -7,7 +7,9 @@ namespace NStuff.Tessellation.Test
 {
     public class TessellatorTest
     {
+#pragma warning disable IDE0052 // Remove unread private members
         private readonly ITestOutputHelper output;
+#pragma warning restore IDE0052 // Remove unread private members
 
         public TessellatorTest(ITestOutputHelper output)
         {

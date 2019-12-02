@@ -13,8 +13,8 @@ namespace NStuff.Tessellation
     {
         private readonly SimpleTessellator2D<TVertexData> simpleTessellator = new SimpleTessellator2D<TVertexData>();
         private bool firstMove;
-        private Face<TVertexData> currentFace;
-        private HalfEdge<TVertexData> currentEdge;
+        private Face<TVertexData>? currentFace;
+        private HalfEdge<TVertexData>? currentEdge;
 
         /// <summary>
         /// The kind of output expected from the tessellator.
@@ -71,7 +71,7 @@ namespace NStuff.Tessellation
             if (meshBuilder == null && simpleTessellator.Count > 0)
             {
                 CreateMeshBuilder();
-                meshBuilder.EndContour();
+                meshBuilder!.EndContour();
             }
             meshBuilder?.BeginContour();
         }
@@ -112,7 +112,7 @@ namespace NStuff.Tessellation
                 }
                 CreateMeshBuilder();
             }
-            meshBuilder.AddVertex(x, y, data);
+            meshBuilder!.AddVertex(x, y, data);
         }
 
         /// <summary>
@@ -126,11 +126,13 @@ namespace NStuff.Tessellation
             {
                 if (simpleTessellator.Tessellate(handler, WindingRule, polygonData))
                 {
+#pragma warning disable CS8653 // A default expression introduces a null value for a type parameter.
                     polygonData = default;
+#pragma warning restore CS8653 // A default expression introduces a null value for a type parameter.
                     return;
                 }
                 CreateMeshBuilder();
-                meshBuilder.EndContour();
+                meshBuilder!.EndContour();
             }
             meshBuilder.EndPolygon();
             switch (OutputKind)
@@ -158,7 +160,9 @@ namespace NStuff.Tessellation
                     throw new InvalidOperationException("Unhandled output kind: " + OutputKind);
             }
             meshBuilder = null;
+#pragma warning disable CS8653 // A default expression introduces a null value for a type parameter.
             polygonData = default;
+#pragma warning restore CS8653 // A default expression introduces a null value for a type parameter.
         }
 
         /// <summary>
@@ -183,7 +187,7 @@ namespace NStuff.Tessellation
                     simpleTessellator.Vertex = (v.X, v.Y, v.Data);
 
                     currentEdge = currentEdge.LeftFaceNext;
-                    if (currentEdge == currentFace.Edge)
+                    if (currentEdge == currentFace!.Edge)
                     {
                         currentEdge = null;
                         currentFace = currentFace.Next;
@@ -195,7 +199,7 @@ namespace NStuff.Tessellation
                 {
                     return false;
                 }
-                while (!currentFace.Inside)
+                while (!currentFace!.Inside)
                 {
                     currentFace = currentFace.Next;
                     if (currentFace == faceHead)
