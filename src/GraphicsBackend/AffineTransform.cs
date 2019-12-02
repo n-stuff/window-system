@@ -62,7 +62,7 @@ namespace NStuff.GraphicsBackend
         /// <param name="m22">The second element of the second row.</param>
         /// <param name="m31">The first element of the third row.</param>
         /// <param name="m32">The second element of the third row.</param>
-        public AffineTransform(double m11, double m12, double m21, double m22, double m31, double m32)
+        public AffineTransform(double m11 = 0, double m12 = 0, double m21 = 0, double m22 = 0, double m31 = 0, double m32 = 0)
         {
             M11 = m11;
             M12 = m12;

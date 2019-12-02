@@ -206,7 +206,7 @@ namespace NStuff.WindowSystem.ManualTest
                 renderingContext.CurrentWindow = null;
             }
 
-            var drawThread = new Thread(() => draw());
+            var drawThread = new Thread(draw);
 
             window.Closed += (sender, e) => {
                 done = true;

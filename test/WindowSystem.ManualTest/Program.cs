@@ -17,6 +17,7 @@ namespace NStuff.WindowSystem.ManualTest
                 Console.WriteLine("  c - Draw Texture.");
                 Console.WriteLine("  d - Rotate Cube.");
                 Console.WriteLine("  e - Terrain.");
+                Console.WriteLine("  f - Tessellation.");
                 Console.WriteLine("  q - Quit.");
                 var line = Console.ReadLine();
                 switch (line.Trim())
@@ -43,6 +44,10 @@ namespace NStuff.WindowSystem.ManualTest
 
                     case "e":
                         new TerrainLauncher().Launch();
+                        break;
+
+                    case "f":
+                        new TessellationLauncher().Launch();
                         break;
                 }
             }

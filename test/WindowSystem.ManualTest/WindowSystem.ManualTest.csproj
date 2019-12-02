@@ -29,8 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\OpenGL.Backend\OpenGL.Backend.csproj" />
     <ProjectReference Include="..\..\src\OpenGL.Context\OpenGL.Context.csproj" />
     <ProjectReference Include="..\..\src\RasterGraphics\RasterGraphics.csproj" />
+    <ProjectReference Include="..\..\src\Tessellation\Tessellation.csproj" />
   </ItemGroup>
 
 </Project>
