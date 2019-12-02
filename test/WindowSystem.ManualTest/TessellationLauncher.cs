@@ -35,6 +35,7 @@ namespace NStuff.WindowSystem.ManualTest
                 PixelScaling = viewportSize.height / windowSize.height
             };
 
+            var dataLock = new object();
             var vertices = new List<(double x, double y)>();
             List<List<(double x, double y)>>? polygon = new List<List<(double x, double y)>>();
             var contour = default(List<(double x, double y)>);
@@ -116,85 +117,88 @@ namespace NStuff.WindowSystem.ManualTest
                         commandBufferHandles[0] = commandBufferInit;
                         backend.SubmitCommands(commandBufferHandles, 0, 1);
 
-                        if (polygon != null)
+                        lock (dataLock)
                         {
-                            for (int j = 0; j < polygon.Count; j++)
+                            if (polygon != null)
                             {
-                                var c = polygon[j];
-                                if (c.Count == 1)
+                                for (int j = 0; j < polygon.Count; j++)
                                 {
-                                    commandBufferHandles[0] = commandBufferDrawTriangles;
-
-                                    var (x, y) = c[0];
-                                    var x0 = x - 2;
-                                    var y0 = y - 2;
-                                    var x1 = x + 2;
-                                    var y1 = y - 2;
-                                    var x2 = x + 2;
-                                    var y2 = y + 2;
-                                    var x3 = x - 2;
-                                    var y3 = y + 2;
-
-                                    buffer[0] = new PointCoordinates(x0, y0);
-                                    buffer[1] = new PointCoordinates(x1, y1);
-                                    buffer[2] = new PointCoordinates(x2, y2);
-                                    buffer[3] = new PointCoordinates(x2, y2);
-                                    buffer[4] = new PointCoordinates(x3, y3);
-                                    buffer[5] = new PointCoordinates(x0, y0);
-
-                                    backend.UpdateVertexBuffer(vertexBuffer, buffer, 0, 6);
-                                    backend.SubmitCommands(commandBufferHandles, 0, 1);
-                                }
-                                else
-                                {
-                                    commandBufferHandles[0] = drawLineStripCommandBuffer;
-                                    vertexRanges[0] = new VertexRange(0, 6);
-                                    backend.UpdateVertexRangeBuffer(drawLineStripArgsBufferHandle, vertexRanges, 0, 1);
-                                    var n = 0;
-                                    for (int i = 0; i < c.Count; i++)
+                                    var c = polygon[j];
+                                    if (c.Count == 1)
                                     {
-                                        var (x, y) = c[i];
-                                        buffer[n] = new PointCoordinates(x, y);
+                                        commandBufferHandles[0] = commandBufferDrawTriangles;
 
-                                        if (++n == 6)
-                                        {
-                                            backend.UpdateVertexBuffer(vertexBuffer, buffer, 0, 6);
-                                            backend.SubmitCommands(commandBufferHandles, 0, 1);
-                                            buffer[0] = new PointCoordinates(x, y);
-                                            n = 1;
-                                        }
-                                    }
-                                    if (j < polygon.Count - 1 || contour == null)
-                                    {
                                         var (x, y) = c[0];
-                                        buffer[n] = new PointCoordinates(x, y);
-                                        ++n;
-                                    }
-                                    if (n > 1)
-                                    {
-                                        backend.UpdateVertexBuffer(vertexBuffer, buffer, 0, n);
-                                        vertexRanges[0] = new VertexRange(0, n);
-                                        backend.UpdateVertexRangeBuffer(drawLineStripArgsBufferHandle, vertexRanges, 0, 1);
+                                        var x0 = x - 2;
+                                        var y0 = y - 2;
+                                        var x1 = x + 2;
+                                        var y1 = y - 2;
+                                        var x2 = x + 2;
+                                        var y2 = y + 2;
+                                        var x3 = x - 2;
+                                        var y3 = y + 2;
+
+                                        buffer[0] = new PointCoordinates(x0, y0);
+                                        buffer[1] = new PointCoordinates(x1, y1);
+                                        buffer[2] = new PointCoordinates(x2, y2);
+                                        buffer[3] = new PointCoordinates(x2, y2);
+                                        buffer[4] = new PointCoordinates(x3, y3);
+                                        buffer[5] = new PointCoordinates(x0, y0);
+
+                                        backend.UpdateVertexBuffer(vertexBuffer, buffer, 0, 6);
                                         backend.SubmitCommands(commandBufferHandles, 0, 1);
+                                    }
+                                    else
+                                    {
+                                        commandBufferHandles[0] = drawLineStripCommandBuffer;
+                                        vertexRanges[0] = new VertexRange(0, 6);
+                                        backend.UpdateVertexRangeBuffer(drawLineStripArgsBufferHandle, vertexRanges, 0, 1);
+                                        var n = 0;
+                                        for (int i = 0; i < c.Count; i++)
+                                        {
+                                            var (x, y) = c[i];
+                                            buffer[n] = new PointCoordinates(x, y);
+
+                                            if (++n == 6)
+                                            {
+                                                backend.UpdateVertexBuffer(vertexBuffer, buffer, 0, 6);
+                                                backend.SubmitCommands(commandBufferHandles, 0, 1);
+                                                buffer[0] = new PointCoordinates(x, y);
+                                                n = 1;
+                                            }
+                                        }
+                                        if (j < polygon.Count - 1 || contour == null)
+                                        {
+                                            var (x, y) = c[0];
+                                            buffer[n] = new PointCoordinates(x, y);
+                                            ++n;
+                                        }
+                                        if (n > 1)
+                                        {
+                                            backend.UpdateVertexBuffer(vertexBuffer, buffer, 0, n);
+                                            vertexRanges[0] = new VertexRange(0, n);
+                                            backend.UpdateVertexRangeBuffer(drawLineStripArgsBufferHandle, vertexRanges, 0, 1);
+                                            backend.SubmitCommands(commandBufferHandles, 0, 1);
+                                        }
                                     }
                                 }
                             }
-                        }
-                        else
-                        {
-                            commandBufferHandles[1] = commandBufferDrawTriangle;
-                            for (int i = 0; i < vertices.Count - 2; i += 3)
+                            else
                             {
-                                commandBufferHandles[0] = bindColorCommandBuffers[((i / 3) % (colors.Length - 1))];
-                                var (x, y) = vertices[i];
-                                buffer[0] = new PointCoordinates(x, y);
-                                (x, y) = vertices[i + 1];
-                                buffer[1] = new PointCoordinates(x, y);
-                                (x, y) = vertices[i + 2];
-                                buffer[2] = new PointCoordinates(x, y);
+                                commandBufferHandles[1] = commandBufferDrawTriangle;
+                                for (int i = 0; i < vertices.Count - 2; i += 3)
+                                {
+                                    commandBufferHandles[0] = bindColorCommandBuffers[((i / 3) % (colors.Length - 1))];
+                                    var (x, y) = vertices[i];
+                                    buffer[0] = new PointCoordinates(x, y);
+                                    (x, y) = vertices[i + 1];
+                                    buffer[1] = new PointCoordinates(x, y);
+                                    (x, y) = vertices[i + 2];
+                                    buffer[2] = new PointCoordinates(x, y);
 
-                                backend.UpdateVertexBuffer(vertexBuffer, buffer, 0, 3);
-                                backend.SubmitCommands(commandBufferHandles, 0, 2);
+                                    backend.UpdateVertexBuffer(vertexBuffer, buffer, 0, 3);
+                                    backend.SubmitCommands(commandBufferHandles, 0, 2);
+                                }
                             }
                         }
 
@@ -215,69 +219,79 @@ namespace NStuff.WindowSystem.ManualTest
                 switch (e.CodePoint)
                 {
                     case 'c':
-                        if (contour != null && contour.Count > 2)
+                        lock (dataLock)
                         {
-                            contour.Add(contour[0]);
+                            if (contour != null && contour.Count > 2)
+                            {
+                                contour.Add(contour[0]);
+                            }
+                            contour = null;
                         }
-                        contour = null;
                         requireRendering = true;
                         break;
 
                     case 'r':
-                        polygon = new List<List<(double x, double y)>>();
-                        contour = null;
+                        lock (dataLock)
+                        {
+                            polygon = new List<List<(double x, double y)>>();
+                            contour = null;
+                            vertices.Clear();
+                        }
                         requireRendering = true;
                         break;
 
                     case 't':
                         if (vertices.Count == 0)
                         {
-                            var tessellator = new Tessellator2D<int, int>(new TessellateHandler(vertices))
+                            lock (dataLock)
                             {
-                                OutputKind = OutputKind.TrianglesOnly,
-                                WindingRule = WindingRule.NonZero
-                            };
-
-                            tessellator.BeginPolygon(0);
-                            foreach (var c in polygon)
-                            {
-                                tessellator.BeginContour();
-                                foreach (var (x, y) in c)
+                                var tessellator = new Tessellator2D<int, int>(new TessellateHandler(vertices))
                                 {
-                                    tessellator.AddVertex(x, y, 0);
-                                }
-                                tessellator.EndContour();
-                            }
-                            tessellator.EndPolygon();
-                            vertices.Clear();
+                                    OutputKind = OutputKind.TrianglesOnly,
+                                    WindingRule = WindingRule.NonZero
+                                };
 
-                            tessellator.OutputKind = OutputKind.TriangleEnumerator;
-
-                            tessellator.BeginPolygon(0);
-                            foreach (var c in polygon)
-                            {
-                                tessellator.BeginContour();
-                                foreach (var (x, y) in c)
+                                tessellator.BeginPolygon(0);
+                                foreach (var c in polygon)
                                 {
-                                    tessellator.AddVertex(x, y, 0);
+                                    tessellator.BeginContour();
+                                    foreach (var (x, y) in c)
+                                    {
+                                        tessellator.AddVertex(x, y, 0);
+                                    }
+                                    tessellator.EndContour();
                                 }
-                                tessellator.EndContour();
-                            }
-                            var sw = new System.Diagnostics.Stopwatch();
-                            var f = System.Diagnostics.Stopwatch.Frequency;
-                            sw.Start();
-                            tessellator.EndPolygon();
+                                tessellator.EndPolygon();
+                                vertices.Clear();
 
-                            while (tessellator.Move())
-                            {
-                                var (x, y, _) = tessellator.Vertex;
-                                vertices.Add((x, y));
-                            }
+                                tessellator.OutputKind = OutputKind.TriangleEnumerator;
 
-                            sw.Stop();
-                            Console.WriteLine("Tessellated " + (vertices.Count / 3) + " triangles in " +
-                                (sw.ElapsedTicks * 1e3 / f).ToString("0.000") + "ms");
-                            polygon = null;
+                                tessellator.BeginPolygon(0);
+                                foreach (var c in polygon)
+                                {
+                                    tessellator.BeginContour();
+                                    foreach (var (x, y) in c)
+                                    {
+                                        tessellator.AddVertex(x, y, 0);
+                                    }
+                                    tessellator.EndContour();
+                                }
+                                var sw = new System.Diagnostics.Stopwatch();
+                                var f = System.Diagnostics.Stopwatch.Frequency;
+                                sw.Start();
+                                tessellator.EndPolygon();
+
+                                while (tessellator.Move())
+                                {
+                                    var (x, y, _) = tessellator.Vertex;
+                                    vertices.Add((x, y));
+                                }
+
+                                sw.Stop();
+                                Console.WriteLine("Tessellated " + (vertices.Count / 3) + " triangles in " +
+                                    (sw.ElapsedTicks * 1e3 / f).ToString("0.000") + "ms");
+                                polygon = null;
+                            }
                         }
                         requireRendering = true;
                         break;
@@ -286,20 +300,23 @@ namespace NStuff.WindowSystem.ManualTest
 
             window.MouseDown += (sender, e) =>
             {
-                if (e.ChangedButton == MouseButton.Left && polygon != null)
+                lock (dataLock)
                 {
-                    if (contour == null)
+                    if (e.ChangedButton == MouseButton.Left && polygon != null)
                     {
-                        contour = new List<(double x, double y)>();
-                        polygon.Add(contour);
+                        if (contour == null)
+                        {
+                            contour = new List<(double x, double y)>();
+                            polygon.Add(contour);
+                        }
+                        else if (window.CursorPosition.x == contour[contour.Count - 1].x
+                              && window.CursorPosition.y == contour[contour.Count - 1].y)
+                        {
+                            return;
+                        }
+                        contour.Add(window.CursorPosition);
+                        requireRendering = true;
                     }
-                    else if (window.CursorPosition.x == contour[contour.Count - 1].x
-                          && window.CursorPosition.y == contour[contour.Count - 1].y)
-                    {
-                        return;
-                    }
-                    contour.Add(window.CursorPosition);
-                    requireRendering = true;
                 }
             };
 
