@@ -149,9 +149,7 @@ namespace NStuff.Tessellation
             {
                 if (simpleTessellator.Tessellate(handler, Normal, WindingRule, polygonData, OutputKind))
                 {
-#pragma warning disable CS8653 // A default expression introduces a null value for a type parameter.
-                    polygonData = default;
-#pragma warning restore CS8653 // A default expression introduces a null value for a type parameter.
+                    polygonData = default!;
                     return;
                 }
                 CreateMeshBuilder();
@@ -184,9 +182,7 @@ namespace NStuff.Tessellation
                     throw new InvalidOperationException("Unhandled output kind: " + OutputKind);
             }
             meshBuilder = null;
-#pragma warning disable CS8653 // A default expression introduces a null value for a type parameter.
-            polygonData = default;
-#pragma warning restore CS8653 // A default expression introduces a null value for a type parameter.
+            polygonData = default!;
         }
 
         /// <summary>

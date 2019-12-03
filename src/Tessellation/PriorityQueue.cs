@@ -198,9 +198,7 @@ namespace NStuff.Tessellation
             var returnMe = nodes[1];
             if (Count == 1)
             {
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-                nodes[1] = null; // nodes[1] is outside valid index range
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+                nodes[1] = default!;
                 Count = 0;
                 return returnMe;
             }
@@ -208,9 +206,7 @@ namespace NStuff.Tessellation
             var formerLastNode = nodes[Count];
             nodes[1] = formerLastNode;
             formerLastNode.queueHandle = 1;
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-            nodes[Count] = null; // nodes[Count] is outside valid index range
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+            nodes[Count] = default!;
             Count--;
 
             CascadeDown(formerLastNode);
@@ -223,9 +219,7 @@ namespace NStuff.Tessellation
         {
             if (node.queueHandle == Count)
             {
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-                nodes[Count] = null; // nodes[Count] is outside valid index range
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+                nodes[Count] = default!;
                 Count--;
                 return;
             }
@@ -233,9 +227,7 @@ namespace NStuff.Tessellation
             var formerLastNode = nodes[Count];
             nodes[node.queueHandle] = formerLastNode;
             formerLastNode.queueHandle = node.queueHandle;
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-            nodes[Count] = null; // nodes[Count] is outside valid index range
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+            nodes[Count] = default!;
             Count--;
 
             int parentIndex = formerLastNode.queueHandle >> 1;
