@@ -48,7 +48,14 @@ It provides types to make computations on curves.
 
 ### Typography.Font project
 
-It provides types to decode CFF ans TTF font formats.
+It provides types to decode CFF and TTF font formats.
+
+### Typography.Rasterization project
+
+It provides types to rasterize font glyphs.
+
+[This sample](test/WindowSystem.ManualTest/GlyphLauncher.cs) demonstrates rendering of both rasterized and
+tessellated glyphs loaded from a TTF file.
 
 ### OpenGL.Context project
 
@@ -72,3 +79,4 @@ and from [an input file](test/WindowSystem.ManualTest/glinterop.xml) listing the
 * **Tessellation** project is based on the algorithm from [GLU libtess](https://gitlab.freedesktop.org/mesa/glu/tree/master/src/libtess)
 * **Geometry** project is approximating Bézier curves using recursive subdivision as described in an article on
 antigrain.com (site mostly down).
+* **Typography.Rasterization** project is inspired by [that article](http://nothings.org/gamedev/rasterize/).
