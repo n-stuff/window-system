@@ -499,11 +499,11 @@ namespace NStuff.Typography.Font
         {
             if (glyf.length != 0)
             {
-                return GlyphOutlineKind.TTF;
+                return GlyphOutlineKind.Ttf;
             }
             else if (cff.length != 0)
             {
-                return GlyphOutlineKind.CFF;
+                return GlyphOutlineKind.Cff;
             }
             else
             {

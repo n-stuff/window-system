@@ -3,7 +3,7 @@
     internal enum GlyphOutlineKind
     {
         Unknown,
-        TTF,
-        CFF,
+        Ttf,
+        Cff,
     }
 }
