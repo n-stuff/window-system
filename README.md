@@ -46,6 +46,10 @@ to tessellate it interactively.
 
 It provides types to make computations on curves.
 
+### Typography.Font project
+
+It provides types to decode CFF ans TTF font formats.
+
 ### OpenGL.Context project
 
 It provides classes to associate OpenGL contexts to windows.
