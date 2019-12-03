@@ -44,7 +44,7 @@ to tessellate it interactively.
 
 ### Geometry project
 
-It provides types to make computation on curves.
+It provides types to make computations on curves.
 
 ### OpenGL.Context project
 
