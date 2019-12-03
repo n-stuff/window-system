@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\build\versions.props" />
+
+  <PropertyGroup>
+    <TargetFramework>$(NetStandardId)</TargetFramework>
+    <RootNamespace>NStuff.Typography.Rasterization</RootNamespace>
+    <AssemblyName>NStuff.Typography.Rasterization</AssemblyName>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Geometry\Geometry.csproj" />
+    <ProjectReference Include="..\Typography.Font\Typography.Font.csproj" />
+  </ItemGroup>
+
+</Project>

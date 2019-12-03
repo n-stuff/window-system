@@ -18,6 +18,7 @@ namespace NStuff.WindowSystem.ManualTest
                 Console.WriteLine("  d - Rotate Cube.");
                 Console.WriteLine("  e - Terrain.");
                 Console.WriteLine("  f - Tessellation.");
+                Console.WriteLine("  g - Glyph.");
                 Console.WriteLine("  q - Quit.");
                 var line = Console.ReadLine();
                 switch (line.Trim())
@@ -48,6 +49,10 @@ namespace NStuff.WindowSystem.ManualTest
 
                     case "f":
                         new TessellationLauncher().Launch();
+                        break;
+
+                    case "g":
+                        new GlyphLauncher().Launch();
                         break;
                 }
             }
