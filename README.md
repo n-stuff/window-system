@@ -42,6 +42,10 @@ It provides types to transform arbitrary polygons into graphics primitives.
 [This sample](test/WindowSystem.ManualTest/TessellationLauncher.cs) allows the user to draw a polygon and
 to tessellate it interactively.
 
+### Geometry project
+
+It provides types to make computation on curves.
+
 ### OpenGL.Context project
 
 It provides classes to associate OpenGL contexts to windows.
@@ -62,3 +66,5 @@ and from [an input file](test/WindowSystem.ManualTest/glinterop.xml) listing the
 
 * **OpenGL.Context** and **WindowSystem** projects borrow some ideas from [GLFW](https://github.com/glfw/glfw) and [SDL](https://www.libsdl.org/)
 * **Tessellation** project is based on the algorithm from [GLU libtess](https://gitlab.freedesktop.org/mesa/glu/tree/master/src/libtess)
+* **Geometry** project is approximating Bézier curves using recursive subdivision as described in an article on
+antigrain.com (site mostly down).
