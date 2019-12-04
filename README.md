@@ -19,6 +19,13 @@ To run samples of window creation, event handling, and OpenGL rendering, use the
 ```
 dotnet run -p test/WindowSystem.ManualTest
 ```
+Then follow the instructions in the console and you may see something similar to this:
+
+![Definitely not Minecraft](doc/images/terrain.png)
+
+or that:
+
+![Glyph rasterized and tessellated](doc/images/glyph.png)
 
 ## Modules
 
