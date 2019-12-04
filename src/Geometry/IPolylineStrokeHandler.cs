@@ -1,7 +1,7 @@
 ﻿namespace NStuff.Geometry
 {
     /// <summary>
-    /// Used by <see cref="PolygonStroker"/> to notify of new events when computing a stroke.
+    /// Used by <see cref="PolylineStroker"/> to notify of new events when computing a stroke.
     /// </summary>
     public interface IPolylineStrokeHandler
     {

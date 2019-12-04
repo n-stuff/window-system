@@ -7,6 +7,7 @@
     {
         /// <summary>
         /// The supplied point becomes the current point.
+        /// </summary>
         MoveTo,
 
         /// <summary>

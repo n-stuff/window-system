@@ -8,7 +8,11 @@
                     "src": "../src"
                 }
             ],
-            "dest": "obj/api"
+            "dest": "obj/api",
+            "disableGitFeatures": false,
+            "properties": {
+                "TargetFramework": "netcoreapp3.0"
+            }
         }
     ],
     "build": {
@@ -27,13 +31,15 @@
                 "files": [ "articles/images/**"]
             }
         ],
-        "overwrite": "specs/*.md",
+        "overwrite": "api-overwrite/*.md",
         "globalMetadata": {
-            "_appTitle": "n-stuff/window-system website",
+            "_appTitle": "n-stuff",
             "_enableSearch": true
         },
         "markdownEngineName": "markdig",
+        "template": "statictoc",
         "dest": "_site",
-        "xrefService": [ "https://xref.docs.microsoft.com/query?uid={uid}" ]
+        "xrefService": [ "https://xref.docs.microsoft.com/query?uid={uid}" ],
+        "disableGitFeatures": false
   }
 }
