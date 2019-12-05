@@ -1,4 +1,5 @@
 ﻿using NStuff.OpenGL.Context;
+using NStuff.RasterGraphics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -26,6 +27,8 @@ namespace NStuff.WindowSystem.ManualTest
             window2.Title = "Window 2";
             window2.BorderStyle = WindowBorderStyle.Sizable;
             eventLogger.RegisterWindow(window2);
+            var cursor = CreateCursor();
+            window2.Cursor = windowServer.CreateCursor(cursor.Data, cursor.Size, (7, 7));
 
             renderingContext.CurrentWindow = window1;
             var glClear = renderingContext.GetOpenGLEntryPoint<GLClearDelegate>("glClear");
@@ -56,6 +59,63 @@ namespace NStuff.WindowSystem.ManualTest
             }
             stopwatch.Stop();
             Console.WriteLine("Windows done.");
+        }
+
+
+        private static RasterImage CreateImage(params string[] asciiArt)
+        {
+            var result = new RasterImage
+            {
+                Size = (asciiArt.Length, asciiArt.Length)
+            };
+            var data = new byte[result.Size.width * result.Size.height * 4];
+            result.Data = data;
+            var index = 0;
+            foreach (var l in asciiArt)
+            {
+                foreach (var c in l)
+                {
+                    switch (c)
+                    {
+                        case 'X': // Black
+                            index += 3;
+                            data[index++] = 255;
+                            break;
+                        case 'O': // White
+                            data[index++] = 255;
+                            data[index++] = 255;
+                            data[index++] = 255;
+                            data[index++] = 255;
+                            break;
+                        default:
+                            index += 4;
+                            break;
+                    }
+                }
+            }
+            return result;
+        }
+
+        private static RasterImage CreateCursor()
+        {
+            return CreateImage(
+                "                ",
+                "        XXXXXXX ",
+                "       XXXXXXXX ",
+                "      XOOOOOOXX ",
+                "     OOOOOOOOXX ",
+                "    OXXXXXXOOXX ",
+                "   OOXOOOOXOOXX ",
+                "  XOOXO  OXOOXX ",
+                " XXOOXO  OXOOXX ",
+                " XXOOXOOOOXOOXX ",
+                " XXOOXXXXXXOOXX ",
+                " XXOOOOOOOOOOXX ",
+                " XXOOOOOOOOOOXX ",
+                " XXXXXXXXXXXXXX ",
+                " XXXXXXXXXXXXXX ",
+                "                "
+            );
         }
     }
 

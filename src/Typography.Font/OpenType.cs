@@ -176,10 +176,6 @@ namespace NStuff.Typography.Font
             }
             else if (cff.length != 0)
             {
-                if (cff.length == 0)
-                {
-                    throw new InvalidOperationException(Resources.GetMessage(Resources.Key.MissingMandatoryFontTable));
-                }
                 var index = GetIndex(ReadByte(cff, 2u)); // NAME
                 var topDICT = GetIndex(index.offset - cff.offset + index.length);
                 index = GetIndex(topDICT.offset - cff.offset + topDICT.length); // String
@@ -210,7 +206,7 @@ namespace NStuff.Typography.Font
             }
             else
             {
-                throw new NotImplementedException();
+                throw new InvalidOperationException(Resources.GetMessage(Resources.Key.MissingMandatoryFontTable));
             }
             tableCount = ReadUInt16(cmap, 2);
             var fullUnicodeFound = false;
@@ -385,7 +381,7 @@ namespace NStuff.Typography.Font
         /// Looks for the index of the glyph representing the specified unicode code point in this font.
         /// </summary>
         /// <param name="codePoint">A unicode character.</param>
-        /// <returns>The index of a glyph</returns>
+        /// <returns>The index of a glyph or 0 if <paramref name="codePoint"/> has no corresponding glyph.</returns>
         public int GetGlyphIndex(int codePoint)
         {
             uint format = ReadUInt16(data, indexMapping);

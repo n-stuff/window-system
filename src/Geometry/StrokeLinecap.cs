@@ -11,7 +11,7 @@
         Butt,
 
         /// <summary>
-        /// The stroke will be extended by a half circle with a radius equal to the stroke width.
+        /// The stroke will be extended by a half circle with a radius equal to half of the stroke width.
         /// </summary>
         Round,
 
