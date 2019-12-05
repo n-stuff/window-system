@@ -86,6 +86,22 @@ namespace NStuff.Typography.Font
         public ICollection<string> FontFamilies { get; }
 
         /// <summary>
+        /// Initializes a new instance of the <c>OpenTypeCollection</c> class.
+        /// </summary>
+        /// <param name="scanSystemFonts">A vlue indicating whether system font folders should be scanned.</param>
+        public OpenTypeCollection(bool scanSystemFonts = false)
+        {
+            FontFamilies = families.AsReadOnly();
+            if (scanSystemFonts)
+            {
+                foreach (var s in SystemFontFoldersProvider())
+                {
+                    ScanFontFolder(s);
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets all the font subfamilies corresponding to the specified font family.
         /// </summary>
         /// <param name="fontFamily">A valid font family, as returned by <see cref="FontFamilies"/>.</param>
@@ -100,16 +116,34 @@ namespace NStuff.Typography.Font
         /// <returns><c>true</c> if the font is monospaced.</returns>
         public bool IsMonospaced(string fontFamily, FontSubfamily fontSubfamily) => familyResources[fontFamily][fontSubfamily].monospaced;
 
-        public OpenTypeCollection(bool scanSystemFonts = false)
+        /// <summary>
+        /// Search for the font subfamily closest to the requested one.
+        /// </summary>
+        /// <param name="fontFamily">A valid font family, as returned by <see cref="FontFamilies"/>.</param>
+        /// <param name="fontSubfamily">A font subfamily.</param>
+        /// <returns>The closest match to the specified font subfamily.</returns>
+        public FontSubfamily LookupFontSubfamily(string fontFamily, FontSubfamily fontSubfamily)
         {
-            FontFamilies = families.AsReadOnly();
-            if (scanSystemFonts)
+            var subfamilyPaths = familyResources[fontFamily];
+            var first = true;
+            var candidate = default(FontSubfamily);
+            int distance = 0;
+            foreach (var fs in subfamilyPaths.Keys)
             {
-                foreach (var s in SystemFontFoldersProvider())
+                if (fs == fontSubfamily)
                 {
-                    ScanFontFolder(s);
+                    return fontSubfamily;
+                }
+                var d = Math.Abs(fontSubfamily.Style - fs.Style) * 1000
+                    + Math.Abs(fontSubfamily.Weight - fs.Weight)
+                    + Math.Abs(fontSubfamily.Width - fs.Width) * 100;
+                if (first || d < distance)
+                {
+                    candidate = fs;
+                    distance = d;
                 }
             }
+            return candidate;
         }
 
         /// <summary>
