@@ -12,8 +12,8 @@ namespace NStuff.Runtime.InteropServices.Unix
 
         protected override bool LoadLibrary(string name) => (handle = dlopen(name, RTLD_LAZY)) != IntPtr.Zero;
 
-        protected override IntPtr GetAddress(string symbol) => dlsym(handle, symbol);
+        protected internal override IntPtr GetAddress(string symbol) => dlsym(handle, symbol);
 
-        internal override void CloseLibrary() => dlclose(handle);
+        protected internal override void CloseLibrary() => dlclose(handle);
     }
 }

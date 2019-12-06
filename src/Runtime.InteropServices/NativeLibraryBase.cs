@@ -19,16 +19,6 @@ namespace NStuff.Runtime.InteropServices
             }
         }
 
-        internal IntPtr GetSymbolAddress(string symbol, bool throwIfNotFound)
-        {
-            var address = GetAddress(symbol);
-            if (address == IntPtr.Zero && throwIfNotFound)
-            {
-                throw new ArgumentException(Resources.FormatMessage(Resources.Key.UndefinedLibrarySymbol, symbol));
-            }
-            return address;
-        }
-
         /// <summary>
         /// Loads a native library.
         /// </summary>
@@ -41,11 +31,11 @@ namespace NStuff.Runtime.InteropServices
         /// </summary>
         /// <param name="symbol">The name of the exported symbol.</param>
         /// <returns>The address of the exported symbol.</returns>
-        protected abstract IntPtr GetAddress(string symbol);
+        protected internal abstract IntPtr GetAddress(string symbol);
 
         /// <summary>
         /// Closes the native library.
         /// </summary>
-        internal abstract void CloseLibrary();
+        protected internal abstract void CloseLibrary();
     }
 }

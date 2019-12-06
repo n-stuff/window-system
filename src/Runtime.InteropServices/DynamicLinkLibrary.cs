@@ -62,7 +62,7 @@ namespace NStuff.Runtime.InteropServices
         /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public bool TryGetSymbolAddress(string symbol, out IntPtr result)
         {
-            result = GetNativeLibrary().GetSymbolAddress(symbol, false);
+            result = GetNativeLibrary().GetAddress(symbol);
             return result != IntPtr.Zero;
         }
 
@@ -73,10 +73,17 @@ namespace NStuff.Runtime.InteropServices
         /// <returns>The address of the exported symbol.</returns>
         /// <exception cref="ArgumentException">If the supplied symbol was not found.</exception>
         /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
-        public IntPtr GetSymbolAddress(string symbol) => GetNativeLibrary().GetSymbolAddress(symbol, true);
+        public IntPtr GetSymbolAddress(string symbol)
+        {
+            var result = GetNativeLibrary().GetAddress(symbol);
+            if (result == IntPtr.Zero)
+            {
+                throw new ArgumentException(Resources.FormatMessage(Resources.Key.UndefinedLibrarySymbol, symbol));
+            }
+            return result;
+        }
 
-        private NativeLibraryBase GetNativeLibrary()
-            => nativeLibrary ?? throw new ObjectDisposedException(GetType().FullName);
+        private NativeLibraryBase GetNativeLibrary() => nativeLibrary ?? throw new ObjectDisposedException(GetType().FullName);
 
         private static NativeLibraryBase CreateNativeLibrary(string name)
         {

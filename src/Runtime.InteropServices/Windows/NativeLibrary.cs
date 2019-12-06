@@ -12,8 +12,8 @@ namespace NStuff.Runtime.InteropServices.Windows
 
         protected override bool LoadLibrary(string name) => (handle = LoadLibraryW(name)) != IntPtr.Zero;
 
-        protected override IntPtr GetAddress(string symbol) => GetProcAddress(handle, symbol);
+        protected internal override IntPtr GetAddress(string symbol) => GetProcAddress(handle, symbol);
 
-        internal override void CloseLibrary() => FreeLibrary(handle);
+        protected internal override void CloseLibrary() => FreeLibrary(handle);
     }
 }

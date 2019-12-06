@@ -165,7 +165,7 @@ namespace NStuff.WindowSystem.macOS
             }
         }
 
-        public override void Shutdown()
+        protected internal override void Shutdown()
         {
             CFRelease(inputSource);
             windowDelegate.Send(release);
@@ -175,17 +175,17 @@ namespace NStuff.WindowSystem.macOS
             carbonFramework = null;
             shared = null;
         }
-        public override bool IsRunning()
+        protected internal override bool IsRunning()
         {
             return shared != null;
         }
 
-        public override void CreateWindowData(Window window)
+        protected internal override void CreateWindowData(Window window)
         {
             window.NativeData = new WindowData();
         }
 
-        public override void CreateWindow(Window window)
+        protected internal override void CreateWindow(Window window)
         {
             var styleMask = NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask;
             var nsWindow = NStuffWindow.Get(alloc).Get(initWithContentRect_styleMask_backing_defer_,
@@ -208,7 +208,7 @@ namespace NStuff.WindowSystem.macOS
             windows.Add(nsWindow.Handle, window);
         }
 
-        public override void DestroyWindow(Window window)
+        protected internal override void DestroyWindow(Window window)
         {
             var data = GetData(window);
             var nsWindow = data.Id;
@@ -229,17 +229,17 @@ namespace NStuff.WindowSystem.macOS
             window.NativeData = null;
         }
 
-        public override void RecreateNativeWindow(Window window)
+        protected internal override void RecreateNativeWindow(Window window)
         {
         }
 
-        public override ICollection<Window> GetWindows() => windows.Values;
+        protected internal override ICollection<Window> GetWindows() => windows.Values;
 
-        public override bool IsWindowFocused(Window window) => GetId(window).GetBool(isKeyWindow);
+        protected internal override bool IsWindowFocused(Window window) => GetId(window).GetBool(isKeyWindow);
 
-        public override bool IsWindowVisible(Window window) => GetId(window).GetBool(isVisible);
+        protected internal override bool IsWindowVisible(Window window) => GetId(window).GetBool(isVisible);
 
-        public override void SetWindowVisible(Window window, bool visible)
+        protected internal override void SetWindowVisible(Window window, bool visible)
         {
             var nsWindow = GetId(window);
             if (visible)
@@ -253,7 +253,7 @@ namespace NStuff.WindowSystem.macOS
             VisibleChangedEventOccurred(window);
         }
 
-        public override WindowBorderStyle GetWindowBorderStyle(Window window)
+        protected internal override WindowBorderStyle GetWindowBorderStyle(Window window)
         {
             var styleMask = GetId(window).GetUInteger(Selectors.styleMask);
             if ((styleMask | NSBorderlessWindowMask) != 0)
@@ -267,7 +267,7 @@ namespace NStuff.WindowSystem.macOS
             return WindowBorderStyle.Fixed;
         }
 
-        public override void SetWindowBorderStyle(Window window, WindowBorderStyle borderStyle)
+        protected internal override void SetWindowBorderStyle(Window window, WindowBorderStyle borderStyle)
         {
             ulong styleMask = 0;
             switch (borderStyle)
@@ -287,14 +287,14 @@ namespace NStuff.WindowSystem.macOS
             GetId(window).Send(setStyleMask_, styleMask);
         }
 
-        public override (double x, double y) GetWindowLocation(Window window)
+        protected internal override (double x, double y) GetWindowLocation(Window window)
         {
             var nsWindow = GetId(window);
             var rect = nsWindow.GetRect(contentRectForFrameRect_, nsWindow.GetRect(frame));
             return (rect.X, ConvertY(rect.Y + rect.Height - 1));
         }
 
-        public override void SetWindowLocation(Window window, (double x, double y) location)
+        protected internal override void SetWindowLocation(Window window, (double x, double y) location)
         {
             var nsWindow = GetId(window);
             var rect = nsWindow.Get(contentView).GetRect(frame);
@@ -303,22 +303,22 @@ namespace NStuff.WindowSystem.macOS
             nsWindow.Send(setFrameOrigin_, rect.Location);
         }
 
-        public override (double width, double height) GetWindowSize(Window window) => GetId(window).Get(contentView).GetRect(frame).Size;
+        protected internal override (double width, double height) GetWindowSize(Window window) => GetId(window).Get(contentView).GetRect(frame).Size;
 
-        public override void SetWindowSize(Window window, (double width, double height) size) =>
+        protected internal override void SetWindowSize(Window window, (double width, double height) size) =>
             GetId(window).Send(setContentSize_, new NSSize(size.width, size.height));
 
-        public override (double width, double height) GetWindowMaximumSize(Window window) => GetId(window).GetSize(contentMaxSize);
+        protected internal override (double width, double height) GetWindowMaximumSize(Window window) => GetId(window).GetSize(contentMaxSize);
 
-        public override void SetWindowMaximumSize(Window window, (double width, double height) size) =>
+        protected internal override void SetWindowMaximumSize(Window window, (double width, double height) size) =>
             GetId(window).Send(setContentMaxSize_, new NSSize(size.width, size.height));
 
-        public override (double width, double height) GetWindowMinimumSize(Window window) => GetId(window).GetSize(contentMinSize);
+        protected internal override (double width, double height) GetWindowMinimumSize(Window window) => GetId(window).GetSize(contentMinSize);
 
-        public override void SetWindowMinimumSize(Window window, (double width, double height) size) =>
+        protected internal override void SetWindowMinimumSize(Window window, (double width, double height) size) =>
             GetId(window).Send(setContentMinSize_, new NSSize(size.width, size.height));
 
-        public override (double top, double left, double bottom, double right) GetWindowBorderSize(Window window)
+        protected internal override (double top, double left, double bottom, double right) GetWindowBorderSize(Window window)
         {
             var nsWindow = GetId(window);
             var view = nsWindow.Get(contentView);
@@ -332,7 +332,7 @@ namespace NStuff.WindowSystem.macOS
             );
         }
 
-        public override void SetFreeLookMouseWindow(Window window, bool enable)
+        protected internal override void SetFreeLookMouseWindow(Window window, bool enable)
         {
             if (enable)
             {
@@ -353,13 +353,13 @@ namespace NStuff.WindowSystem.macOS
             }
         }
 
-        public override (double x, double y) GetWindowViewportSize(Window window)
+        protected internal override (double x, double y) GetWindowViewportSize(Window window)
         {
             var view = GetId(window).Get(contentView);
             return view.GetRect(convertRectToBacking_, view.GetRect(frame)).Size;
         }
 
-        public override (double x, double y) GetCursorPosition(Window window)
+        protected internal override (double x, double y) GetCursorPosition(Window window)
         {
             var nsWindow = GetId(window);
             var view = nsWindow.Get(contentView);
@@ -368,7 +368,7 @@ namespace NStuff.WindowSystem.macOS
             return (position.X, frameRect.Height - position.Y - 1);
         }
 
-        public override void SetCursorPosition(Window window, (double x, double y) position)
+        protected internal override void SetCursorPosition(Window window, (double x, double y) position)
         {
             UpdateWindowCursor(window);
 
@@ -385,7 +385,7 @@ namespace NStuff.WindowSystem.macOS
             CGWarpMouseCursorPosition(new NSPoint(globalRect.Location.X, ConvertY(globalRect.Location.Y - 1)));
         }
 
-        public override void ActivateWindow(Window window)
+        protected internal override void ActivateWindow(Window window)
         {
             var nsWindow = GetId(window);
             if (!nsWindow.GetBool(isMiniaturized) && nsWindow.GetBool(isVisible))
@@ -394,18 +394,18 @@ namespace NStuff.WindowSystem.macOS
             }
         }
 
-        public override bool IsWindowTopMost(Window window) => GetId(window).GetInteger(level) == NSFloatingWindowLevel;
+        protected internal override bool IsWindowTopMost(Window window) => GetId(window).GetInteger(level) == NSFloatingWindowLevel;
 
-        public override void SetWindowTopMost(Window window, bool topMost)
+        protected internal override void SetWindowTopMost(Window window, bool topMost)
         {
             GetId(window).Send(setLevel_, (long)((topMost) ? NSFloatingWindowLevel : NSNormalWindowLevel));
         }
 
-        public override double GetWindowOpacity(Window window) => GetId(window).GetDouble(alphaValue);
+        protected internal override double GetWindowOpacity(Window window) => GetId(window).GetDouble(alphaValue);
 
-        public override void SetWindowOpacity(Window window, double opacity) => GetId(window).Send(setAlphaValue_, opacity);
+        protected internal override void SetWindowOpacity(Window window, double opacity) => GetId(window).Send(setAlphaValue_, opacity);
 
-        public override WindowSizeState GetWindowSizeState(Window window)
+        protected internal override WindowSizeState GetWindowSizeState(Window window)
         {
             var nsWindow = GetId(window);
             if (nsWindow.GetBool(isMiniaturized))
@@ -419,7 +419,7 @@ namespace NStuff.WindowSystem.macOS
             return WindowSizeState.Normal;
         }
 
-        public override void SetWindowSizeState(Window window, WindowSizeState sizeState)
+        protected internal override void SetWindowSizeState(Window window, WindowSizeState sizeState)
         {
             var nsWindow = GetId(window);
             switch (sizeState)
@@ -447,11 +447,11 @@ namespace NStuff.WindowSystem.macOS
             }
         }
 
-        public override string GetWindowTitle(Window window) => new NSString(GetId(window).Get(title).Handle).ToString();
+        protected internal override string GetWindowTitle(Window window) => new NSString(GetId(window).Get(title).Handle).ToString();
 
-        public override void SetWindowTitle(Window window, string title) => GetId(window).Send(setTitle_, new NSString(title));
+        protected internal override void SetWindowTitle(Window window, string title) => GetId(window).Send(setTitle_, new NSString(title));
 
-        public override (double x, double y) ConvertFromScreen(Window window, (double x, double y) point)
+        protected internal override (double x, double y) ConvertFromScreen(Window window, (double x, double y) point)
         {
             var nsWindow = GetId(window);
             var frameRect = nsWindow.Get(contentView).GetRect(frame);
@@ -460,7 +460,7 @@ namespace NStuff.WindowSystem.macOS
             return (rect.Location.X, frameRect.Height - rect.Location.Y);
         }
 
-        public override (double x, double y) ConvertToScreen(Window window, (double x, double y) point)
+        protected internal override (double x, double y) ConvertToScreen(Window window, (double x, double y) point)
         {
             var nsWindow = GetId(window);
             var rect = nsWindow.Get(contentView).GetRect(frame);
@@ -469,9 +469,9 @@ namespace NStuff.WindowSystem.macOS
             return (rect.Location.X, ConvertY(rect.Location.Y - 1));
         }
 
-        public override void RequestWindowAttention(Window window) => NSApp.Send(requestUserAttention_, NSInformationalRequest);
+        protected internal override void RequestWindowAttention(Window window) => NSApp.Send(requestUserAttention_, NSInformationalRequest);
 
-        public override void CreateCursor(Cursor cursor, CursorShape shape)
+        protected internal override void CreateCursor(Cursor cursor, CursorShape shape)
         {
             var nsCursor = shape switch
             {
@@ -487,7 +487,7 @@ namespace NStuff.WindowSystem.macOS
             cursor.NativeData = new CursorData(nsCursor);
         }
 
-        public override unsafe void CreateCursor(Cursor cursor, byte[] imageData, (int width, int height) size, (double x, double y) hotSpot)
+        protected internal override unsafe void CreateCursor(Cursor cursor, byte[] imageData, (int width, int height) size, (double x, double y) hotSpot)
         {
             var representation = NSBitmapImageRep.Get(alloc).Get(
                 initWithBitmapDataPlanes_pixelsWide_pixelsHigh_bitsPerSample_samplesPerPixel_hasAlpha_isPlanar_colorSpaceName_bitmapFormat_bytesPerRow_bitsPerPixel_,
@@ -522,13 +522,13 @@ namespace NStuff.WindowSystem.macOS
             cursor.NativeData = new CursorData(nsCursor);
         }
 
-        public override void DestroyCursor(Cursor cursor)
+        protected internal override void DestroyCursor(Cursor cursor)
         {
             GetId(cursor).Send(release);
             cursor.NativeData = null;
         }
 
-        public override void SetWindowCursor(Window window)
+        protected internal override void SetWindowCursor(Window window)
         {
             if (IsCursorInClientAreaOutsideOfEventStream(window))
             {
@@ -536,9 +536,9 @@ namespace NStuff.WindowSystem.macOS
             }
         }
 
-        public override double GetEventTime() => eventTimestamp;
+        protected internal override double GetEventTime() => eventTimestamp;
 
-        public override string GetClipboardString()
+        protected internal override string GetClipboardString()
         {
             var pasteboard = NSPasteboard.Get(generalPasteboard);
             if (!pasteboard.Get(types).GetBool(containsObject_, NSStringPboardType))
@@ -549,7 +549,7 @@ namespace NStuff.WindowSystem.macOS
             return s.IsNil ? string.Empty : new NSString(s.Handle).ToString();
         }
 
-        public override unsafe void SetClipboardString(string text)
+        protected internal override unsafe void SetClipboardString(string text)
         {
             var array = stackalloc Id[1];
             array[0] = NSStringPboardType;
@@ -559,9 +559,9 @@ namespace NStuff.WindowSystem.macOS
             pasteboard.Send(setString_forType_, new NSString(text), NSStringPboardType);
         }
 
-        public override ModifierKeys GetModifierKeys() => TranslateModifierKeys(NSEvent.GetUInteger(modifierFlags));
+        protected internal override ModifierKeys GetModifierKeys() => TranslateModifierKeys(NSEvent.GetUInteger(modifierFlags));
 
-        public override string ConvertKeycodeToString(Keycode keycode)
+        protected internal override string ConvertKeycodeToString(Keycode keycode)
         {
             var unicodeData = new Id(TISGetInputSourceProperty(inputSource, KTISPropertyUnicodeKeyLayoutData));
             var scancode = (ushort)scancodes[(int)keycode];
@@ -582,7 +582,7 @@ namespace NStuff.WindowSystem.macOS
             }
         }
 
-        public override bool WaitAndProcessEvents()
+        protected internal override bool WaitAndProcessEvents()
         {
             var @event = NSApp.Get(nextEventMatchingMask_untilDate_inMode_dequeue_, NSEventMaskAny,
                 distantFutureDate, NSDefaultRunLoopMode, true);
@@ -593,7 +593,7 @@ namespace NStuff.WindowSystem.macOS
             return true;
         }
 
-        public override bool WaitAndProcessEvents(double timeout)
+        protected internal override bool WaitAndProcessEvents(double timeout)
         {
             var date = NSDate.Get(dateWithTimeIntervalSinceNow_, timeout);
             var @event = NSApp.Get(nextEventMatchingMask_untilDate_inMode_dequeue_, NSEventMaskAny,
@@ -609,7 +609,7 @@ namespace NStuff.WindowSystem.macOS
             return true;
         }
 
-        public override bool ProcessEvents()
+        protected internal override bool ProcessEvents()
         {
             var result = false;
             for (;;)
@@ -628,7 +628,7 @@ namespace NStuff.WindowSystem.macOS
             return result;
         }
 
-        public override void UnblockProcessEvents()
+        protected internal override void UnblockProcessEvents()
         {
             var nsEvent = NSEvent.Get(otherEventWithType_location_modifierFlags_timestamp_windowNumber_context_subtype_data1_data2_,
                 NSEventTypeApplicationDefined, new NSPoint(), 0, 0, 0, Id.Nil, 0, 0, 0);

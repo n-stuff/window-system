@@ -68,9 +68,9 @@ namespace NStuff.WindowSystem.Windows
             }
         }
 
-        public override bool IsRunning() => windowClassNamePtr != IntPtr.Zero;
+        protected internal override bool IsRunning() => windowClassNamePtr != IntPtr.Zero;
 
-        public override void Shutdown()
+        protected internal override void Shutdown()
         {
             NativeMethods.DestroyWindow(helperWindowHandle);
             UnregisterClassW(windowClassNamePtr, IntPtr.Zero);
@@ -79,11 +79,11 @@ namespace NStuff.WindowSystem.Windows
             windowClassNamePtr = IntPtr.Zero;
         }
 
-        public override ICollection<Window> GetWindows() => windows.Values;
+        protected internal override ICollection<Window> GetWindows() => windows.Values;
 
-        public override void CreateWindowData(Window window) => window.NativeData = new WindowData();
+        protected internal override void CreateWindowData(Window window) => window.NativeData = new WindowData();
 
-        public override void CreateWindow(Window window)
+        protected internal override void CreateWindow(Window window)
         {
             var data = GetData(window);
             data.Handle = CreateNativeWindow();
@@ -94,7 +94,7 @@ namespace NStuff.WindowSystem.Windows
             windows.Add(data.Handle, window);
         }
 
-        public override void DestroyWindow(Window window)
+        protected internal override void DestroyWindow(Window window)
         {
             if (freeLookMouseWindow == window)
             {
@@ -106,7 +106,7 @@ namespace NStuff.WindowSystem.Windows
             window.NativeData = null;
         }
 
-        public override void RecreateNativeWindow(Window window)
+        protected internal override void RecreateNativeWindow(Window window)
         {
             var data = GetData(window);
             windows.Remove(data.Handle);
@@ -115,9 +115,9 @@ namespace NStuff.WindowSystem.Windows
             windows.Add(data.Handle, window);
         }
 
-        public override bool IsWindowVisible(Window window) => GetData(window).Visible;
+        protected internal override bool IsWindowVisible(Window window) => GetData(window).Visible;
 
-        public override void SetWindowVisible(Window window, bool visible)
+        protected internal override void SetWindowVisible(Window window, bool visible)
         {
             var handle = GetHandle(window);
             if (visible)
@@ -133,9 +133,9 @@ namespace NStuff.WindowSystem.Windows
             }
         }
 
-        public override bool IsWindowFocused(Window window) => GetHandle(window) == GetActiveWindow();
+        protected internal override bool IsWindowFocused(Window window) => GetHandle(window) == GetActiveWindow();
 
-        public override void ActivateWindow(Window window)
+        protected internal override void ActivateWindow(Window window)
         {
             if (IsWindowVisible(window))
             {
@@ -143,16 +143,16 @@ namespace NStuff.WindowSystem.Windows
             }
         }
 
-        public override bool IsWindowTopMost(Window window) => GetData(window).TopMost;
+        protected internal override bool IsWindowTopMost(Window window) => GetData(window).TopMost;
 
-        public override void SetWindowTopMost(Window window, bool topMost)
+        protected internal override void SetWindowTopMost(Window window, bool topMost)
         {
             var data = GetData(window);
             SetWindowPos(data.Handle, (topMost) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
             data.TopMost = topMost;
         }
 
-        public override (double top, double left, double bottom, double right) GetWindowBorderSize(Window window)
+        protected internal override (double top, double left, double bottom, double right) GetWindowBorderSize(Window window)
         {
             var data = GetData(window);
             GetClientRect(data.Handle, out var rect);
@@ -163,7 +163,7 @@ namespace NStuff.WindowSystem.Windows
             return (-rect.top / sy, -rect.left / sx, (rect.bottom - height) / sy, (rect.right - width) / sx);
         }
 
-        public override WindowBorderStyle GetWindowBorderStyle(Window window)
+        protected internal override WindowBorderStyle GetWindowBorderStyle(Window window)
         {
             var style = GetWindowLongPtrW(GetHandle(window), GWL_STYLE);
             if ((style & WS_POPUP) != 0)
@@ -177,7 +177,7 @@ namespace NStuff.WindowSystem.Windows
             return WindowBorderStyle.Fixed;
         }
 
-        public override void SetWindowBorderStyle(Window window, WindowBorderStyle borderStyle)
+        protected internal override void SetWindowBorderStyle(Window window, WindowBorderStyle borderStyle)
         {
             var handle = GetHandle(window);
             var style = GetWindowLongPtrW(handle, GWL_STYLE);
@@ -206,7 +206,7 @@ namespace NStuff.WindowSystem.Windows
                 SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOCOPYBITS | SWP_NOOWNERZORDER);
         }
 
-        public override unsafe (double x, double y) GetWindowLocation(Window window)
+        protected internal override unsafe (double x, double y) GetWindowLocation(Window window)
         {
             var data = GetData(window);
             var point = new POINT { x = 0, y = 0 };
@@ -215,7 +215,7 @@ namespace NStuff.WindowSystem.Windows
             return (point.x / sx, point.y / sy);
         }
 
-        public override void SetWindowLocation(Window window, (double x, double y) location)
+        protected internal override void SetWindowLocation(Window window, (double x, double y) location)
         {
             var data = GetData(window);
             var (sx, sy) = data.Scale;
@@ -228,9 +228,9 @@ namespace NStuff.WindowSystem.Windows
             SetWindowPos(data.Handle, HWND_TOP, rect.left, rect.top, 0, 0, SWP_NOACTIVATE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
         }
 
-        public override (double width, double height) GetWindowMaximumSize(Window window) => GetData(window).MaximumSize;
+        protected internal override (double width, double height) GetWindowMaximumSize(Window window) => GetData(window).MaximumSize;
 
-        public override void SetWindowMaximumSize(Window window, (double width, double height) size)
+        protected internal override void SetWindowMaximumSize(Window window, (double width, double height) size)
         {
             var data = GetData(window);
             data.MaximumSize = size;
@@ -238,9 +238,9 @@ namespace NStuff.WindowSystem.Windows
             MoveWindow(data.Handle, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 1);
         }
 
-        public override (double width, double height) GetWindowMinimumSize(Window window) => GetData(window).MinimumSize;
+        protected internal override (double width, double height) GetWindowMinimumSize(Window window) => GetData(window).MinimumSize;
 
-        public override void SetWindowMinimumSize(Window window, (double width, double height) size)
+        protected internal override void SetWindowMinimumSize(Window window, (double width, double height) size)
         {
             var data = GetData(window);
             data.MinimumSize = size;
@@ -248,7 +248,7 @@ namespace NStuff.WindowSystem.Windows
             MoveWindow(data.Handle, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 1);
         }
 
-        public override double GetWindowOpacity(Window window)
+        protected internal override double GetWindowOpacity(Window window)
         {
             var handle = GetHandle(window);
             var exStyle = GetWindowLongPtrW(handle, GWL_EXSTYLE);
@@ -263,7 +263,7 @@ namespace NStuff.WindowSystem.Windows
             return alpha / 255d;
         }
 
-        public override void SetWindowOpacity(Window window, double opacity)
+        protected internal override void SetWindowOpacity(Window window, double opacity)
         {
             var handle = GetHandle(window);
             var exStyle = GetWindowLongPtrW(handle, GWL_EXSTYLE);
@@ -284,7 +284,7 @@ namespace NStuff.WindowSystem.Windows
             }
         }
 
-        public override (double width, double height) GetWindowSize(Window window)
+        protected internal override (double width, double height) GetWindowSize(Window window)
         {
             var data = GetData(window);
             GetClientRect(data.Handle, out var rect);
@@ -292,7 +292,7 @@ namespace NStuff.WindowSystem.Windows
             return (rect.right / sx, rect.bottom / sy);
         }
 
-        public override void SetWindowSize(Window window, (double width, double height) size)
+        protected internal override void SetWindowSize(Window window, (double width, double height) size)
         {
             var data = GetData(window);
             var (sx, sy) = data.Scale;
@@ -303,25 +303,19 @@ namespace NStuff.WindowSystem.Windows
             SetWindowPos(data.Handle, HWND_TOP, 0, 0, width, height, SWP_NOACTIVATE | SWP_NOOWNERZORDER | SWP_NOMOVE | SWP_NOZORDER);
         }
 
-        public override unsafe WindowSizeState GetWindowSizeState(Window window)
+        protected internal override unsafe WindowSizeState GetWindowSizeState(Window window)
         {
             var windowplacement = new WINDOWPLACEMENT { length = (uint)sizeof(WINDOWPLACEMENT) };
             GetWindowPlacement(GetHandle(window), ref windowplacement);
-            switch (windowplacement.showCmd)
+            return windowplacement.showCmd switch
             {
-                case SW_SHOWMINIMIZED:
-                    return WindowSizeState.Minimized;
-
-                case SW_SHOWMAXIMIZED:
-                    return WindowSizeState.Maximized;
-
-                case SW_SHOWNORMAL:
-                default:
-                    return WindowSizeState.Normal;
-            }
+                SW_SHOWMINIMIZED => WindowSizeState.Minimized,
+                SW_SHOWMAXIMIZED => WindowSizeState.Maximized,
+                _ => WindowSizeState.Normal,
+            };
         }
 
-        public override void SetWindowSizeState(Window window, WindowSizeState sizeState)
+        protected internal override void SetWindowSizeState(Window window, WindowSizeState sizeState)
         {
             var handle = GetHandle(window);
             switch (sizeState)
@@ -340,7 +334,7 @@ namespace NStuff.WindowSystem.Windows
             }
         }
 
-        public override string GetWindowTitle(Window window)
+        protected internal override string GetWindowTitle(Window window)
         {
             var handle = GetHandle(window);
             var length = GetWindowTextLengthW(handle) + 1;
@@ -353,15 +347,15 @@ namespace NStuff.WindowSystem.Windows
             return builder.ToString();
         }
 
-        public override void SetWindowTitle(Window window, string title) => SetWindowTextW(GetHandle(window), title);
+        protected internal override void SetWindowTitle(Window window, string title) => SetWindowTextW(GetHandle(window), title);
 
-        public override (double x, double y) GetWindowViewportSize(Window window)
+        protected internal override (double x, double y) GetWindowViewportSize(Window window)
         {
             GetClientRect(GetHandle(window), out var rect);
             return (rect.right, rect.bottom);
         }
 
-        public override void SetFreeLookMouseWindow(Window window, bool enable)
+        protected internal override void SetFreeLookMouseWindow(Window window, bool enable)
         {
             if (enable)
             {
@@ -387,9 +381,9 @@ namespace NStuff.WindowSystem.Windows
             }
         }
 
-        public override void RequestWindowAttention(Window window) => FlashWindow(GetHandle(window), 1);
+        protected internal override void RequestWindowAttention(Window window) => FlashWindow(GetHandle(window), 1);
 
-        public override void CreateCursor(Cursor cursor, CursorShape shape)
+        protected internal override void CreateCursor(Cursor cursor, CursorShape shape)
         {
             var resource = shape switch
             {
@@ -409,10 +403,10 @@ namespace NStuff.WindowSystem.Windows
             cursor.NativeData = new CursorData(handle);
         }
 
-        public override void CreateCursor(Cursor cursor, byte[] imageData, (int width, int height) size, (double x, double y) hotSpot) =>
+        protected internal override void CreateCursor(Cursor cursor, byte[] imageData, (int width, int height) size, (double x, double y) hotSpot) =>
             cursor.NativeData = new CursorData(CreateIcon(imageData, size, hotSpot, false));
 
-        public override void SetWindowCursor(Window window)
+        protected internal override void SetWindowCursor(Window window)
         {
             if (IsCursorInClientArea(window))
             {
@@ -420,7 +414,7 @@ namespace NStuff.WindowSystem.Windows
             }
         }
 
-        public override (double x, double y) GetCursorPosition(Window window)
+        protected internal override (double x, double y) GetCursorPosition(Window window)
         {
             var data = GetData(window);
             GetCursorPos(out var point);
@@ -429,7 +423,7 @@ namespace NStuff.WindowSystem.Windows
             return (point.x / sx, point.y / sy);
         }
 
-        public override unsafe void SetCursorPosition(Window window, (double x, double y) position)
+        protected internal override unsafe void SetCursorPosition(Window window, (double x, double y) position)
         {
             var data = GetData(window);
             var (sx, sy) = data.Scale;
@@ -439,7 +433,7 @@ namespace NStuff.WindowSystem.Windows
             SetCursorPos(point.x, point.y);
         }
 
-        public override void DestroyCursor(Cursor cursor)
+        protected internal override void DestroyCursor(Cursor cursor)
         {
             var handle = GetHandle(cursor);
             if (handle != IntPtr.Zero)
@@ -449,9 +443,9 @@ namespace NStuff.WindowSystem.Windows
             }
         }
 
-        public override double GetEventTime() => messageTime / 1000d;
+        protected internal override double GetEventTime() => messageTime / 1000d;
 
-        public override (double x, double y) ConvertFromScreen(Window window, (double x, double y) point)
+        protected internal override (double x, double y) ConvertFromScreen(Window window, (double x, double y) point)
         {
             var data = GetData(window);
             var (sx, sy) = data.Scale;
@@ -460,7 +454,7 @@ namespace NStuff.WindowSystem.Windows
             return (p.x / sx, p.y / sy);
         }
 
-        public override unsafe (double x, double y) ConvertToScreen(Window window, (double x, double y) point)
+        protected internal override unsafe (double x, double y) ConvertToScreen(Window window, (double x, double y) point)
         {
             var data = GetData(window);
             var (sx, sy) = data.Scale;
@@ -469,7 +463,7 @@ namespace NStuff.WindowSystem.Windows
             return (p.x / sx, p.y / sy);
         }
 
-        public override ModifierKeys GetModifierKeys()
+        protected internal override ModifierKeys GetModifierKeys()
         {
             var result = ModifierKeys.None;
             if ((GetKeyState(VK_SHIFT) & 0x8000) != 0)
@@ -495,7 +489,7 @@ namespace NStuff.WindowSystem.Windows
             return result;
         }
 
-        public override string GetClipboardString()
+        protected internal override string GetClipboardString()
         {
             if (OpenClipboard(helperWindowHandle) == 0)
             {
@@ -514,7 +508,7 @@ namespace NStuff.WindowSystem.Windows
             return result;
         }
 
-        public override void SetClipboardString(string text)
+        protected internal override void SetClipboardString(string text)
         {
             if (OpenClipboard(helperWindowHandle) == 0)
             {
@@ -532,7 +526,7 @@ namespace NStuff.WindowSystem.Windows
             CloseClipboard();
         }
 
-        public override unsafe string ConvertKeycodeToString(Keycode keycode)
+        protected internal override unsafe string ConvertKeycodeToString(Keycode keycode)
         {
             var scancode = scancodes[(int)keycode];
             var buffer = stackalloc char[16];
@@ -544,19 +538,19 @@ namespace NStuff.WindowSystem.Windows
             return Marshal.PtrToStringUni(new IntPtr(buffer), length);
         }
 
-        public override bool WaitAndProcessEvents()
+        protected internal override bool WaitAndProcessEvents()
         {
             WaitMessage();
             return ProcessEvents();
         }
 
-        public override unsafe bool WaitAndProcessEvents(double timeout)
+        protected internal override unsafe bool WaitAndProcessEvents(double timeout)
         {
             MsgWaitForMultipleObjects(0, null, 0, (uint)(timeout * 1000), QS_ALLEVENTS);
             return ProcessEvents();
         }
 
-        public override bool ProcessEvents()
+        protected internal override bool ProcessEvents()
         {
             var result = false;
             while (PeekMessageW(out var msg, IntPtr.Zero, 0, 0, PM_REMOVE) != 0)
@@ -611,7 +605,7 @@ namespace NStuff.WindowSystem.Windows
             return result;
         }
 
-        public override void UnblockProcessEvents() => PostMessage(helperWindowHandle, WM_NULL, UIntPtr.Zero, IntPtr.Zero);
+        protected internal override void UnblockProcessEvents() => PostMessage(helperWindowHandle, WM_NULL, UIntPtr.Zero, IntPtr.Zero);
 
         private unsafe IntPtr WndProc(IntPtr hWnd, uint msg, UIntPtr wParam, IntPtr lParam)
         {

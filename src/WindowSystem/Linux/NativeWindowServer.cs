@@ -323,7 +323,7 @@ namespace NStuff.WindowSystem.Linux
             }
         }
 
-        public override void Shutdown()
+        protected internal override void Shutdown()
         {
             if (inputMethod != IntPtr.Zero)
             {
@@ -340,9 +340,9 @@ namespace NStuff.WindowSystem.Linux
             display = IntPtr.Zero;
         }
 
-        public override bool IsRunning() => display != IntPtr.Zero;
+        protected internal override bool IsRunning() => display != IntPtr.Zero;
 
-        public override void CreateWindowData(Window window)
+        protected internal override void CreateWindowData(Window window)
         {
             var data = new WindowData();
             window.NativeData = data;
@@ -350,7 +350,7 @@ namespace NStuff.WindowSystem.Linux
             data.Display = display;
         }
 
-        public override unsafe void CreateWindow(Window window)
+        protected internal override unsafe void CreateWindow(Window window)
         {
             var data = GetData(window);
             var colormap = XCreateColormap(display, rootWindow, data.Visual, AllocNone);
@@ -399,7 +399,7 @@ namespace NStuff.WindowSystem.Linux
             windows.Add(id, window);
         }
 
-        public override void DestroyWindow(Window window)
+        protected internal override void DestroyWindow(Window window)
         {
             if (freeLookMouseWindow == window)
             {
@@ -417,25 +417,25 @@ namespace NStuff.WindowSystem.Linux
             window.NativeData = null;
         }
 
-        public override void RecreateNativeWindow(Window window)
+        protected internal override void RecreateNativeWindow(Window window)
         {
         }
 
-        public override ICollection<Window> GetWindows() => windows.Values;
+        protected internal override ICollection<Window> GetWindows() => windows.Values;
 
-        public override bool IsWindowFocused(Window window)
+        protected internal override bool IsWindowFocused(Window window)
         {
             XGetInputFocus(display, out var focused, out var _);
             return GetId(window) == focused;
         }
 
-        public override bool IsWindowVisible(Window window)
+        protected internal override bool IsWindowVisible(Window window)
         {
             XGetWindowAttributes(display, GetId(window), out var windowAttributes);
             return windowAttributes.map_state != IsUnmapped;
         }
 
-        public override void SetWindowVisible(Window window, bool visible)
+        protected internal override void SetWindowVisible(Window window, bool visible)
         {
             if (visible == IsWindowVisible(window))
             {
@@ -453,28 +453,28 @@ namespace NStuff.WindowSystem.Linux
             }
         }
 
-        public override (double width, double height) GetWindowSize(Window window)
+        protected internal override (double width, double height) GetWindowSize(Window window)
         {
             XGetWindowAttributes(display, GetId(window), out var windowAttributes);
             return (windowAttributes.width, windowAttributes.height);
         }
 
-        public override void SetWindowSize(Window window, (double width, double height) size)
+        protected internal override void SetWindowSize(Window window, (double width, double height) size)
         {
             UpdateWMNormalHints(window, size);
             XResizeWindow(display, GetId(window), (uint)size.width, (uint)size.height);
             XFlush(display);
         }
 
-        public override (double x, double y) GetWindowViewportSize(Window window) => GetWindowSize(window);
+        protected internal override (double x, double y) GetWindowViewportSize(Window window) => GetWindowSize(window);
 
-        public override (double x, double y) GetWindowLocation(Window window)
+        protected internal override (double x, double y) GetWindowLocation(Window window)
         {
             XTranslateCoordinates(display, GetId(window), rootWindow, 0, 0, out var x, out var y, out var _);
             return (x, y);
         }
 
-        public override void SetWindowLocation(Window window, (double x, double y) location)
+        protected internal override void SetWindowLocation(Window window, (double x, double y) location)
         {
             XID id = GetId(window);
             if (!IsWindowVisible(window))
@@ -490,9 +490,9 @@ namespace NStuff.WindowSystem.Linux
             XFlush(display);
         }
 
-        public override (double width, double height) GetWindowMaximumSize(Window window) => GetData(window).MaximumSize;
+        protected internal override (double width, double height) GetWindowMaximumSize(Window window) => GetData(window).MaximumSize;
 
-        public override void SetWindowMaximumSize(Window window, (double width, double height) size)
+        protected internal override void SetWindowMaximumSize(Window window, (double width, double height) size)
         {
             var data = GetData(window);
             data.MaximumSize = size;
@@ -500,9 +500,9 @@ namespace NStuff.WindowSystem.Linux
             XFlush(display);
         }
 
-        public override (double width, double height) GetWindowMinimumSize(Window window) => GetData(window).MinimumSize;
+        protected internal override (double width, double height) GetWindowMinimumSize(Window window) => GetData(window).MinimumSize;
 
-        public override void SetWindowMinimumSize(Window window, (double width, double height) size)
+        protected internal override void SetWindowMinimumSize(Window window, (double width, double height) size)
         {
             var data = GetData(window);
             data.MinimumSize = size;
@@ -510,9 +510,9 @@ namespace NStuff.WindowSystem.Linux
             XFlush(display);
         }
 
-        public override WindowBorderStyle GetWindowBorderStyle(Window window) => GetData(window).BorderStyle;
+        protected internal override WindowBorderStyle GetWindowBorderStyle(Window window) => GetData(window).BorderStyle;
 
-        public override unsafe void SetWindowBorderStyle(Window window, WindowBorderStyle borderStyle)
+        protected internal override unsafe void SetWindowBorderStyle(Window window, WindowBorderStyle borderStyle)
         {
             var data = GetData(window);
             data.BorderStyle = borderStyle;
@@ -534,7 +534,7 @@ namespace NStuff.WindowSystem.Linux
             XFlush(display);
         }
 
-        public override double GetWindowOpacity(Window window)
+        protected internal override double GetWindowOpacity(Window window)
         {
             if (GetWindowProperty(display, GetId(window), _NET_WM_WINDOW_OPACITY, XA_CARDINAL, out var dataPtr) != 1)
             {
@@ -545,7 +545,7 @@ namespace NStuff.WindowSystem.Linux
             return (double)result / 0xFFFFFFFF;
         }
 
-        public override unsafe void SetWindowOpacity(Window window, double opacity)
+        protected internal override unsafe void SetWindowOpacity(Window window, double opacity)
         {
             if (opacity == 1.0)
             {
@@ -558,9 +558,9 @@ namespace NStuff.WindowSystem.Linux
             }
         }
 
-        public override WindowSizeState GetWindowSizeState(Window window) => GetData(window).SizeState;
+        protected internal override WindowSizeState GetWindowSizeState(Window window) => GetData(window).SizeState;
 
-        public override void SetWindowSizeState(Window window, WindowSizeState sizeState)
+        protected internal override void SetWindowSizeState(Window window, WindowSizeState sizeState)
         {
             if (_NET_WM_STATE == 0 || _NET_WM_STATE_MAXIMIZED_HORZ == 0 || _NET_WM_STATE_MAXIMIZED_VERT == 0)
             {
@@ -584,7 +584,7 @@ namespace NStuff.WindowSystem.Linux
             }
         }
 
-        public override unsafe string GetWindowTitle(Window window)
+        protected internal override unsafe string GetWindowTitle(Window window)
         {
             var length = GetWindowProperty(display, GetId(window), _NET_WM_NAME, UTF8_STRING, out var data);
             if (length > 0)
@@ -599,7 +599,7 @@ namespace NStuff.WindowSystem.Linux
             return string.Empty;
         }
 
-        public override unsafe void SetWindowTitle(Window window, string title)
+        protected internal override unsafe void SetWindowTitle(Window window, string title)
         {
             var byteCount = Encoding.UTF8.GetMaxByteCount(title.Length);
             var buffer = stackalloc byte[byteCount];
@@ -611,7 +611,7 @@ namespace NStuff.WindowSystem.Linux
             XFlush(display);
         }
 
-        public override void ActivateWindow(Window window)
+        protected internal override void ActivateWindow(Window window)
         {
             if (IsWindowVisible(window))
             {
@@ -629,7 +629,7 @@ namespace NStuff.WindowSystem.Linux
             }
         }
 
-        public override bool IsWindowTopMost(Window window)
+        protected internal override bool IsWindowTopMost(Window window)
         {
             if (_NET_WM_STATE == 0 || _NET_WM_STATE_ABOVE == 0)
             {
@@ -654,7 +654,7 @@ namespace NStuff.WindowSystem.Linux
             }
         }
 
-        public override unsafe void SetWindowTopMost(Window window, bool topMost)
+        protected internal override unsafe void SetWindowTopMost(Window window, bool topMost)
         {
             if (_NET_WM_STATE != 0 && _NET_WM_STATE_ABOVE != 0)
             {
@@ -662,7 +662,7 @@ namespace NStuff.WindowSystem.Linux
             }
         }
 
-        public override (double top, double left, double bottom, double right) GetWindowBorderSize(Window window)
+        protected internal override (double top, double left, double bottom, double right) GetWindowBorderSize(Window window)
         {
             var result = (top: 0.0, left: 0.0, bottom: 0.0, right: 0.0);
             var data = GetData(window);
@@ -697,7 +697,7 @@ namespace NStuff.WindowSystem.Linux
             return result;
         }
 
-        public override (double x, double y) ConvertFromScreen(Window window, (double x, double y) point)
+        protected internal override (double x, double y) ConvertFromScreen(Window window, (double x, double y) point)
         {
             XTranslateCoordinates(display, rootWindow, GetId(window), (int)point.x, (int)point.y, out var x, out var y, out var child);
             if (child != None)
@@ -709,13 +709,13 @@ namespace NStuff.WindowSystem.Linux
             return (x, y);
         }
 
-        public override (double x, double y) ConvertToScreen(Window window, (double x, double y) point)
+        protected internal override (double x, double y) ConvertToScreen(Window window, (double x, double y) point)
         {
             XTranslateCoordinates(display, GetId(window), rootWindow, (int)point.x, (int)point.y, out var x, out var y, out var _);
             return (x, y);
         }
 
-        public override void SetFreeLookMouseWindow(Window window, bool enable)
+        protected internal override void SetFreeLookMouseWindow(Window window, bool enable)
         {
             if (enable)
             {
@@ -737,7 +737,7 @@ namespace NStuff.WindowSystem.Linux
             XFlush(display);
         }
 
-        public override void RequestWindowAttention(Window window)
+        protected internal override void RequestWindowAttention(Window window)
         {
             if (_NET_WM_STATE != 0 && _NET_WM_STATE_DEMANDS_ATTENTION != 0)
             {
@@ -745,13 +745,13 @@ namespace NStuff.WindowSystem.Linux
             }
         }
 
-        public override (double x, double y) GetCursorPosition(Window window)
+        protected internal override (double x, double y) GetCursorPosition(Window window)
         {
             XQueryPointer(display, GetId(window), out var _, out var _, out var _, out var _, out var childX, out var childY, out var _);
             return (childX, childY);
         }
 
-        public override void SetCursorPosition(Window window, (double x, double y) position)
+        protected internal override void SetCursorPosition(Window window, (double x, double y) position)
         {
             var data = GetData(window);
             data.WrapCursorPosition = ((int)position.x, (int)position.y);
@@ -759,7 +759,7 @@ namespace NStuff.WindowSystem.Linux
             XFlush(display);
         }
 
-        public override void SetWindowCursor(Window window)
+        protected internal override void SetWindowCursor(Window window)
         {
             if (!window.Disposed && !window.FreeLookMouse)
             {
@@ -768,7 +768,7 @@ namespace NStuff.WindowSystem.Linux
             }
         }
 
-        public override void CreateCursor(Cursor cursor, CursorShape shape)
+        protected internal override void CreateCursor(Cursor cursor, CursorShape shape)
         {
             uint s = shape switch
             {
@@ -788,7 +788,7 @@ namespace NStuff.WindowSystem.Linux
             cursor.NativeData = new CursorData(id);
         }
 
-        public override unsafe void CreateCursor(Cursor cursor, byte[] imageData, (int width, int height) size, (double x, double y) hotSpot)
+        protected internal override unsafe void CreateCursor(Cursor cursor, byte[] imageData, (int width, int height) size, (double x, double y) hotSpot)
         {
             var ximage = XcursorImageCreate(size.width, size.height);
             if (ximage == null)
@@ -819,20 +819,20 @@ namespace NStuff.WindowSystem.Linux
             cursor.NativeData = new CursorData(id);
         }
 
-        public override void DestroyCursor(Cursor cursor)
+        protected internal override void DestroyCursor(Cursor cursor)
         {
             XFreeCursor(display, GetId(cursor));
             cursor.NativeData = null;
         }
 
-        public override unsafe ModifierKeys GetModifierKeys()
+        protected internal override unsafe ModifierKeys GetModifierKeys()
         {
             var state = new XkbStateRec();
             XkbGetState(display, XkbUseCoreKbd, &state);
             return TranslateModifierKeys(state.mods);
         }
 
-        public override string ConvertKeycodeToString(Keycode keycode)
+        protected internal override string ConvertKeycodeToString(Keycode keycode)
         {
             var scancode = (byte)scancodes[(int)keycode];
             var codePoint = UnicodeHelper.KeySymToCodePoint(XkbKeycodeToKeysym(display, scancode, 0, 0));
@@ -843,7 +843,7 @@ namespace NStuff.WindowSystem.Linux
             return string.Empty;
         }
 
-        public override string GetClipboardString()
+        protected internal override string GetClipboardString()
         {
             if (XGetSelectionOwner(display, CLIPBOARD) == helperWindow)
             {
@@ -946,7 +946,7 @@ namespace NStuff.WindowSystem.Linux
             return clipboardString ?? string.Empty;
         }
 
-        public override void SetClipboardString(string text)
+        protected internal override void SetClipboardString(string text)
         {
             clipboardString = text;
             XSetSelectionOwner(display, CLIPBOARD, helperWindow, CurrentTime);
@@ -956,9 +956,9 @@ namespace NStuff.WindowSystem.Linux
             }
         }
 
-        public override double GetEventTime() => eventTime / 1000d;
+        protected internal override double GetEventTime() => eventTime / 1000d;
 
-        public override bool WaitAndProcessEvents()
+        protected internal override bool WaitAndProcessEvents()
         {
             while (XPending(display) == 0)
             {
@@ -970,7 +970,7 @@ namespace NStuff.WindowSystem.Linux
             return ProcessEvents();
         }
 
-        public override bool WaitAndProcessEvents(double timeout)
+        protected internal override bool WaitAndProcessEvents(double timeout)
         {
             while (XPending(display) == 0)
             {
@@ -982,7 +982,7 @@ namespace NStuff.WindowSystem.Linux
             return ProcessEvents();
         }
 
-        public override unsafe bool ProcessEvents()
+        protected internal override unsafe bool ProcessEvents()
         {
             var result = false;
             var eventCount = XPending(display);
@@ -1569,7 +1569,7 @@ namespace NStuff.WindowSystem.Linux
 
         private Keycode TranslateKeycode(uint keycode) => (keycode < 256) ? keycodeMappings[keycode] : Keycode.Unknown;
 
-        public override void UnblockProcessEvents()
+        protected internal override void UnblockProcessEvents()
         {
             var xevent = new XEvent { type = ClientMessage };
             xevent.xclient.window = helperWindow;
