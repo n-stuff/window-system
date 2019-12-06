@@ -184,6 +184,11 @@ namespace NStuff.Typography.Font
             AddFontResource(fontPath, () => new FileStream(fontPath, FileMode.Open, FileAccess.Read));
         }
 
+        /// <summary>
+        /// Adds the font represented by the specified ID and stream provider delegate to the collection.
+        /// </summary>
+        /// <param name="fontId">A unique ID used internally to index fonts.</param>
+        /// <param name="streamProvider">A function returning a stream for the font.</param>
         public void AddFontResource(string fontId, Func<Stream> streamProvider)
         {
             OpenType[] openTypes;

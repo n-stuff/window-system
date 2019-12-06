@@ -19,6 +19,7 @@ namespace NStuff.WindowSystem.ManualTest
                 Console.WriteLine("  e - Terrain.");
                 Console.WriteLine("  f - Tessellation.");
                 Console.WriteLine("  g - Glyph.");
+                Console.WriteLine("  h - Bezier.");
                 Console.WriteLine("  q - Quit.");
                 var line = Console.ReadLine();
                 switch (line.Trim())
@@ -53,6 +54,10 @@ namespace NStuff.WindowSystem.ManualTest
 
                     case "g":
                         new GlyphLauncher().Launch();
+                        break;
+
+                    case "h":
+                        new BezierLauncher().Launch();
                         break;
                 }
             }
