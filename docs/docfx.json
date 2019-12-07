@@ -34,7 +34,10 @@
         "overwrite": "api-overwrite/*.md",
         "globalMetadata": {
             "_appTitle": "n-stuff",
-            "_enableSearch": true
+            "_enableSearch": true,
+            "_gitContribute": {
+                "apiSpecFolder": "docs/api-overwrite"
+            }
         },
         "markdownEngineName": "markdig",
         "template": "statictoc",

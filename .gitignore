@@ -3,4 +3,4 @@ bin/
 obj/
 *.csproj.user
 /build/tools/
-/doc/_site/
+/docs/_site/

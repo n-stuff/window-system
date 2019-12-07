@@ -31,7 +31,7 @@
         FullName = 4,
 
         /// <summary>
-        /// Version string. Should begin with the syntax “version <number>.<number>”, case insensitive.
+        /// Version string. Should begin with the syntax "version &lt;number>.&lt;number>", case insensitive.
         /// </summary>
         Version = 5,
 

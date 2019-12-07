@@ -22,7 +22,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// </summary>
         /// <param name="class1">A class.</param>
         /// <param name="class2">A class.</param>
-        /// <returns><c>true</c> if <see cref="Handle"/> properties has different values.</returns>
+        /// <returns><c>true</c> if <see cref="Handle"/> properties have different values.</returns>
         public static bool operator !=(Class class1, Class class2) => !class1.Equals(class2);
 
         /// <summary>

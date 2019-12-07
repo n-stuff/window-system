@@ -38,7 +38,7 @@ namespace NStuff.Typography.Font
         private readonly List<string> fontIds = new List<string>();
 
         /// <summary>
-        /// Gets the <see cref="OpenTypeReader"/> corresponding to the specified font family and subfamily.
+        /// Gets the <see cref="OpenType"/> corresponding to the specified font family and subfamily.
         /// </summary>
         /// <param name="family">A valid font family, as returned by <see cref="FontFamilies"/>.</param>
         /// <param name="subfamily">A valid font subfamily, as returned by <see cref="GetFontSubfamilies(string)"/>.</param>

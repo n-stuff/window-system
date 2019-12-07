@@ -22,7 +22,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// </summary>
         /// <param name="selector1">A selector.</param>
         /// <param name="selector2">A selector.</param>
-        /// <returns><c>true</c> if <see cref="Handle"/> properties has different values.</returns>
+        /// <returns><c>true</c> if <see cref="Handle"/> properties have different values.</returns>
         public static bool operator !=(SEL selector1, SEL selector2) => !selector1.Equals(selector2);
 
         /// <summary>

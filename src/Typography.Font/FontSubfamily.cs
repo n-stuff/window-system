@@ -74,10 +74,10 @@ namespace NStuff.Typography.Font
         public override readonly bool Equals(object obj) => obj is FontSubfamily && Equals((FontSubfamily)obj);
 
         /// <summary>
-        /// Compares this <see cref="ImageHandle"/> object with another one.
+        /// Compares this <see cref="FontSubfamily"/> object with another one.
         /// </summary>
-        /// <param name="other">An image.</param>
-        /// <returns><c>true</c> if <see cref="Value"/> has the same value as <c>other.Value</c>.</returns>
+        /// <param name="other">An font subfamily.</param>
+        /// <returns><c>true</c> if all properties of this object are the same as the properties of <paramref name="other"/>.</returns>
         public readonly bool Equals(FontSubfamily other) => Style == other.Style && Weight == other.Weight && Width == other.Width;
     }
 }

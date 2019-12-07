@@ -6,4 +6,4 @@ SH_SCRIPT_ROOT=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 REPOSITORY_PATH=$( cd $SH_SCRIPT_ROOT && cd .. && pwd )
 
-exec mono $DOCFX_PATH $REPOSITORY_PATH/doc/docfx.json
+exec mono $DOCFX_PATH $REPOSITORY_PATH/docs/docfx.json
