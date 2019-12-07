@@ -12,6 +12,14 @@ namespace NStuff.RasterGraphics
         /// <summary>
         /// Loads a Portable Network Graphics image.
         /// </summary>
+        /// <param name="rasterImage">The image storage.</param>
+        /// <param name="stream">The stream containing the image.</param>
+        /// <exception cref="InvalidOperationException">If the stream represents an invalid or unsupported image format.</exception>
+        public static void LoadPng(this RasterImage rasterImage, Stream stream) => Load(stream, rasterImage);
+
+        /// <summary>
+        /// Loads a Portable Network Graphics image.
+        /// </summary>
         /// <param name="stream">The stream containing the image.</param>
         /// <param name="rasterImage">The image storage.</param>
         /// <exception cref="InvalidOperationException">If the stream represents an invalid or unsupported image format.</exception>

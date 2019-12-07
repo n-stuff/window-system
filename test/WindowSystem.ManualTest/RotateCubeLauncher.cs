@@ -18,7 +18,7 @@ namespace NStuff.WindowSystem.ManualTest
             var namePrefix = typeof(DrawTextureLauncher).Namespace + ".Resources.";
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(namePrefix + "kitten.png"))
             {
-                PortableNetworkGraphicsHelper.Load(stream ?? throw new InvalidOperationException(), image);
+                image.LoadPng(stream ?? throw new InvalidOperationException());
             }
 
             using var windowServer = new WindowServer();

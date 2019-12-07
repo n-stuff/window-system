@@ -37,17 +37,17 @@ namespace NStuff.WindowSystem.ManualTest
                 var namePrefix = typeof(TerrainLauncher).Namespace + ".Resources.";
                 using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(namePrefix + "grass.png"))
                 {
-                    PortableNetworkGraphicsHelper.Load(stream ?? throw new InvalidOperationException(), image);
+                    image.LoadPng(stream ?? throw new InvalidOperationException());
                 }
                 Array.Copy(image.Data, 0, buffer, 0, imageLength);
                 using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(namePrefix + "grass_side.png"))
                 {
-                    PortableNetworkGraphicsHelper.Load(stream ?? throw new InvalidOperationException(), image);
+                    image.LoadPng(stream ?? throw new InvalidOperationException());
                 }
                 Array.Copy(image.Data, 0, buffer, imageLength, imageLength);
                 using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(namePrefix + "dirt.png"))
                 {
-                    PortableNetworkGraphicsHelper.Load(stream ?? throw new InvalidOperationException(), image);
+                    image.LoadPng(stream ?? throw new InvalidOperationException());
                 }
                 Array.Copy(image.Data, 0, buffer, imageLength * 2, imageLength);
                 scene.AddTextureMap(buffer, 3);
