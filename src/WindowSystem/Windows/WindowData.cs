@@ -18,7 +18,7 @@ namespace NStuff.WindowSystem.Windows
         internal (double x, double y) Scale { get; set; }
 
         /// <summary>
-        /// The internal handle of the native window.
+        /// Gets the native handle of the window.
         /// </summary>
         public IntPtr Handle { get; internal set; }
     }

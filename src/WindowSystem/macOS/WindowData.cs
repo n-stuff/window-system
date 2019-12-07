@@ -14,7 +14,7 @@ namespace NStuff.WindowSystem.macOS
         internal bool MouseInside { get; set; }
 
         /// <summary>
-        /// The internal handle on the native window.
+        /// Gets the native handle on the window.
         /// </summary>
         public Id Id { get; internal set; }
     }

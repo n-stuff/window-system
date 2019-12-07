@@ -12,7 +12,7 @@ namespace NStuff.GraphicsBackend
         /// </summary>
         /// <param name="image1">An image handle.</param>
         /// <param name="image2">An image handle.</param>
-        /// <returns><c>true</c> if <see cref="Value"/> properties have the same value.</returns>
+        /// <returns><c>true</c> if all the properties of both objects are identical.</returns>
         public static bool operator ==(ImageHandle image1, ImageHandle image2) => image1.Equals(image2);
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace NStuff.GraphicsBackend
         /// </summary>
         /// <param name="image1">An image handle.</param>
         /// <param name="image2">An image handle.</param>
-        /// <returns><c>true</c> if <see cref="Value"/> properties have different values.</returns>
+        /// <returns><c>true</c> if all the properties of both objects are not identical.</returns>
         public static bool operator !=(ImageHandle image1, ImageHandle image2) => !image1.Equals(image2);
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace NStuff.GraphicsBackend
         /// Compares this <see cref="ImageHandle"/> object with another one.
         /// </summary>
         /// <param name="other">An image.</param>
-        /// <returns><c>true</c> if <see cref="Value"/> has the same value as <c>other.Value</c>.</returns>
+        /// <returns><c>true</c> if all the properties of this object are identical to the properties of <paramref name="other"/>.</returns>
         public readonly bool Equals(ImageHandle other) => Value == other.Value;
     }
 }

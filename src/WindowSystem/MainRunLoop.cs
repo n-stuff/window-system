@@ -10,7 +10,7 @@ namespace NStuff.WindowSystem
         private readonly WindowServer windowServer;
 
         /// <summary>
-        /// The current main loop, if any.
+        /// Gets the current main loop, if any.
         /// </summary>
         public static MainRunLoop? Current { get; private set; }
 

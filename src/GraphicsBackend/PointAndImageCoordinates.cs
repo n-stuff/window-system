@@ -12,7 +12,7 @@ namespace NStuff.GraphicsBackend
         /// </summary>
         /// <param name="coordinates1">Coordinates.</param>
         /// <param name="coordinates2">Coordinates.</param>
-        /// <returns><c>true</c> if both coordinates are the same.</returns>
+        /// <returns><c>true</c> if all the properties of both objects are identical.</returns>
         public static bool operator ==(PointAndImageCoordinates coordinates1, PointAndImageCoordinates coordinates2) =>
             coordinates1.Equals(coordinates2);
 
@@ -21,7 +21,7 @@ namespace NStuff.GraphicsBackend
         /// </summary>
         /// <param name="coordinates1">Coordinates.</param>
         /// <param name="coordinates2">Coordinates.</param>
-        /// <returns><c>true</c> if both coordinates are different.</returns>
+        /// <returns><c>true</c> if all the properties of both objects are not identical.</returns>
         public static bool operator !=(PointAndImageCoordinates coordinates1, PointAndImageCoordinates coordinates2) =>
             !coordinates1.Equals(coordinates2);
 
@@ -77,7 +77,7 @@ namespace NStuff.GraphicsBackend
         /// Compares this <see cref="PointAndImageCoordinates"/> object with another one.
         /// </summary>
         /// <param name="other">Coordinates.</param>
-        /// <returns><c>true</c> if <see cref="X"/>, <see cref="Y"/>, <see cref="XImage"/>, and <see cref="YImage"/> have the same values.</returns>
+        /// <returns><c>true</c> if all the properties of this object are identical to the properties of <paramref name="other"/>.</returns>
         public readonly bool Equals(PointAndImageCoordinates other) =>
             X == other.X && Y == other.Y && XImage == other.XImage && YImage == other.YImage;
     }

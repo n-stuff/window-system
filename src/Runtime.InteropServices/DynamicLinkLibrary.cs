@@ -9,15 +9,15 @@ namespace NStuff.Runtime.InteropServices
     public sealed class DynamicLinkLibrary : IDisposable
     {
         /// <summary>
-        /// The delegate called by the instances of <c>DynamicLinkLibrary</c> to create <see cref="NativeLibraryBase"/> instances.
+        /// Gets of sets the delegate called by the instances of <c>DynamicLinkLibrary</c> to create <see cref="NativeLibraryBase"/> instances.
         /// </summary>
-        /// <value>By default it is initialized with a delegate that supports Windows, macOS, and Linux.</value>
+        /// <value>By default it is initialized with <see cref="CreateNativeLibrary(string)"/>.</value>
         public static Func<string, NativeLibraryBase> NativeLibraryCreator { get; set; } = CreateNativeLibrary;
 
         private NativeLibraryBase? nativeLibrary;
 
         /// <summary>
-        /// A value indicating whether the cursor's <see cref="Dispose"/> method was called.
+        /// Gets a value indicating whether the cursor's <see cref="Dispose()"/> method was called.
         /// </summary>
         /// <value><c>true</c> if <c>Dispose</c> was called.</value>
         public bool Disposed => nativeLibrary == null;
@@ -25,7 +25,7 @@ namespace NStuff.Runtime.InteropServices
         /// <summary>
         /// Initializes a new instance of the <b>DynamicLinkLibrary</b> class using the supplied <paramref name="name"/>.
         /// </summary>
-        /// <param name="name">The name of the native library.</param>
+        /// <param name="name">The name of the native library, for example "OpenGL32".</param>
         public DynamicLinkLibrary(string name) => nativeLibrary = NativeLibraryCreator(name);
 
         /// <summary>
@@ -85,7 +85,14 @@ namespace NStuff.Runtime.InteropServices
 
         private NativeLibraryBase GetNativeLibrary() => nativeLibrary ?? throw new ObjectDisposedException(GetType().FullName);
 
-        private static NativeLibraryBase CreateNativeLibrary(string name)
+        /// <summary>
+        /// Creates a new <see cref="NativeLibraryBase"/> using the supplied name.
+        /// Windows, macOS, and Linux are supported by this method.
+        /// </summary>
+        /// <param name="name">The name of the library.</param>
+        /// <returns>A new native library.</returns>
+        /// <exception cref="InvalidOperationException">If the current platform is not supported.</exception>
+        public static NativeLibraryBase CreateNativeLibrary(string name)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {

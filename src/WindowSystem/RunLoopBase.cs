@@ -24,12 +24,12 @@ namespace NStuff.WindowSystem
         private Thread? runThread;
 
         /// <summary>
-        /// A value indicating whether the <see cref="Run()"/> method is currently being invoked.
+        /// Gets a value indicating whether the <see cref="Run()"/> method is currently being invoked.
         /// </summary>
         public bool Running { get; private set; }
 
         /// <summary>
-        /// A list of actions that should be invoked each time the <see cref="Wait(int)"/> method returns.
+        /// Gets a list of actions that should be invoked each time the <see cref="Wait(int)"/> method returns.
         /// </summary>
         public List<Action<long>> RecurringActions { get; } = new List<Action<long>>();
 

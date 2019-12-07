@@ -12,7 +12,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// </summary>
         /// <param name="id1">An id.</param>
         /// <param name="id2">An id.</param>
-        /// <returns><c>true</c> if <see cref="Handle"/> properties have the same value.</returns>
+        /// <returns><c>true</c> if all the properties of both objects are identical.</returns>
         public static bool operator ==(Id id1, Id id2) => id1.Equals(id2);
 
         /// <summary>
@@ -20,23 +20,18 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// </summary>
         /// <param name="id1">An id.</param>
         /// <param name="id2">An id.</param>
-        /// <returns><c>true</c> if <see cref="Handle"/> properties have different values.</returns>
+        /// <returns><c>true</c> if all the properties of both objects are not identical.</returns>
         public static bool operator !=(Id id1, Id id2) => !id1.Equals(id2);
 
         /// <summary>
-        /// The nil id.
-        /// </summary>
-        public static readonly Id Nil = new Id();
-
-        /// <summary>
-        /// The internal handle of this id.
+        /// Gets the native handle of the class.
         /// </summary>
         public IntPtr Handle { get; }
 
         /// <summary>
         /// Initializes a new <c>Id</c> struct using the supplied <paramref name="handle"/>.
         /// </summary>
-        /// <param name="handle">The internal handle of the id.</param>
+        /// <param name="handle">The native handle of the id.</param>
         public Id(IntPtr handle) => Handle = handle;
 
         /// <summary>

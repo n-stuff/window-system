@@ -12,7 +12,7 @@ namespace NStuff.Typography.Font
         /// </summary>
         /// <param name="subfamily1">A font subfamily.</param>
         /// <param name="subfamily2">A font subfamily.</param>
-        /// <returns><c>true</c> if both subfamilies represent the same object.</returns>
+        /// <returns><c>true</c> if all the properties of both objects are identical.</returns>
         public static bool operator ==(FontSubfamily subfamily1, FontSubfamily subfamily2) => subfamily1.Equals(subfamily2);
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace NStuff.Typography.Font
         /// </summary>
         /// <param name="subfamily1">A font subfamily.</param>
         /// <param name="subfamily2">A font subfamily.</param>
-        /// <returns><c>true</c> if subfamilies are not the same.</returns>
+        /// <returns><c>true</c> if all the properties of both objects are not identical.</returns>
         public static bool operator !=(FontSubfamily subfamily1, FontSubfamily subfamily2) => !subfamily1.Equals(subfamily2);
 
         /// <summary>

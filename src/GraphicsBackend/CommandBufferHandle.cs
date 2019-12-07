@@ -12,7 +12,7 @@ namespace NStuff.GraphicsBackend
         /// </summary>
         /// <param name="buffer1">A command buffer.</param>
         /// <param name="buffer2">A command buffer.</param>
-        /// <returns><c>true</c> if <see cref="Value"/> properties have the same value.</returns>
+        /// <returns><c>true</c> if all the properties of both objects are identical.</returns>
         public static bool operator ==(CommandBufferHandle buffer1, CommandBufferHandle buffer2) => buffer1.Equals(buffer2);
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace NStuff.GraphicsBackend
         /// </summary>
         /// <param name="buffer1">A command buffer.</param>
         /// <param name="buffer2">A command buffer.</param>
-        /// <returns><c>true</c> if <see cref="Value"/> properties have different values.</returns>
+        /// <returns><c>true</c> if all the properties of both objects are not identical.</returns>
         public static bool operator !=(CommandBufferHandle buffer1, CommandBufferHandle buffer2) => !buffer1.Equals(buffer2);
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace NStuff.GraphicsBackend
         /// Compares this <see cref="CommandBufferHandle"/> object with another one.
         /// </summary>
         /// <param name="other">A command buffer.</param>
-        /// <returns><c>true</c> if <see cref="Value"/> has the same value as <c>other.Value</c>.</returns>
+        /// <returns><c>true</c> if all the properties of this object are identical to the properties of <paramref name="other"/>.</returns>
         public readonly bool Equals(CommandBufferHandle other) => Value == other.Value;
     }
 }

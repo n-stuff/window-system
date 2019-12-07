@@ -31,14 +31,14 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         public static NSString Empty => (empty.Handle == IntPtr.Zero) ? empty = new NSString(Class.Get(@string).Handle) : empty;
 
         /// <summary>
-        /// The internal handle of this string.
+        /// Gets the native handle of the class.
         /// </summary>
         public IntPtr Handle { get; }
 
         /// <summary>
         /// Initializes a <c>NSString</c> struct using the supplied <paramref name="handle"/>.
         /// </summary>
-        /// <param name="handle">The internal handle of the string.</param>
+        /// <param name="handle">The native handle of the string.</param>
         public NSString(IntPtr handle) => Handle = handle;
 
         /// <summary>

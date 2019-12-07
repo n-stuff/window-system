@@ -88,7 +88,7 @@ namespace NStuff.OpenGL.Context.macOS
             }
 
             var pixelFormat = NSOpenGLPixelFormat.Get(alloc).Get(initWithAttributes_, new IntPtr(pixelFormatAttributes));
-            var shareContext = (settings.ShareContext != null) ? GetData(settings.ShareContext).Context : Id.Nil;
+            var shareContext = (settings.ShareContext != null) ? GetData(settings.ShareContext).Context : default;
             var nsContext = NSOpenGLContext.Get(alloc).Get(initWithFormat_shareContext_, pixelFormat, shareContext);
             pixelFormat.Send(release);
 

@@ -14,7 +14,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// </summary>
         /// <param name="class1">A class.</param>
         /// <param name="class2">A class.</param>
-        /// <returns><c>true</c> if <see cref="Handle"/> properties have the same value.</returns>
+        /// <returns><c>true</c> if all the properties of both objects are identical.</returns>
         public static bool operator ==(Class class1, Class class2) => class1.Equals(class2);
 
         /// <summary>
@@ -22,11 +22,11 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// </summary>
         /// <param name="class1">A class.</param>
         /// <param name="class2">A class.</param>
-        /// <returns><c>true</c> if <see cref="Handle"/> properties have different values.</returns>
+        /// <returns><c>true</c> if all the properties of both objects are not identical.</returns>
         public static bool operator !=(Class class1, Class class2) => !class1.Equals(class2);
 
         /// <summary>
-        /// The internal handle of the class.
+        /// Gets the native handle of the class.
         /// </summary>
         public readonly IntPtr Handle { get; }
 
@@ -69,7 +69,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// <summary>
         /// Initializes a new instance of the <c>Class</c> struct using the supplied <paramref name="handle"/>.
         /// </summary>
-        /// <param name="handle">The internal handle of an Objective C class.</param>
+        /// <param name="handle">The native handle of an Objective C class.</param>
         public Class(IntPtr handle) => Handle = handle;
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// Compares this <see cref="Class"/> object with another one.
         /// </summary>
         /// <param name="other">A class.</param>
-        /// <returns><c>true</c> if <see cref="Handle"/> has the same value as <c>other.Handle</c>.</returns>
+        /// <returns><c>true</c> if all the properties of this object are identical to the properties of <paramref name="other"/>.</returns>
         public readonly bool Equals(Class other) => Handle == other.Handle;
     }
 }

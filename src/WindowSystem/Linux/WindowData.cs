@@ -22,17 +22,17 @@ namespace NStuff.WindowSystem.Linux
         internal bool MouseEntered { get; set; }
 
         /// <summary>
-        /// The internal handle on the X11 Display.
+        /// Gets the native handle on the X11 Display.
         /// </summary>
         public IntPtr Display { get; internal set; }
 
         /// <summary>
-        /// The internal handle on the X11 Visual.
+        /// Gets or sets the native handle on the X11 Visual.
         /// </summary>
         public IntPtr Visual { get; set; }
 
         /// <summary>
-        /// The internal handle on the window.
+        /// Gets the native handle on the window.
         /// </summary>
         [CLSCompliant(false)]
         public ulong Id { get; internal set; }

@@ -10,12 +10,12 @@ namespace NStuff.WindowSystem
         private NativeWindowServerBase? nativeWindowServer;
 
         /// <summary>
-        /// A platform-dependent object set by the native window server.
+        /// Gets or sets a platform-dependent object used by the native window server to store data.
         /// </summary>
         public object? NativeData { get; set; }
 
         /// <summary>
-        /// A value indicating whether the cursor's <see cref="Dispose"/> method was called.
+        /// Gets a value indicating whether the cursor's <see cref="Dispose()"/> method was called.
         /// </summary>
         /// <value><c>true</c> if <c>Dispose</c> was called.</value>
         public bool Disposed => NativeData == null;

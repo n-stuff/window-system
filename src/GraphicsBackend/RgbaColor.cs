@@ -12,7 +12,7 @@ namespace NStuff.GraphicsBackend
         /// </summary>
         /// <param name="color1">A color.</param>
         /// <param name="color2">A color.</param>
-        /// <returns><c>true</c> if both color have the same components.</returns>
+        /// <returns><c>true</c> if all the properties of both objects are identical.</returns>
         public static bool operator ==(RgbaColor color1, RgbaColor color2) => color1.Equals(color2);
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace NStuff.GraphicsBackend
         /// </summary>
         /// <param name="color1">A color.</param>
         /// <param name="color2">A color.</param>
-        /// <returns><c>true</c> if colors have different components.</returns>
+        /// <returns><c>true</c> if all the properties of both objects are not identical.</returns>
         public static bool operator !=(RgbaColor color1, RgbaColor color2) => !color1.Equals(color2);
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace NStuff.GraphicsBackend
         /// Compares this <see cref="RgbaColor"/> object with another one.
         /// </summary>
         /// <param name="other">A color.</param>
-        /// <returns><c>true</c> if all components have the same values.</returns>
+        /// <returns><c>true</c> if all the properties of this object are identical to the properties of <paramref name="other"/>.</returns>
         public readonly bool Equals(RgbaColor other) => Red == other.Red && Green == other.Green && Blue == other.Blue && Alpha == other.Alpha;
     }
 }

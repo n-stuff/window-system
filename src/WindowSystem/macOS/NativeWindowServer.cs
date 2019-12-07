@@ -96,7 +96,7 @@ namespace NStuff.WindowSystem.macOS
                 NStuffWindowDelegate = CreateWindowDelegateClass();
                 NStuffView = CreateViewClass();
                 NSApp = CreateApplicationClass().Get(sharedApplication);
-                Class.Lookup("NSThread").Send(detachNewThreadSelector_toTarget_withObject_, startNewThread_, NSApp, Id.Nil);
+                Class.Lookup("NSThread").Send(detachNewThreadSelector_toTarget_withObject_, startNewThread_, NSApp, default);
                 NSApp.Send(setActivationPolicy_, NSApplicationActivationPolicyRegular);
 
                 var appName = new NSString(Class.Lookup("NSProcessInfo").Get(processInfo).Get(processName).Handle);
@@ -106,7 +106,7 @@ namespace NStuff.WindowSystem.macOS
                 NSApp.Send(setMainMenu_, mainMenu);
                 mainMenu.Send(release);
 
-                var appMenuItem = AddMenuItem(mainMenu, null, SEL.Nil, null, 0);
+                var appMenuItem = AddMenuItem(mainMenu, null, default, null, 0);
                 var appMenu = NSMenu.Get(@new);
                 appMenuItem.Send(setSubmenu_, appMenu);
                 appMenu.Send(release);
@@ -114,7 +114,7 @@ namespace NStuff.WindowSystem.macOS
                 var servicesMenu = NSMenu.Get(@new);
                 NSApp.Send(setServicesMenu_, servicesMenu);
                 servicesMenu.Send(release);
-                AddMenuItem(appMenu, "Services", SEL.Nil, null, 0).Send(setSubmenu_, servicesMenu);
+                AddMenuItem(appMenu, "Services", default, null, 0).Send(setSubmenu_, servicesMenu);
 
                 appMenu.Send(addItem_, NSMenuItem.Get(separatorItem));
                 AddMenuItem(appMenu, string.Format("Hide {0}", appName), hide_, "h", 0);
@@ -124,7 +124,7 @@ namespace NStuff.WindowSystem.macOS
                 appMenu.Send(addItem_, NSMenuItem.Get(separatorItem));
                 AddMenuItem(appMenu, string.Format("Quit {0}", appName), terminate_, "q", 0);
 
-                var windowMenuItem = AddMenuItem(mainMenu, null, SEL.Nil, null, 0);
+                var windowMenuItem = AddMenuItem(mainMenu, null, default, null, 0);
                 var windowMenu = NSMenu.Get(alloc).Get(initWithTitle_, new NSString("Window"));
                 NSApp.Send(setWindowsMenu_, windowMenu);
                 windowMenuItem.Send(setSubmenu_, windowMenu);
@@ -212,18 +212,18 @@ namespace NStuff.WindowSystem.macOS
         {
             var data = GetData(window);
             var nsWindow = data.Id;
-            nsWindow.Send(orderOut_, Id.Nil);
+            nsWindow.Send(orderOut_, default(Id));
             nsWindow.Send(close);
-            nsWindow.Send(setContentView_, Id.Nil);
+            nsWindow.Send(setContentView_, default(Id));
             if (!data.TrackingArea.IsNil)
             {
                 data.TrackingArea.Send(release);
-                data.TrackingArea = Id.Nil;
+                data.TrackingArea = default;
             }
             if (!data.MarkedText.IsNil)
             {
                 data.MarkedText.Send(release);
-                data.MarkedText = Id.Nil;
+                data.MarkedText = default;
             }
             windows.Remove(nsWindow.Handle);
             window.NativeData = null;
@@ -244,11 +244,11 @@ namespace NStuff.WindowSystem.macOS
             var nsWindow = GetId(window);
             if (visible)
             {
-                nsWindow.Send(makeKeyAndOrderFront_, Id.Nil);
+                nsWindow.Send(makeKeyAndOrderFront_, default(Id));
             }
             else
             {
-                nsWindow.Send(orderOut_, Id.Nil);
+                nsWindow.Send(orderOut_, default(Id));
             }
             VisibleChangedEventOccurred(window);
         }
@@ -390,7 +390,7 @@ namespace NStuff.WindowSystem.macOS
             var nsWindow = GetId(window);
             if (!nsWindow.GetBool(isMiniaturized) && nsWindow.GetBool(isVisible))
             {
-                nsWindow.Send(makeKeyAndOrderFront_, Id.Nil);
+                nsWindow.Send(makeKeyAndOrderFront_, default(Id));
             }
         }
 
@@ -427,21 +427,21 @@ namespace NStuff.WindowSystem.macOS
                 case WindowSizeState.Normal:
                     if (nsWindow.GetBool(isMiniaturized))
                     {
-                        nsWindow.Send(deminiaturize_, Id.Nil);
+                        nsWindow.Send(deminiaturize_, default(Id));
                     }
                     else if (GetWindowBorderStyle(window) == WindowBorderStyle.Sizable && nsWindow.GetBool(isZoomed))
                     {
-                        nsWindow.Send(zoom_, Id.Nil);
+                        nsWindow.Send(zoom_, default(Id));
                         SizeStateChangedEventOccurred(window);
                     }
                     break;
 
                 case WindowSizeState.Minimized:
-                    nsWindow.Send(miniaturize_, Id.Nil);
+                    nsWindow.Send(miniaturize_, default(Id));
                     break;
 
                 case WindowSizeState.Maximized:
-                    nsWindow.Send(zoom_, Id.Nil);
+                    nsWindow.Send(zoom_, default(Id));
                     SizeStateChangedEventOccurred(window);
                     break;
             }
@@ -555,7 +555,7 @@ namespace NStuff.WindowSystem.macOS
             array[0] = NSStringPboardType;
             var types = NSArray.Get(arrayWithObjects_count_, new IntPtr(array), 1);
             var pasteboard = NSPasteboard.Get(generalPasteboard);
-            pasteboard.GetInteger(declareTypes_owner_, types, Id.Nil);
+            pasteboard.GetInteger(declareTypes_owner_, types, default);
             pasteboard.Send(setString_forType_, new NSString(text), NSStringPboardType);
         }
 
@@ -631,7 +631,7 @@ namespace NStuff.WindowSystem.macOS
         protected internal override void UnblockProcessEvents()
         {
             var nsEvent = NSEvent.Get(otherEventWithType_location_modifierFlags_timestamp_windowNumber_context_subtype_data1_data2_,
-                NSEventTypeApplicationDefined, new NSPoint(), 0, 0, 0, Id.Nil, 0, 0, 0);
+                NSEventTypeApplicationDefined, new NSPoint(), 0, 0, 0, default, 0, 0, 0);
             NSApp.Send(postEvent_atStart_, nsEvent, true);
             autoreleasePool.Send(release);
             autoreleasePool = NSAutoreleasePool.Get(@new);
@@ -680,7 +680,7 @@ namespace NStuff.WindowSystem.macOS
 
         private static void ApplicationDelegateApplicationDidFinishLaunching(IntPtr receiverPtr, IntPtr selectorPtr, IntPtr notificationPtr)
         {
-            Shared.NSApp.Send(stop_, Id.Nil);
+            Shared.NSApp.Send(stop_, default(Id));
             Shared.NSApp.Send(activateIgnoringOtherApps_, true);
         }
 
@@ -898,7 +898,7 @@ namespace NStuff.WindowSystem.macOS
                     self.GetRect(bounds),
                     NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved | NSTrackingCursorUpdate |
                     NSTrackingActiveInActiveApp | NSTrackingInVisibleRect | NSTrackingAssumeInside,
-                    self, Id.Nil);
+                    self, default);
                 self.Send(addTrackingArea_, data.TrackingArea);
             }
             self.SuperSend(Shared.NSView, updateTrackingAreas);

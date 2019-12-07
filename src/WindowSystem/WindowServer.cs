@@ -12,7 +12,7 @@ namespace NStuff.WindowSystem
         /// <summary>
         /// The delegate called by the instances of <c>WindowServer</c> to create <see cref="NativeWindowServerBase"/> instances.
         /// </summary>
-        /// <value>By default it is initialized with a delegate that supports Windows, macOS, and Linux.</value>
+        /// <value>By default it is initialized with <see cref="CreateNativeWindowServer"/>.</value>
         public static Func<NativeWindowServerBase> NativeWindowServerCreator { get; set; } = CreateNativeWindowServer;
 
         internal NativeWindowServerBase? NativeWindowServer { get; private set; }
@@ -27,26 +27,26 @@ namespace NStuff.WindowSystem
         }
 
         /// <summary>
-        /// A value indicating whether the window server's <see cref="Dispose"/> method was called.
+        /// Gets a value indicating whether the window server's <see cref="Dispose"/> method was called.
         /// </summary>
         /// <value><c>true</c> if <c>Dispose</c> was called.</value>
         /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public bool Disposed => NativeWindowServer == null;
 
         /// <summary>
-        /// The time of the last key or mouse event, in seconds with a millisecond precision.
+        /// Gets the time of the last key or mouse event, in seconds with a millisecond precision.
         /// </summary>
         /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public double EvenTime => GetNativeWindowServer().GetEventTime();
 
         /// <summary>
-        /// The set of active modifier keys.
+        /// Gets the set of active modifier keys.
         /// </summary>
         /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public ModifierKeys ModifierKeys => GetNativeWindowServer().GetModifierKeys();
 
         /// <summary>
-        /// The windows currently alive.
+        /// Gets the list of windows currently alive.
         /// </summary>
         /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public ICollection<Window> Windows => GetNativeWindowServer().GetWindows();
@@ -194,7 +194,13 @@ namespace NStuff.WindowSystem
 
         private NativeWindowServerBase GetNativeWindowServer() => NativeWindowServer ?? throw new ObjectDisposedException(GetType().FullName);
 
-        private static NativeWindowServerBase CreateNativeWindowServer()
+        /// <summary>
+        /// Creates a new <see cref="NativeWindowServerBase"/> instance.
+        /// Windows, macOS, and Linux are supported by this method.
+        /// </summary>
+        /// <returns>A new native window server.</returns>
+        /// <exception cref="InvalidOperationException">If the current platform is not supported.</exception>
+        public static NativeWindowServerBase CreateNativeWindowServer()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {

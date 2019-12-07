@@ -12,7 +12,7 @@ namespace NStuff.GraphicsBackend
         /// </summary>
         /// <param name="transform1">An affine transform.</param>
         /// <param name="transform2">An affine transform.</param>
-        /// <returns><c>true</c> if both transforms have the same elements.</returns>
+        /// <returns><c>true</c> if all the properties of both objects are identical.</returns>
         public static bool operator ==(AffineTransform transform1, AffineTransform transform2) => transform1.Equals(transform2);
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace NStuff.GraphicsBackend
         /// </summary>
         /// <param name="transform1">An affine transform.</param>
         /// <param name="transform2">An affine transform.</param>
-        /// <returns><c>true</c> if both transforms have the different elements.</returns>
+        /// <returns><c>true</c> if all the properties of both objects are not identical.</returns>
         public static bool operator !=(AffineTransform transform1, AffineTransform transform2) => !transform1.Equals(transform2);
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace NStuff.GraphicsBackend
         /// Compares this <see cref="AffineTransform"/> object with another one.
         /// </summary>
         /// <param name="other">An affine transform.</param>
-        /// <returns><c>true</c> if all elements have the same values.</returns>
+        /// <returns><c>true</c> if all the properties of this object are identical to the properties of <paramref name="other"/>.</returns>
         public readonly bool Equals(AffineTransform other) =>
             M11 == other.M11 && M12 == other.M12 && M21 == other.M21 && M22 == other.M22 && M31 == other.M31 && M32 == other.M32;
     }

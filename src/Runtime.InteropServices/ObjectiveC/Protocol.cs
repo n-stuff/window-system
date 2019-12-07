@@ -14,7 +14,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// </summary>
         /// <param name="protocol1">A protocol.</param>
         /// <param name="protocol2">A protocol.</param>
-        /// <returns><c>true</c> if <see cref="Handle"/> properties have the same value.</returns>
+        /// <returns><c>true</c> if all the properties of both objects are identical.</returns>
         public static bool operator ==(Protocol protocol1, Protocol protocol2) => protocol1.Equals(protocol2);
 
         /// <summary>
@@ -22,11 +22,11 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// </summary>
         /// <param name="protocol1">A protocol.</param>
         /// <param name="protocol2">A protocol.</param>
-        /// <returns><c>true</c> if <see cref="Handle"/> properties have different values.</returns>
+        /// <returns><c>true</c> if all the properties of both objects are not identical.</returns>
         public static bool operator !=(Protocol protocol1, Protocol protocol2) => !protocol1.Equals(protocol2);
 
         /// <summary>
-        /// The internal handle of the protocol.
+        /// Gets the native handle of the class.
         /// </summary>
         public IntPtr Handle { get; }
 

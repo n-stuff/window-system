@@ -14,7 +14,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// </summary>
         /// <param name="selector1">A selector.</param>
         /// <param name="selector2">A selector.</param>
-        /// <returns><c>true</c> if <see cref="Handle"/> properties have the same value.</returns>
+        /// <returns><c>true</c> if all the properties of both objects are identical.</returns>
         public static bool operator ==(SEL selector1, SEL selector2) => selector1.Equals(selector2);
 
         /// <summary>
@@ -22,16 +22,11 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// </summary>
         /// <param name="selector1">A selector.</param>
         /// <param name="selector2">A selector.</param>
-        /// <returns><c>true</c> if <see cref="Handle"/> properties have different values.</returns>
+        /// <returns><c>true</c> if all the properties of both objects are not identical.</returns>
         public static bool operator !=(SEL selector1, SEL selector2) => !selector1.Equals(selector2);
 
         /// <summary>
-        /// The nil selector.
-        /// </summary>
-        public static readonly SEL Nil = new SEL();
-
-        /// <summary>
-        /// The internal handle of the selector.
+        /// Gets the native handle of the class.
         /// </summary>
         public IntPtr Handle { get; }
 
@@ -45,7 +40,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// <summary>
         /// Initializes a new instance of the <c>SEL</c> struct using the provided <paramref name="handle"/>.
         /// </summary>
-        /// <param name="handle">The internal handle of the selector.</param>
+        /// <param name="handle">The native handle of the selector.</param>
         public SEL(IntPtr handle) => Handle = handle;
 
         /// <summary>

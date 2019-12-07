@@ -12,7 +12,7 @@ namespace NStuff.GraphicsBackend
         /// </summary>
         /// <param name="range1">A range.</param>
         /// <param name="range2">A range.</param>
-        /// <returns><c>true</c> if both ranges are the same.</returns>
+        /// <returns><c>true</c> if all the properties of both objects are identical.</returns>
         public static bool operator ==(VertexRange range1, VertexRange range2) => range1.Equals(range2);
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace NStuff.GraphicsBackend
         /// </summary>
         /// <param name="range1">A range.</param>
         /// <param name="range2">A range.</param>
-        /// <returns><c>true</c> if both ranges are different.</returns>
+        /// <returns><c>true</c> if all the properties of both objects are not identical.</returns>
         public static bool operator !=(VertexRange range1, VertexRange range2) => !range1.Equals(range2);
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace NStuff.GraphicsBackend
         /// Compares this <see cref="VertexRange"/> object with another one.
         /// </summary>
         /// <param name="other">A range.</param>
-        /// <returns><c>true</c> if <see cref="Offset"/> and <see cref="Count"/> have the same values.</returns>
+        /// <returns><c>true</c> if all the properties of this object are identical to the properties of <paramref name="other"/>.</returns>
         public readonly bool Equals(VertexRange other) => Offset == other.Offset && Count == other.Count;
     }
 }
