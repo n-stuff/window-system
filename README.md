@@ -22,10 +22,8 @@ dotnet run -p test/WindowSystem.ManualTest
 Then follow the instructions in the console and you may see something similar to this:
 
 ![Definitely not Minecraft](doc/images/terrain.png)
-
-or that:
-
 ![Glyph rasterized and tessellated](doc/images/glyph.png)
+![Vector graphics](doc/images/tiger.png)
 
 ## Modules
 
@@ -63,6 +61,12 @@ It provides types to rasterize font glyphs.
 
 [This sample](test/WindowSystem.ManualTest/GlyphLauncher.cs) demonstrates rendering of both rasterized and
 tessellated glyphs loaded from a TTF file.
+
+### VectorGraphics project
+
+It provides types to render vector graphics.
+
+[This sample](test/WindowSystem.ManualTest/BezierLauncher.cs) shows how to display simple SVG files.
 
 ### OpenGL.Context project
 
