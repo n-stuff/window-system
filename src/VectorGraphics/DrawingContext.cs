@@ -1,4 +1,6 @@
-﻿using NStuff.GraphicsBackend;
+﻿using NStuff.Geometry;
+using NStuff.GraphicsBackend;
+using NStuff.Tessellation;
 using System;
 
 namespace NStuff.VectorGraphics
@@ -12,8 +14,24 @@ namespace NStuff.VectorGraphics
         private RgbaColor clearColor = new RgbaColor(255, 255, 255, 255);
         private CommandBufferHandle clearCommandBuffer;
 
+        internal BezierApproximator BezierApproximator { get; } = new BezierApproximator();
+        internal PolylineStroker PolylineStroker { get; }
+        internal Tessellator2D<int, int> Tessellator { get; }
         internal DrawingBackendBase Backend => backend ?? throw new ObjectDisposedException(GetType().FullName);
+
         internal CommandBufferHandle[] CommandBuffers { get; } = new CommandBufferHandle[16];
+        internal RgbaColor[] Colors { get; } = new RgbaColor[16];
+        internal VertexRange[] VertexRanges { get; } = new VertexRange[16];
+        internal AffineTransform[] Transforms { get; } = new AffineTransform[16];
+        internal PointCoordinates[] Vertices { get; } = new PointCoordinates[1024];
+
+        internal UniformBufferHandle SingleColorBuffer { get; }
+        internal UniformBufferHandle SingleTransformBuffer { get; }
+        internal VertexRangeBufferHandle SingleVertexRangeBuffer { get; }
+        internal VertexBufferHandle VertexBuffer { get; }
+
+        internal CommandBufferHandle SetupPlainColorCommandBuffer { get; private set; }
+        internal CommandBufferHandle DrawIndirectCommandBuffer { get; private set; }
 
         /// <summary>
         /// The color used to clear the framebuffer before drawing.
@@ -55,6 +73,30 @@ namespace NStuff.VectorGraphics
         public DrawingContext(DrawingBackendBase backend)
         {
             this.backend = backend;
+            Tessellator = new Tessellator2D<int, int>(new TessellateHandler())
+            {
+                OutputKind = OutputKind.TriangleEnumerator
+            };
+            PolylineStroker = new PolylineStroker(new PolylineStrokeHandler(Tessellator));
+
+            SingleColorBuffer = backend.CreateUniformBuffer(UniformType.RgbaColor, 1);
+            SingleTransformBuffer = backend.CreateUniformBuffer(UniformType.AffineTransform, 1);
+            SingleVertexRangeBuffer = backend.CreateVertexRangeBuffer(1);
+            VertexBuffer = backend.CreateVertexBuffer(VertexType.PointCoordinates, Vertices.Length);
+
+            SetupPlainColorCommandBuffer = backend.CreateCommandBuffer();
+            backend.BeginRecordCommands(SetupPlainColorCommandBuffer);
+            backend.AddUseShaderCommand(SetupPlainColorCommandBuffer, ShaderKind.PlainColor);
+            backend.AddBindVertexBufferCommand(SetupPlainColorCommandBuffer, VertexBuffer);
+            backend.EndRecordCommands(SetupPlainColorCommandBuffer);
+
+            DrawIndirectCommandBuffer = backend.CreateCommandBuffer();
+            backend.BeginRecordCommands(DrawIndirectCommandBuffer);
+            // TODO: updating uniform buffer should update the bound uniform. The binding should be done once when setting the shader.
+            backend.AddBindUniformCommand(DrawIndirectCommandBuffer, Uniform.Transform, SingleTransformBuffer, 0);
+            backend.AddBindUniformCommand(DrawIndirectCommandBuffer, Uniform.Color, SingleColorBuffer, 0);
+            backend.AddDrawIndirectCommand(DrawIndirectCommandBuffer, DrawingPrimitive.Triangles, SingleVertexRangeBuffer, 0);
+            backend.EndRecordCommands(DrawIndirectCommandBuffer);
         }
 
         /// <summary>
@@ -79,7 +121,13 @@ namespace NStuff.VectorGraphics
             {
                 if (clearCommandBuffer != default)
                 {
+                    backend.DestroyCommandBuffer(DrawIndirectCommandBuffer);
+                    backend.DestroyCommandBuffer(SetupPlainColorCommandBuffer);
+                    backend.DestroyVertexBuffer(VertexBuffer);
                     backend.DestroyCommandBuffer(clearCommandBuffer);
+                    backend.DestroyVertexRangeBuffer(SingleVertexRangeBuffer);
+                    backend.DestroyUniformBuffer(SingleTransformBuffer);
+                    backend.DestroyUniformBuffer(SingleColorBuffer);
                 }
                 backend = null;
             }
@@ -115,6 +163,56 @@ namespace NStuff.VectorGraphics
         public void FinishDrawing()
         {
             Backend.EndRenderFrame();
+        }
+
+        internal static (double x, double y) TransformPoint((double x, double y) point, ref AffineTransform transform)
+        {
+            return
+                ((point.x * transform.M11 + point.y * transform.M21 + transform.M31),
+                 (point.x * transform.M12 + point.y * transform.M22 + transform.M32));
+        }
+
+        private class PolylineStrokeHandler : IPolylineStrokeHandler
+        {
+            private readonly Tessellator2D<int, int> tessellator;
+
+            internal PolylineStrokeHandler(Tessellator2D<int, int> tessellator) => this.tessellator = tessellator;
+
+            public void BeginPolygon() => tessellator.BeginPolygon(0);
+
+            public void BeginContour() => tessellator.BeginContour();
+
+            public void AddPoint(double x, double y) => tessellator.AddVertex(x, y, 0);
+
+            public void EndContour() => tessellator.EndContour();
+
+            public void EndPolygon() => tessellator.EndPolygon();
+        }
+
+        private class TessellateHandler : ITessellateHandler<int, int>
+        {
+            public void Begin(PrimitiveKind primitiveKind, int data)
+            {
+            }
+
+            public void End(int data)
+            {
+            }
+
+            public void FlagEdges(bool onPolygonBoundary)
+            {
+            }
+
+            public void AddVertex(double x, double y, double z, int data)
+            {
+            }
+
+            public int CombineEdges(double x, double y, double z,
+                (int data, double weight) origin1, (int data, double weight) destination1,
+                (int data, double weight) origin2, (int data, double weight) destination2, int polygonData)
+            {
+                return 0;
+            }
         }
     }
 }

@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Geometry\Geometry.csproj" />
     <ProjectReference Include="..\GraphicsBackend\GraphicsBackend.csproj" />
     <ProjectReference Include="..\Tessellation\Tessellation.csproj" />
   </ItemGroup>

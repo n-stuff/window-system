@@ -15,6 +15,7 @@
   <ItemGroup>
     <None Remove="Resources\dirt.png" />
     <None Remove="Resources\ebrima.ttf" />
+    <None Remove="Resources\Ghostscript_Tiger.svg" />
     <None Remove="Resources\grass.png" />
     <None Remove="Resources\grass_side.png" />
     <None Remove="Resources\kitten.bmp" />
@@ -24,6 +25,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\dirt.png" />
     <EmbeddedResource Include="Resources\ebrima.ttf" />
+    <EmbeddedResource Include="Resources\Ghostscript_Tiger.svg" />
     <EmbeddedResource Include="Resources\grass.png" />
     <EmbeddedResource Include="Resources\grass_side.png" />
     <EmbeddedResource Include="Resources\kitten.bmp" />
