@@ -4,7 +4,7 @@ using NStuff.Tessellation;
 using System;
 using System.Collections.Generic;
 
-namespace NStuff.VectorGraphics
+namespace NStuff.WindowSystem.ManualTest.VectorGraphics
 {
     /// <summary>
     /// Represents a complex shape composed of curves.
@@ -253,7 +253,7 @@ namespace NStuff.VectorGraphics
             polylineStroker.StrokeMiterLimit = StrokeMiterLimit;
             polylineStroker.StrokeWidth = StrokeWidth * (Math.Abs(Transform.M11) + Math.Abs(Transform.M22)) / 2;
             var tessellator = context.Tessellator;
-            tessellator.WindingRule = WindingRule;
+            tessellator.WindingRule = WindingRule.NonZero;
             for (int i = 0; i < polygon.Count; i++)
             {
                 var contour = polygon[i];

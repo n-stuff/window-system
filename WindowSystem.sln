@@ -39,8 +39,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Typography.Rasterization", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Typography.Tests", "test\Typography.Tests\Typography.Tests.csproj", "{584F4C3A-F945-44C3-8C76-6885B95D9727}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorGraphics", "src\VectorGraphics\VectorGraphics.csproj", "{A09854A3-B346-4A6B-A4F0-1BC04BFF2B2B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,10 +105,6 @@ Global
 		{584F4C3A-F945-44C3-8C76-6885B95D9727}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{584F4C3A-F945-44C3-8C76-6885B95D9727}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{584F4C3A-F945-44C3-8C76-6885B95D9727}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A09854A3-B346-4A6B-A4F0-1BC04BFF2B2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A09854A3-B346-4A6B-A4F0-1BC04BFF2B2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A09854A3-B346-4A6B-A4F0-1BC04BFF2B2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A09854A3-B346-4A6B-A4F0-1BC04BFF2B2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -131,7 +125,6 @@ Global
 		{0DC81886-89CE-4C7C-8560-73F59B94F9FB} = {240E79C5-99F9-458A-A113-0E46F3292E17}
 		{756DCB69-E224-4246-BB0F-7056225B5465} = {240E79C5-99F9-458A-A113-0E46F3292E17}
 		{584F4C3A-F945-44C3-8C76-6885B95D9727} = {FCD5B6B5-961E-4253-89A6-67B93B5ED5BB}
-		{A09854A3-B346-4A6B-A4F0-1BC04BFF2B2B} = {240E79C5-99F9-458A-A113-0E46F3292E17}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D77C5DCD-21D7-4A13-ADA3-237857B51B7F}

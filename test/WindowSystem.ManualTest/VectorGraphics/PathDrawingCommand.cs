@@ -1,4 +1,4 @@
-﻿namespace NStuff.VectorGraphics
+﻿namespace NStuff.WindowSystem.ManualTest.VectorGraphics
 {
     /// <summary>
     /// Lists the commands used to describe the shape of a <see cref="PathDrawing"/>.

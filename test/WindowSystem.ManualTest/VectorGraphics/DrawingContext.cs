@@ -3,7 +3,7 @@ using NStuff.GraphicsBackend;
 using NStuff.Tessellation;
 using System;
 
-namespace NStuff.VectorGraphics
+namespace NStuff.WindowSystem.ManualTest.VectorGraphics
 {
     /// <summary>
     /// Provides shared resources and services to render vector graphics.

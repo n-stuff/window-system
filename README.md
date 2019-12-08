@@ -62,12 +62,6 @@ It provides types to rasterize font glyphs.
 [This sample](test/WindowSystem.ManualTest/GlyphLauncher.cs) demonstrates rendering of both rasterized and
 tessellated glyphs loaded from a TTF file.
 
-### VectorGraphics project
-
-It provides types to render vector graphics.
-
-[This sample](test/WindowSystem.ManualTest/BezierLauncher.cs) shows how to display simple SVG files.
-
 ### OpenGL.Context project
 
 It provides classes to associate OpenGL contexts to windows.

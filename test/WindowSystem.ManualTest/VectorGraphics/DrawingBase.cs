@@ -1,6 +1,6 @@
 ﻿using NStuff.GraphicsBackend;
 
-namespace NStuff.VectorGraphics
+namespace NStuff.WindowSystem.ManualTest.VectorGraphics
 {
     /// <summary>
     /// Provides a base class for objects that can be drawn using a <see cref="DrawingContext"/>.

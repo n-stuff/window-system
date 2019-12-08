@@ -39,7 +39,6 @@
     <ProjectReference Include="..\..\src\RasterGraphics\RasterGraphics.csproj" />
     <ProjectReference Include="..\..\src\Tessellation\Tessellation.csproj" />
     <ProjectReference Include="..\..\src\Typography.Rasterization\Typography.Rasterization.csproj" />
-    <ProjectReference Include="..\..\src\VectorGraphics\VectorGraphics.csproj" />
   </ItemGroup>
 
 </Project>

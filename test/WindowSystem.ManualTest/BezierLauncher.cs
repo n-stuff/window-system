@@ -1,7 +1,7 @@
 ﻿using NStuff.GraphicsBackend;
 using NStuff.OpenGL.Backend;
 using NStuff.OpenGL.Context;
-using NStuff.VectorGraphics;
+using NStuff.WindowSystem.ManualTest.VectorGraphics;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
