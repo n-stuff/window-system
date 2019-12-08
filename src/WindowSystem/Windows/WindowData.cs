@@ -20,6 +20,7 @@ namespace NStuff.WindowSystem.Windows
         /// <summary>
         /// Gets the native handle of the window.
         /// </summary>
+        /// <value>A native win32 handle.</value>
         public IntPtr Handle { get; internal set; }
     }
 }

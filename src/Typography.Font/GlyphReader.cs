@@ -19,56 +19,67 @@ namespace NStuff.Typography.Font
         /// <summary>
         /// Gets the x-coordinate of the end point of the current command.
         /// </summary>
+        /// <value>A value representing an x-coordinate.</value>
         public double X => GetCurrentDecoder().X;
 
         /// <summary>
         /// Gets the y-coordinate of the end point of the current command.
         /// </summary>
+        /// <value>A value representing a y-coordinate.</value>
         public double Y => GetCurrentDecoder().Y;
 
         /// <summary>
         /// Gets the x-coordinate of the first control point of the current command.
         /// </summary>
+        /// <value>A value representing an x-coordinate.</value>
         public double Cx => GetCurrentDecoder().Cx;
 
         /// <summary>
         /// Gets the y-coordinate of the first control point of the current command.
         /// </summary>
+        /// <value>A value representing a y-coordinate.</value>
         public double Cy => GetCurrentDecoder().Cy;
 
         /// <summary>
         /// Gets the x-coordinate of the second control point of the current command.
         /// </summary>
+        /// <value>A value representing an x-coordinate.</value>
         public double Cx1 => GetCurrentDecoder().Cx1;
 
         /// <summary>
         /// Gets the y-coordinate of the second control point of the current command.
         /// </summary>
+        /// <value>A value representing a y-coordinate.</value>
         public double Cy1 => GetCurrentDecoder().Cy1;
 
         /// <summary>
         /// Gets the minimal value <see cref="X"/>, <see cref="Cx"/>, or <see cref="Cx1"/> can have for the current glyph.
         /// </summary>
+        /// <value>A minimal horizontal value.</value>
         public double XMin => GetCurrentDecoder().XMin;
 
         /// <summary>
         /// Gets the maximal value <see cref="X"/>, <see cref="Cx"/>, or <see cref="Cx1"/> can have for the current glyph.
         /// </summary>
+        /// <value>A maximal horizontal value.</value>
         public double XMax => GetCurrentDecoder().XMax;
 
         /// <summary>
         /// Gets the minimal value <see cref="Y"/>, <see cref="Cy"/>, or <see cref="Cy1"/> can have for the current glyph.
         /// </summary>
+        /// <value>A minimal vertical value.</value>
         public double YMin => GetCurrentDecoder().YMin;
 
         /// <summary>
         /// Gets the maximal value <see cref="Y"/>, <see cref="Cy"/>, or <see cref="Cy1"/> can have for the current glyph.
         /// </summary>
+        /// <value>A maximal vertical value.</value>
         public double YMax => GetCurrentDecoder().YMax;
 
         /// <summary>
         /// Gets the scale used to transform values.
         /// </summary>
+        /// <value>A value representing the coordinates scale.</value>
         public double Scale => GetCurrentDecoder().Scale;
 
         /// <summary>

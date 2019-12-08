@@ -2,9 +2,21 @@
 
 namespace NStuff.OpenGL.Context.Windows
 {
-    internal class RenderingData
+    /// <summary>
+    /// Holds the native handles used to manage the rendering context.
+    /// </summary>
+    public class RenderingData
     {
-        internal IntPtr Handle { get; set; }
-        internal IntPtr DeviceContext { get; set; }
+        /// <summary>
+        /// Gets the native handle of the OpenGL context.
+        /// </summary>
+        /// <value>A native handle.</value>
+        public IntPtr Handle { get; internal set; }
+
+        /// <summary>
+        /// Gets the native handle of the device context.
+        /// </summary>
+        /// <value>A native handle.</value>
+        public IntPtr DeviceContext { get; internal set; }
     }
 }

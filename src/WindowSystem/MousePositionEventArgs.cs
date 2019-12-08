@@ -8,6 +8,7 @@
         /// <summary>
         /// The position of the mouse cursor.
         /// </summary>
+        /// <value>The coordinate of the cursor relative to the top-left corner of the window.</value>
         public (double x, double y) Position { get; }
 
         /// <summary>

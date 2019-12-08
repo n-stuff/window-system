@@ -2,8 +2,15 @@
 
 namespace NStuff.OpenGL.Context.macOS
 {
-    internal class RenderingData
+    /// <summary>
+    /// Holds the native objects used to manage the rendering context.
+    /// </summary>
+    public class RenderingData
     {
-        internal Id Context { get; set; }
+        /// <summary>
+        /// The native OpenGL context.
+        /// </summary>
+        /// <value>An instance of the <c>NSOpenGLContext</c> class.</value>
+        public Id Context { get; set; }
     }
 }

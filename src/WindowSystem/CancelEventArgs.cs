@@ -6,8 +6,9 @@
     public struct CancelEventArgs
     {
         /// <summary>
-        /// Whether the event should be cancelled.
+        /// Gets or sets a value indicating whether the event should be cancelled.
         /// </summary>
+        /// <value><c>true</c> if the event should be cancelled.</value>
         public bool Cancel { get; set; }
 
         /// <summary>

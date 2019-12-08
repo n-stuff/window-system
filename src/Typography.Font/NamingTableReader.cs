@@ -21,23 +21,27 @@ namespace NStuff.Typography.Font
         public PlatformID PlatformID { get; private set; }
 
         /// <summary>
-        /// TGets thehe encoding of the current name.
+        /// Gets the encoding of the current name.
         /// </summary>
+        /// <value>A value representing the encoding of the name.</value>
         public int EncodingID { get; private set; }
 
         /// <summary>
         /// Gets the LCID of the language of the current name.
         /// </summary>
+        /// <value>A value indicating the culture of the name, see <see cref="System.Globalization.CultureInfo.LCID"/>.</value>
         public int LanguageID { get; private set; }
 
         /// <summary>
         /// Gets the kind of the current name.
         /// </summary>
+        /// <value>One of the values that specifies a kind of name.</value>
         public NameID NameID { get; private set; }
 
         /// <summary>
         /// Gets the length in bytes of the raw data of current name.
         /// </summary>
+        /// <value>A value indicating a size in bytes.</value>
         public int NameLength { get; private set; }
 
         /// <summary>

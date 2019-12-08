@@ -8,11 +8,13 @@
         /// <summary>
         /// Gets or sets the scaling to apply to coordinates to get the number of pixels.
         /// </summary>
+        /// <value>A multiplier to apply to pixel coordinates. Default is <c>1</c>.</value>
         public double PixelScaling { get; set; } = 1.0;
 
         /// <summary>
         /// Gets or sets the size of the windowing system frame containing the drawing area.
         /// </summary>
+        /// <value>The logical size of the window.</value>
         public (double width, double height) WindowSize { get; set; }
 
         /// <summary>

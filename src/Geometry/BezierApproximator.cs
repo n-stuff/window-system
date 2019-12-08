@@ -13,16 +13,19 @@ namespace NStuff.Geometry
         /// <summary>
         /// Gets or sets the threshold used to decide whether two segments are collinear.
         /// </summary>
+        /// <value>Collinearity computation is considered to be zero when it is under this value. Default os <c>0.001</c>.</value>
         public double CollinearityEpsilon { get; set; } = 1e-3d;
 
         /// <summary>
         /// Gets or sets the threshold used to decide whether an approximation is acceptable.
         /// </summary>
+        /// <value>A distance is considered a good approximation when it is less than this value. Default is <c>0.5</c>.</value>
         public double DistanceTolerance { get; set; } = 0.5;
 
         /// <summary>
         /// Gets or sets an action invoked when a new point has been computed.
         /// </summary>
+        /// <value>The callback to invoke. Default is <c>null</c>.</value>
         public Action<double, double>? PointComputed { get; set; }
 
         /// <summary>
@@ -61,7 +64,7 @@ namespace NStuff.Geometry
 
                 double dx = x3 - x1;
                 double dy = y3 - y1;
-                double d = Math.Abs(((x2 - x3) * dy - (y2 - y3) * dx));
+                double d = Math.Abs((x2 - x3) * dy - (y2 - y3) * dx);
                 double da;
 
                 if (d > collinearityEpsilon)

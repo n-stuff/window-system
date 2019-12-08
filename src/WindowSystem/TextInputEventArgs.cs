@@ -8,11 +8,13 @@
         /// <summary>
         /// The text input associated with the event.
         /// </summary>
+        /// <value>A unicode character code.</value>
         public int CodePoint { get; }
 
         /// <summary>
         /// The states of the modifiers when the event occurred.
         /// </summary>
+        /// <value>A bitwise combination of the values that specifies keyboard modifiers.</value>
         public ModifierKeys ModifierKeys { get; }
 
         /// <summary>

@@ -25,6 +25,7 @@ namespace NStuff.Tessellation
         /// <summary>
         /// Gets or sets the winding rule to determine whether a part of a polygon is inside of outside of this polygon.
         /// </summary>
+        /// <value>One of the values that indicates the winding rule.</value>
         public WindingRule WindingRule { get; set; }
 
         internal TessellatorBase(ITessellateHandler<TPolygonData, TVertexData> handler) => this.handler = handler;

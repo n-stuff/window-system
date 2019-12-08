@@ -26,6 +26,7 @@ namespace NStuff.GraphicsBackend
         /// <summary>
         /// Gets the value of this handle.
         /// </summary>
+        /// <value>An internal ID.</value>
         public IntPtr Value { get; }
 
         /// <summary>

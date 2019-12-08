@@ -20,36 +20,43 @@ namespace NStuff.Typography.Rasterization
         /// <summary>
         /// Gets the left x-coordinate of the bounding box of the last rasterized glyph.
         /// </summary>
+        /// <value>A value on the horizontal axis.</value>
         public int BoundingBoxLeft { get; private set; }
 
         /// <summary>
         /// Gets the top y-coordinate of the bounding box of the last rasterized glyph.
         /// </summary>
+        /// <value>A value on the vertical axis.</value>
         public int BoundingBoxTop { get; private set; }
 
         /// <summary>
         /// Gets the right x-coordinate of the bounding box of the last rasterized glyph.
         /// </summary>
+        /// <value>A value on the horizontal axis.</value>
         public int BoundingBoxRight { get; private set; }
 
         /// <summary>
         /// Gets the bottom y-coordinate of the bounding box of the last rasterized glyph.
         /// </summary>
+        /// <value>A value on the vertical axis.</value>
         public int BoundingBoxBottom { get; private set; }
 
         /// <summary>
         /// Gets the horizontal size of the last rasterized glyph.
         /// </summary>
+        /// <value>A horizontal size.</value>
         public int Width => BoundingBoxRight - BoundingBoxLeft + 1;
 
         /// <summary>
         /// Gets the vertical size of the last rasterized glyph.
         /// </summary>
+        /// <value>A vertical size.</value>
         public int Height => BoundingBoxBottom - BoundingBoxTop + 1;
 
         /// <summary>
-        /// Gets the scale used to scale the coordinates of the glyph.
+        /// Gets the value used to scale the coordinates of the glyph.
         /// </summary>
+        /// <value>A ratio applied to coordinates.</value>
         public double Scale => pixelSize / openType.GetUnitsPerEm();
 
         /// <summary>

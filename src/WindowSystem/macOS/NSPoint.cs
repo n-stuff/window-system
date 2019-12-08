@@ -20,11 +20,13 @@ namespace NStuff.WindowSystem.macOS
         /// <summary>
         /// The x coordinate of the point.
         /// </summary>
+        /// <value>A horizontal coordinate.</value>
         public double X => x;
 
         /// <summary>
         /// The y coordinate of the point.
         /// </summary>
+        /// <value>A vertical coordinate.</value>
         public double Y => y;
 
         /// <summary>

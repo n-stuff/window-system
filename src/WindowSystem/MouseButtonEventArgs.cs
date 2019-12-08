@@ -8,11 +8,13 @@
         /// <summary>
         /// The <see cref="MouseButtonState"/> of the button.
         /// </summary>
+        /// <value>One of the values that specifies a button state.</value>
         public MouseButtonState ButtonState { get; }
 
         /// <summary>
         /// The <see cref="MouseButton"/> of the related event.
         /// </summary>
+        /// <value>One of the values that specifies a button.</value>
         public MouseButton ChangedButton { get; }
 
         /// <summary>

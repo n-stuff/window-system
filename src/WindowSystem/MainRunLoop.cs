@@ -12,6 +12,7 @@ namespace NStuff.WindowSystem
         /// <summary>
         /// Gets the current main loop, if any.
         /// </summary>
+        /// <value>The main loop, if any.</value>
         public static MainRunLoop? Current { get; private set; }
 
         /// <summary>

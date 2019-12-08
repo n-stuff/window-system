@@ -24,16 +24,19 @@ namespace NStuff.WindowSystem.Linux
         /// <summary>
         /// Gets the native handle on the X11 Display.
         /// </summary>
+        /// <value>The native handle on the X11 display where the window was created.</value>
         public IntPtr Display { get; internal set; }
 
         /// <summary>
         /// Gets or sets the native handle on the X11 Visual.
         /// </summary>
+        /// <value>The native handle on the X11 visual of the window.</value>
         public IntPtr Visual { get; set; }
 
         /// <summary>
         /// Gets the native handle on the window.
         /// </summary>
+        /// <value>The native X11 handle on the window.</value>
         [CLSCompliant(false)]
         public ulong Id { get; internal set; }
     }

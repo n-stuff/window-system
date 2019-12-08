@@ -83,6 +83,7 @@ namespace NStuff.Typography.Font
         /// <summary>
         /// Gets all the font families known to this collection.
         /// </summary>
+        /// <value>The names of the available font families.</value>
         public ICollection<string> FontFamilies { get; }
 
         /// <summary>

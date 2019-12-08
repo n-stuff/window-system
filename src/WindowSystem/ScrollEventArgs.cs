@@ -8,11 +8,13 @@
         /// <summary>
         /// The x-coordinates change represented by the scroll operation.
         /// </summary>
+        /// <value>A horizontal distance, possibly negative.</value>
         public double DeltaX { get; }
 
         /// <summary>
         /// The y-coordinates change represented by the scroll operation.
         /// </summary>
+        /// <value>A vertical distance, possibly negative.</value>
         public double DeltaY { get; }
 
         /// <summary>

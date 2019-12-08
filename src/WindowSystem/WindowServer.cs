@@ -20,6 +20,7 @@ namespace NStuff.WindowSystem
         /// <summary>
         /// The content of the clipboard.
         /// </summary>
+        /// <value>The text stored in the clipboard, or the empty string.</value>
         /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public string ClipboardString {
             get => GetNativeWindowServer().GetClipboardString();
@@ -36,18 +37,21 @@ namespace NStuff.WindowSystem
         /// <summary>
         /// Gets the time of the last key or mouse event, in seconds with a millisecond precision.
         /// </summary>
+        /// <value>The number of seconds elapsed since the last event.</value>
         /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public double EvenTime => GetNativeWindowServer().GetEventTime();
 
         /// <summary>
         /// Gets the set of active modifier keys.
         /// </summary>
+        /// <value>A bitwise combination of the values that specifies keyboard modifiers.</value>
         /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public ModifierKeys ModifierKeys => GetNativeWindowServer().GetModifierKeys();
 
         /// <summary>
         /// Gets the list of windows currently alive.
         /// </summary>
+        /// <value>A list of <see cref="Window"/> objects.</value>
         /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public ICollection<Window> Windows => GetNativeWindowServer().GetWindows();
 

@@ -26,31 +26,37 @@ namespace NStuff.GraphicsBackend
         /// <summary>
         /// Gets the first element of the first row.
         /// </summary>
+        /// <value>The value of row 1, column 1.</value>
         public double M11 { get; }
 
         /// <summary>
         /// Gets the second element of the first row.
         /// </summary>
+        /// <value>The value of row 1, column 2.</value>
         public double M12 { get; }
 
         /// <summary>
         /// Gets the first element of the second row.
         /// </summary>
+        /// <value>The value of row 2, column 1.</value>
         public double M21 { get; }
 
         /// <summary>
         /// Gets the second element of the second row.
         /// </summary>
+        /// <value>The value of row 2, column 2.</value>
         public double M22 { get; }
 
         /// <summary>
         /// Gets the first element of the third row.
         /// </summary>
+        /// <value>The value of row 3, column 1.</value>
         public double M31 { get; }
 
         /// <summary>
         /// Gets the second element of the third row.
         /// </summary>
+        /// <value>The value of row 3, column 2.</value>
         public double M32 { get; }
 
         /// <summary>

@@ -12,6 +12,7 @@ namespace NStuff.WindowSystem
         /// <summary>
         /// Gets or sets a platform-dependent object used by the native window server to store data.
         /// </summary>
+        /// <value>A platform-dependant object.</value>
         public object? NativeData { get; set; }
 
         /// <summary>

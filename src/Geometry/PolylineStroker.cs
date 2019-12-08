@@ -11,29 +11,36 @@ namespace NStuff.Geometry
         private readonly IPolylineStrokeHandler handler;
 
         /// <summary>
-        /// Gets or sets the width of the stroke.
+        /// Gets or sets the width of the stroke. A zero or negative value causes no computations at all.
         /// </summary>
+        /// <value>A positive value. Default is <c>1</c>.</value>
         public double StrokeWidth { get; set; } = 1d;
 
         /// <summary>
         /// Gets or sets a value indicating the shape of the ends of an open polyline.
         /// </summary>
+        /// <value>One of the enumerated values that specifies the shape of the ends of an open polyline.
+        /// Default is <see cref="StrokeLinecap.Butt"/>.</value>
         public StrokeLinecap StrokeLinecap { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicationg the shape of the corners of a polyline.
         /// </summary>
+        /// <value>One of the enumerated values that specifies the shape of the corners of a polyline.
+        /// Default is <see cref="StrokeLineJoin.Miter"/>.</value>
         public StrokeLineJoin StrokeLineJoin { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating the limit on the extent of a line join of kind <see cref="StrokeLineJoin.Miter"/>.
         /// That value is multiplied by <see cref="StrokeWidth"/> to compute the maximal value of the extent.
         /// </summary>
+        /// <value>The ratio to apply to the stroke width. Default is <c>4</c>.</value>
         public double StrokeMiterLimit { get; set; } = 4d;
 
         /// <summary>
         /// Gets the maximum distance between an approximated segment and an arc.
         /// </summary>
+        /// <value>A distance is considered a good approximation when it is less than this value. Default is <c>0.5</c>.</value>
         public double DistanceTolerance { get; set; } = 0.5;
 
         /// <summary>

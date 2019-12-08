@@ -26,31 +26,43 @@ namespace NStuff.Typography.Font
         /// <summary>
         /// The normal font subfamily.
         /// </summary>
+        /// <value>A subfamily with properties set to represent a normal one.</value>
         public static FontSubfamily Normal => new FontSubfamily(StyleClass.Normal, WeightClass.Normal, WidthClass.Normal);
+
         /// <summary>
         /// The bold font subfamily.
         /// </summary>
+        /// <value>A subfamily with properties set to represent a bold one.</value>
         public static FontSubfamily Bold => new FontSubfamily(StyleClass.Normal, WeightClass.Bold, WidthClass.Normal);
+
         /// <summary>
         /// The bold italic subfont family.
         /// </summary>
+        /// <value>A subfamily with properties set to represent a bold italic one.</value>
         public static FontSubfamily BoldItalic => new FontSubfamily(StyleClass.Italic, WeightClass.Bold, WidthClass.Normal);
+
         /// <summary>
         /// The italic font subfamily.
         /// </summary>
-        public static FontSubfamily Italic => new FontSubfamily(StyleClass.Italic, WeightClass.Bold, WidthClass.Normal);
+        /// <value>A subfamily with properties set to represent an italic one.</value>
+        public static FontSubfamily Italic => new FontSubfamily(StyleClass.Italic, WeightClass.Normal, WidthClass.Normal);
 
         /// <summary>
         /// The style of this subfamily.
         /// </summary>
+        /// <value>One of the values that indicates a style.</value>
         public StyleClass Style { get; }
+
         /// <summary>
         /// The weight of this subfamily.
         /// </summary>
+        /// <value>One of the values that indicates a weight.</value>
         public WeightClass Weight { get; }
+
         /// <summary>
         /// The width of this subfamily.
         /// </summary>
+        /// <value>One of the values that indicates a width.</value>
         public WidthClass Width { get; }
 
         internal FontSubfamily(StyleClass style, WeightClass weight, WidthClass width)

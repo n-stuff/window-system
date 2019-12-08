@@ -26,11 +26,13 @@ namespace NStuff.GraphicsBackend
         /// <summary>
         /// Gets the x-coordinate of the point.
         /// </summary>
+        /// <value>A x-coordinate in pixels.</value>
         public double X { get; }
 
         /// <summary>
         /// Gets the y-coordinate of the point.
         /// </summary>
+        /// <value>A y-coordinate in pixels.</value>
         public double Y { get; }
 
         /// <summary>

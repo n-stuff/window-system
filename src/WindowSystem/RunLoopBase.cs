@@ -26,12 +26,14 @@ namespace NStuff.WindowSystem
         /// <summary>
         /// Gets a value indicating whether the <see cref="Run()"/> method is currently being invoked.
         /// </summary>
+        /// <value><c>true</c> if the loop is active.</value>
         public bool Running { get; private set; }
 
         /// <summary>
         /// Gets a list of actions that should be invoked each time the <see cref="Wait(int)"/> method returns.
         /// </summary>
-        public List<Action<long>> RecurringActions { get; } = new List<Action<long>>();
+        /// <value>The recurring actions.</value>
+        public List<Action<long>> RecurringActions => new List<Action<long>>();
 
         /// <summary>
         /// Notifies the run loop that the <see cref="Run()"/> should terminate.

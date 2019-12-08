@@ -26,21 +26,25 @@ namespace NStuff.GraphicsBackend
         /// <summary>
         /// Gets the red component of this color.
         /// </summary>
+        /// <value>A value indicating the level of red in the color.</value>
         public byte Red { get; }
 
         /// <summary>
         /// Gets the green component of this color.
         /// </summary>
+        /// <value>A value indicating the level of green in the color.</value>
         public byte Green { get; }
 
         /// <summary>
         /// Gets the blue component of this color.
         /// </summary>
+        /// <value>A value indicating the level of blue in the color.</value>
         public byte Blue { get; }
 
         /// <summary>
         /// Gets the alpha component of this color.
         /// </summary>
+        /// <value>A value indicating the level of opacity of the color.</value>
         public byte Alpha { get; }
 
         /// <summary>

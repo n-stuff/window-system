@@ -14,31 +14,37 @@ namespace NStuff.WindowSystem.macOS
         /// <summary>
         /// The location of the top left corner of the rectangle.
         /// </summary>
+        /// <value>A point in screen space.</value>
         public NSPoint Location => location;
 
         /// <summary>
         /// The size of the rectangle.
         /// </summary>
+        /// <value>A width/height pair.</value>
         public NSSize Size => size;
 
         /// <summary>
         /// The x coordinate of the top left corner of the rectangle.
         /// </summary>
+        /// <value>A horizontal coordinate.</value>
         public double X => location.X;
 
         /// <summary>
         /// The y coordinate of the top left corner of the rectangle.
         /// </summary>
+        /// <value>A vertical coordinate.</value>
         public double Y => location.Y;
 
         /// <summary>
         /// The width of the rectangle.
         /// </summary>
+        /// <value>A horizontal dimension.</value>
         public double Width => size.Width;
 
         /// <summary>
         /// The height of the rectangle.
         /// </summary>
+        /// <value>A vertical dimension.</value>
         public double Height => size.Height;
 
         /// <summary>

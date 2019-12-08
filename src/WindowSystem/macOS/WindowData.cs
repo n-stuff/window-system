@@ -16,6 +16,7 @@ namespace NStuff.WindowSystem.macOS
         /// <summary>
         /// Gets the native handle on the window.
         /// </summary>
+        /// <value>The handle on the Objective C <c>NSWindow</c> object.</value>
         public Id Id { get; internal set; }
     }
 }

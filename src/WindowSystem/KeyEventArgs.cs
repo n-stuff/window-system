@@ -8,16 +8,19 @@
         /// <summary>
         /// Gets a symbolic code representing a key.
         /// </summary>
+        /// <value>One of the values indicating a key.</value>
         public Keycode Keycode { get; }
 
         /// <summary>
         /// Gets the states of the modifiers when the event occurred.
         /// </summary>
+        /// <value>A bitwise combination of the values representing keyboard modifiers.</value>
         public ModifierKeys ModifierKeys { get; }
 
         /// <summary>
         /// Whether the key is a repeated key.
         /// </summary>
+        /// <value><c>true</c> if the key is repeated.</value>
         public bool IsRepeat { get; }
 
         /// <summary>

@@ -10,11 +10,13 @@ namespace NStuff.WindowSystem
         /// <summary>
         /// The position of the mouse cursor.
         /// </summary>
+        /// <value>The coordinates of the mouse cursor within a window.</value>
         public (double x, double y) Position { get; }
 
         /// <summary>
         /// The paths associated with this event.
         /// </summary>
+        /// <value>The paths to the files dropped in the window.</value>
         public ICollection<string> Paths { get; }
 
         /// <summary>

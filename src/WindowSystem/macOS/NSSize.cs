@@ -20,11 +20,13 @@ namespace NStuff.WindowSystem.macOS
         /// <summary>
         /// The horizontal component of the size.
         /// </summary>
+        /// <value>A horizontal dimension.</value>
         public double Width => width;
 
         /// <summary>
         /// The vertical component of the size.
         /// </summary>
+        /// <value>A vertical dimension.</value>
         public double Height => height;
 
         /// <summary>
