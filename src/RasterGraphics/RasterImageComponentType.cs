@@ -9,6 +9,7 @@
         /// Each component is a byte.
         /// </summary>
         UnsignedByte,
+
         /// <summary>
         /// Each component is a short.
         /// </summary>

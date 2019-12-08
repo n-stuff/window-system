@@ -123,7 +123,7 @@ namespace NStuff.OpenGL.Backend
             new CpuBuffers<(CommandBufferState state, List<Command> commands)>();
 
         /// <summary>
-        /// A value indicating whether the backend's <see cref="Dispose"/> method was called.
+        /// Gets a value indicating whether the backend's <see cref="Dispose"/> method was called.
         /// </summary>
         /// <value><c>true</c> if <c>Dispose</c> was called.</value>
         /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
@@ -232,12 +232,9 @@ namespace NStuff.OpenGL.Backend
 
         public override unsafe ImageHandle CreateImage(int width, int height, ImageFormat format, ImageComponentType componentType)
         {
-            if (gl == null)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             uint t;
-            gl.GenTextures(1, &t);
+            gl!.GenTextures(1, &t);
             TexturePixelFormat textureFormat;
             PixelFormat pixelFormat;
             if (format == ImageFormat.TrueColorAlpha)
@@ -266,11 +263,8 @@ namespace NStuff.OpenGL.Backend
 
         public override unsafe void UpdateImage(ImageHandle handle, byte[] data, int x, int y, int width, int height)
         {
-            if (gl == null)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
-            gl.ActiveTexture(TextureUnit.Texture0);
+            CheckIfAlive();
+            gl!.ActiveTexture(TextureUnit.Texture0);
             gl.BindTexture(TextureTarget.Texture2d, (uint)handle.Value);
             gl.PixelStorei(PixelStoreParameter.UnpackAlignment, 1);
             var pixelFormat = imagePixelFormats[handle.Value];
@@ -282,21 +276,15 @@ namespace NStuff.OpenGL.Backend
 
         public override unsafe void DestroyImage(ImageHandle handle)
         {
-            if (gl == null)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             uint t = (uint)handle.Value;
-            gl.DeleteTextures(1, &t);
+            gl!.DeleteTextures(1, &t);
             imagePixelFormats.Remove(handle.Value);
         }
 
         public override UniformBufferHandle CreateUniformBuffer(UniformType uniformType, int capacity)
         {
-            if (Disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             var uniformSize = (uniformType == UniformType.RgbaColor) ? 4 : 6;
             var buffer = new float[uniformSize * capacity];
             var handle = uniformBuffers.NewBuffer((uniformType, buffer));
@@ -305,10 +293,7 @@ namespace NStuff.OpenGL.Backend
 
         public override void UpdateUniformBuffer(UniformBufferHandle handle, RgbaColor[] uniforms, int offset, int count)
         {
-            if (Disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             var (type, buffer) = uniformBuffers[handle.Value];
             if (type != UniformType.RgbaColor)
             {
@@ -331,10 +316,7 @@ namespace NStuff.OpenGL.Backend
 
         public override void UpdateUniformBuffer(UniformBufferHandle handle, AffineTransform[] uniforms, int offset, int count)
         {
-            if (Disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             var (type, buffer) = uniformBuffers[handle.Value];
             if (type != UniformType.AffineTransform)
             {
@@ -368,12 +350,9 @@ namespace NStuff.OpenGL.Backend
 
         public override unsafe VertexBufferHandle CreateVertexBuffer(VertexType vertexType, int capacity)
         {
-            if (gl == null)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             uint h;
-            gl.GenVertexArrays(1, &h);
+            gl!.GenVertexArrays(1, &h);
             var vertexArray = h;
             gl.BindVertexArray(vertexArray);
 
@@ -412,10 +391,7 @@ namespace NStuff.OpenGL.Backend
 
         public override unsafe void UpdateVertexBuffer(VertexBufferHandle handle, PointCoordinates[] vertices, int offset, int count)
         {
-            if (gl == null)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             var (id, type, capacity) = vertexBuffers[handle.Value];
             if (type != VertexType.PointCoordinates)
             {
@@ -425,7 +401,7 @@ namespace NStuff.OpenGL.Backend
             {
                 throw new ArgumentException("Capacity exceeded: " + capacity / 2);
             }
-            gl.BindVertexArray((uint)handle.Value);
+            gl!.BindVertexArray((uint)handle.Value);
             gl.BindBuffer(BufferTarget.Array, id);
 
             const int vertexElementCount = 2;
@@ -447,10 +423,7 @@ namespace NStuff.OpenGL.Backend
 
         public override unsafe void UpdateVertexBuffer(VertexBufferHandle handle, PointAndImageCoordinates[] vertices, int offset, int count)
         {
-            if (gl == null)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             var (id, type, capacity) = vertexBuffers[handle.Value];
             if (type != VertexType.PointAndImageCoordinates)
             {
@@ -460,7 +433,7 @@ namespace NStuff.OpenGL.Backend
             {
                 throw new ArgumentException("Capacity exceeded: " + capacity / 4);
             }
-            gl.BindVertexArray((uint)handle.Value);
+            gl!.BindVertexArray((uint)handle.Value);
             gl.BindBuffer(BufferTarget.Array, id);
 
             const int vertexElementCount = 4;
@@ -484,12 +457,9 @@ namespace NStuff.OpenGL.Backend
 
         public override unsafe void DestroyVertexBuffer(VertexBufferHandle handle)
         {
-            if (gl == null)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             var (id, type, capacity) = vertexBuffers[handle.Value];
-            gl.DeleteBuffers(1, &id);
+            gl!.DeleteBuffers(1, &id);
             var h = (uint)handle.Value;
             gl.DeleteVertexArrays(1, &h);
             vertexBuffers.Remove(handle.Value);
@@ -497,20 +467,14 @@ namespace NStuff.OpenGL.Backend
 
         public override VertexRangeBufferHandle CreateVertexRangeBuffer(int capacity)
         {
-            if (Disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             var handle = vertexRangeBuffers.NewBuffer(new VertexRange[capacity]);
             return new VertexRangeBufferHandle(handle);
         }
 
         public override void UpdateVertexRangeBuffer(VertexRangeBufferHandle handle, VertexRange[] vertexRanges, int offset, int count)
         {
-            if (Disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             var buffer = vertexRangeBuffers[handle.Value];
             if (offset + count > buffer.Length)
             {
@@ -525,38 +489,26 @@ namespace NStuff.OpenGL.Backend
 
         public override void DestroyVertexRangeBuffer(VertexRangeBufferHandle handle)
         {
-            if (Disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             vertexRangeBuffers.Delete(handle.Value);
         }
 
         public override CommandBufferHandle CreateCommandBuffer()
         {
-            if (Disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             var handle = commandBuffers.NewBuffer((CommandBufferState.New, new List<Command>()));
             return new CommandBufferHandle(handle);
         }
 
         public override void DestroyCommandBuffer(CommandBufferHandle handle)
         {
-            if (Disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             commandBuffers.Delete(handle.Value);
         }
 
         public override void BeginRecordCommands(CommandBufferHandle handle)
         {
-            if (Disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             var (state, commands) = commandBuffers[handle.Value];
             if (state != CommandBufferState.New)
             {
@@ -567,10 +519,7 @@ namespace NStuff.OpenGL.Backend
 
         public override void EndRecordCommands(CommandBufferHandle handle)
         {
-            if (Disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             var (state, commands) = commandBuffers[handle.Value];
             if (state != CommandBufferState.Recording)
             {
@@ -582,10 +531,7 @@ namespace NStuff.OpenGL.Backend
 
         public override void AddBindImageCommand(CommandBufferHandle commandBufferHandle, ImageHandle imageHandle)
         {
-            if (Disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             var (state, commands) = commandBuffers[commandBufferHandle.Value];
             if (state != CommandBufferState.Recording)
             {
@@ -601,10 +547,7 @@ namespace NStuff.OpenGL.Backend
         public override void AddBindUniformCommand(CommandBufferHandle commandBufferHandle, Uniform uniform,
             UniformBufferHandle uniformBufferHandle, int offset)
         {
-            if (Disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             var (state, commands) = commandBuffers[commandBufferHandle.Value];
             if (state != CommandBufferState.Recording)
             {
@@ -624,10 +567,7 @@ namespace NStuff.OpenGL.Backend
 
         public override void AddBindVertexBufferCommand(CommandBufferHandle commandBufferHandle, VertexBufferHandle vertexBufferHandle)
         {
-            if (Disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             var (state, commands) = commandBuffers[commandBufferHandle.Value];
             if (state != CommandBufferState.Recording)
             {
@@ -642,10 +582,7 @@ namespace NStuff.OpenGL.Backend
 
         public override void AddClearCommand(CommandBufferHandle handle, RgbaColor color)
         {
-            if (Disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             var (state, commands) = commandBuffers[handle.Value];
             if (state != CommandBufferState.Recording)
             {
@@ -660,10 +597,7 @@ namespace NStuff.OpenGL.Backend
 
         public override void AddDisableScissorTestCommand(CommandBufferHandle handle)
         {
-            if (Disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             var (state, commands) = commandBuffers[handle.Value];
             if (state != CommandBufferState.Recording)
             {
@@ -677,10 +611,7 @@ namespace NStuff.OpenGL.Backend
 
         public override void AddDrawCommand(CommandBufferHandle handle, DrawingPrimitive drawingPrimitive, int vertexOffset, int vertexCount)
         {
-            if (Disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             var (state, commands) = commandBuffers[handle.Value];
             if (state != CommandBufferState.Recording)
             {
@@ -701,10 +632,7 @@ namespace NStuff.OpenGL.Backend
         public override void AddDrawIndirectCommand(CommandBufferHandle commandBufferHandle, DrawingPrimitive drawingPrimitive,
             VertexRangeBufferHandle vertexRangeBufferHandle, int vertexRangeIndex)
         {
-            if (Disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             var (state, commands) = commandBuffers[commandBufferHandle.Value];
             if (state != CommandBufferState.Recording)
             {
@@ -724,10 +652,7 @@ namespace NStuff.OpenGL.Backend
 
         public override void AddScissorCommand(CommandBufferHandle handle, int x, int y, int width, int height)
         {
-            if (Disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             var (state, commands) = commandBuffers[handle.Value];
             if (state != CommandBufferState.Recording)
             {
@@ -742,10 +667,7 @@ namespace NStuff.OpenGL.Backend
 
         public override void AddUseShaderCommand(CommandBufferHandle handle, ShaderKind shaderKind)
         {
-            if (Disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             var (state, commands) = commandBuffers[handle.Value];
             if (state != CommandBufferState.Recording)
             {
@@ -760,31 +682,23 @@ namespace NStuff.OpenGL.Backend
 
         public override void BeginRenderFrame()
         {
-            if (gl == null)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
-            gl.Enable(Capability.Blend);
+            CheckIfAlive();
+            gl!.Enable(Capability.Blend);
             gl.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
             gl.Viewport(0, 0, (int)Math.Ceiling(WindowSize.width * PixelScaling), (int)Math.Ceiling(WindowSize.height * PixelScaling));
         }
 
         public override void EndRenderFrame()
         {
-            if (gl == null)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
-            gl.Disable(Capability.Blend);
+            CheckIfAlive();
+            gl!.Disable(Capability.Blend);
             gl.Disable(Capability.ScissorTest);
         }
 
         public override void SubmitCommands(CommandBufferHandle[] handles, int offset, int count)
         {
-            if (gl == null)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
+
             for (int i = 0; i < count; i++)
             {
                 var (state, commands) = commandBuffers[handles[i + offset].Value];
@@ -798,7 +712,7 @@ namespace NStuff.OpenGL.Backend
                     {
                         case CommandType.BindImage:
                             {
-                                gl.ActiveTexture(TextureUnit.Texture0);
+                                gl!.ActiveTexture(TextureUnit.Texture0);
                                 gl.BindTexture(TextureTarget.Texture2d, (uint)c.bindImageArgs.imageHandle.Value);
                             }
                             break;
@@ -818,13 +732,13 @@ namespace NStuff.OpenGL.Backend
                                             switch (currentShader)
                                             {
                                                 case ShaderKind.GreyscaleImage:
-                                                    greyscaleTextureShader.SetColor(gl, red, green, blue, alpha);
+                                                    greyscaleTextureShader.SetColor(gl!, red, green, blue, alpha);
                                                     break;
                                                 case ShaderKind.PlainColor:
-                                                    plainColorShader.SetColor(gl, red, green, blue, alpha);
+                                                    plainColorShader.SetColor(gl!, red, green, blue, alpha);
                                                     break;
                                                 case ShaderKind.TrueColorImage:
-                                                    trueColorTextureShader.SetColor(gl, red, green, blue, alpha);
+                                                    trueColorTextureShader.SetColor(gl!, red, green, blue, alpha);
                                                     break;
                                             }
                                         }
@@ -845,13 +759,13 @@ namespace NStuff.OpenGL.Backend
                                             switch (currentShader)
                                             {
                                                 case ShaderKind.GreyscaleImage:
-                                                    greyscaleTextureShader.SetProjection(gl, projection);
+                                                    greyscaleTextureShader.SetProjection(gl!, projection);
                                                     break;
                                                 case ShaderKind.PlainColor:
-                                                    plainColorShader.SetProjection(gl, projection);
+                                                    plainColorShader.SetProjection(gl!, projection);
                                                     break;
                                                 case ShaderKind.TrueColorImage:
-                                                    trueColorTextureShader.SetProjection(gl, projection);
+                                                    trueColorTextureShader.SetProjection(gl!, projection);
                                                     break;
                                             }
                                         }
@@ -864,7 +778,7 @@ namespace NStuff.OpenGL.Backend
                             {
                                 var handle = c.bindVertexBufferArgs.vertexBufferHandle;
                                 var (id, type, capacity) = vertexBuffers[handle.Value];
-                                gl.BindVertexArray((uint)handle.Value);
+                                gl!.BindVertexArray((uint)handle.Value);
                                 gl.BindBuffer(BufferTarget.Array, id);
                             }
                             break;
@@ -872,21 +786,21 @@ namespace NStuff.OpenGL.Backend
                         case CommandType.Clear:
                             {
                                 var color = c.clearArgs.color;
-                                gl.ClearColor(color.Red / 255f, color.Green / 255f, color.Blue / 255f, color.Alpha / 255f);
+                                gl!.ClearColor(color.Red / 255f, color.Green / 255f, color.Blue / 255f, color.Alpha / 255f);
                                 gl.Clear(Buffers.Color);
                             }
                             break;
 
                         case CommandType.DisableScissorTest:
                             {
-                                gl.Disable(Capability.ScissorTest);
+                                gl!.Disable(Capability.ScissorTest);
                             }
                             break;
 
                         case CommandType.Draw:
                             {
                                 var drawMode = ConvertPrimitiveType(c.drawArgs.primitive);
-                                gl.DrawArrays(drawMode, c.drawArgs.vertexOffset, c.drawArgs.vertexCount);
+                                gl!.DrawArrays(drawMode, c.drawArgs.vertexOffset, c.drawArgs.vertexCount);
                             }
                             break;
 
@@ -895,13 +809,13 @@ namespace NStuff.OpenGL.Backend
                                 var drawMode = ConvertPrimitiveType(c.drawIndirectArgs.primitive);
                                 var buffer = vertexRangeBuffers[c.drawIndirectArgs.bufferHandle.Value];
                                 var range = buffer[c.drawIndirectArgs.vertexRangeIndex];
-                                gl.DrawArrays(drawMode, range.Offset, range.Count);
+                                gl!.DrawArrays(drawMode, range.Offset, range.Count);
                             }
                             break;
 
                         case CommandType.Scissor:
                             {
-                                gl.Enable(Capability.ScissorTest);
+                                gl!.Enable(Capability.ScissorTest);
                                 gl.Scissor(
                                     (int)Math.Floor(c.scissorArgs.x * PixelScaling),
                                     (int)Math.Floor((WindowSize.height - c.scissorArgs.y - c.scissorArgs.height) * PixelScaling),
@@ -915,13 +829,13 @@ namespace NStuff.OpenGL.Backend
                                 switch (c.useShaderArgs.shaderKind)
                                 {
                                     case ShaderKind.GreyscaleImage:
-                                        greyscaleTextureShader.Use(gl);
+                                        greyscaleTextureShader.Use(gl!);
                                         break;
                                     case ShaderKind.PlainColor:
-                                        plainColorShader.Use(gl);
+                                        plainColorShader.Use(gl!);
                                         break;
                                     case ShaderKind.TrueColorImage:
-                                        trueColorTextureShader.Use(gl);
+                                        trueColorTextureShader.Use(gl!);
                                         break;
                                 }
                                 currentShader = c.useShaderArgs.shaderKind;
@@ -960,14 +874,10 @@ namespace NStuff.OpenGL.Backend
 
         private void CheckErrors()
         {
-            if (gl == null)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
-
+            CheckIfAlive();
             ErrorFlag errorFlag;
             var fatal = false;
-            while ((errorFlag = gl.GetError()) != ErrorFlag.NoError)
+            while ((errorFlag = gl!.GetError()) != ErrorFlag.NoError)
             {
                 switch (errorFlag)
                 {
@@ -982,6 +892,14 @@ namespace NStuff.OpenGL.Backend
             if (fatal)
             {
                 throw new OutOfMemoryException();
+            }
+        }
+
+        private void CheckIfAlive()
+        {
+            if (Disposed)
+            {
+                throw new ObjectDisposedException(GetType().FullName);
             }
         }
     }

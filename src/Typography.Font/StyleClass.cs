@@ -9,10 +9,12 @@
         /// A normal font.
         /// </summary>
         Normal,
+
         /// <summary>
         /// An italic font.
         /// </summary>
         Italic,
+
         /// <summary>
         /// An oblique font.
         /// </summary>

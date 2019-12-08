@@ -240,7 +240,7 @@ namespace NStuff.Typography.Font
         }
 
         /// <summary>
-        /// The size in bytes of this font.
+        /// Gets the size in bytes of this font.
         /// </summary>
         public int DataLength => data.Length;
 

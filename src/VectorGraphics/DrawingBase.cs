@@ -8,7 +8,7 @@ namespace NStuff.VectorGraphics
     public abstract class DrawingBase
     {
         /// <summary>
-        /// The transform to apply to all coordinates of the drawing.
+        /// Gets or sets the transform to apply to all coordinates of the drawing.
         /// </summary>
         public AffineTransform Transform { get; set; } = new AffineTransform(m11: 1, m22: 1);
 

@@ -24,32 +24,32 @@ namespace NStuff.GraphicsBackend
         public static bool operator !=(AffineTransform transform1, AffineTransform transform2) => !transform1.Equals(transform2);
 
         /// <summary>
-        /// The first element of the first row.
+        /// Gets the first element of the first row.
         /// </summary>
         public double M11 { get; }
 
         /// <summary>
-        /// The second element of the first row.
+        /// Gets the second element of the first row.
         /// </summary>
         public double M12 { get; }
 
         /// <summary>
-        /// The first element of the second row.
+        /// Gets the first element of the second row.
         /// </summary>
         public double M21 { get; }
 
         /// <summary>
-        /// The second element of the second row.
+        /// Gets the second element of the second row.
         /// </summary>
         public double M22 { get; }
 
         /// <summary>
-        /// The first element of the third row.
+        /// Gets the first element of the third row.
         /// </summary>
         public double M31 { get; }
 
         /// <summary>
-        /// The second element of the third row.
+        /// Gets the second element of the third row.
         /// </summary>
         public double M32 { get; }
 

@@ -16,27 +16,27 @@ namespace NStuff.Typography.Font
         private int nameOffset;
 
         /// <summary>
-        /// The platform of the current name.
+        /// Gets the platform of the current name.
         /// </summary>
         public PlatformID PlatformID { get; private set; }
 
         /// <summary>
-        /// The encoding of the current name.
+        /// TGets thehe encoding of the current name.
         /// </summary>
         public int EncodingID { get; private set; }
 
         /// <summary>
-        /// The LCID of the language of the current name.
+        /// Gets the LCID of the language of the current name.
         /// </summary>
         public int LanguageID { get; private set; }
 
         /// <summary>
-        /// The kind of the current name.
+        /// Gets the kind of the current name.
         /// </summary>
         public NameID NameID { get; private set; }
 
         /// <summary>
-        /// The length in bytes of the raw data of current name.
+        /// Gets the length in bytes of the raw data of current name.
         /// </summary>
         public int NameLength { get; private set; }
 

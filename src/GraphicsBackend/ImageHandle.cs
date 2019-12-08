@@ -24,7 +24,7 @@ namespace NStuff.GraphicsBackend
         public static bool operator !=(ImageHandle image1, ImageHandle image2) => !image1.Equals(image2);
 
         /// <summary>
-        /// The value of this handle.
+        /// Gets the value of this handle.
         /// </summary>
         public IntPtr Value { get; }
 

@@ -10,17 +10,17 @@ namespace NStuff.RasterGraphics
     public class RasterImage
     {
         /// <summary>
-        /// The format of this image.
+        /// Gets or sets the format of this image.
         /// </summary>
         public RasterImageFormat Format { get; set; }
 
         /// <summary>
-        /// The type of each pixel's component.
+        /// Gets or sets the type of each pixel's component.
         /// </summary>
         public RasterImageComponentType ComponentType { get; set; }
 
         /// <summary>
-        /// The size of the image in pixels.
+        /// Gets or sets the size of the image in pixels.
         /// </summary>
         public (int width, int height) Size { get; set; }
 

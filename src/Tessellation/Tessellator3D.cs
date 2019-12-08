@@ -30,7 +30,7 @@ namespace NStuff.Tessellation
         private HalfEdge<VertexData>? currentEdge;
 
         /// <summary>
-        /// The kind of output expected from the tessellator.
+        /// Gets or sets the kind of output expected from the tessellator.
         /// </summary>
         public OutputKind OutputKind {
             get => simpleTessellator.OutputKind;
@@ -38,12 +38,12 @@ namespace NStuff.Tessellation
         }
 
         /// <summary>
-        /// A value indicating whether, in enumerator mode, the current vertex is the first vertex.
+        /// Gets a value indicating whether, in enumerator mode, the current vertex is the first vertex.
         /// </summary>
         public bool FirstVertex { get; private set; }
 
         /// <summary>
-        /// A value indicating whether, in enumerator mode, the current vertex is located on the boundary of the polygon.
+        /// Gets a value indicating whether, in enumerator mode, the current vertex is located on the boundary of the polygon.
         /// </summary>
         public bool OnPolygonBoundary { get; private set; }
 
@@ -53,7 +53,7 @@ namespace NStuff.Tessellation
         public (double x, double y, double z, TVertexData data) Vertex => simpleTessellator.Vertex;
 
         /// <summary>
-        /// The normal used to project the polygon in 2D to apply the tessellation algorithm.
+        /// Gets or sets the normal used to project the polygon in 2D to apply the tessellation algorithm.
         /// </summary>
         public (double x, double y, double z) Normal { get; set; }
 

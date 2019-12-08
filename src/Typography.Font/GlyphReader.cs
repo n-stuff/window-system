@@ -12,62 +12,62 @@ namespace NStuff.Typography.Font
         private readonly CffGlyphDecoder cffGlyphDecoder = new CffGlyphDecoder();
 
         /// <summary>
-        /// The current path command.
+        /// Gets the current path command.
         /// </summary>
         public PathCommand PathCommand => GetCurrentDecoder().PathCommand;
 
         /// <summary>
-        /// The x-coordinate of the end point of the current command.
+        /// Gets the x-coordinate of the end point of the current command.
         /// </summary>
         public double X => GetCurrentDecoder().X;
 
         /// <summary>
-        /// The y-coordinate of the end point of the current command.
+        /// Gets the y-coordinate of the end point of the current command.
         /// </summary>
         public double Y => GetCurrentDecoder().Y;
 
         /// <summary>
-        /// The x-coordinate of the first control point of the current command.
+        /// Gets the x-coordinate of the first control point of the current command.
         /// </summary>
         public double Cx => GetCurrentDecoder().Cx;
 
         /// <summary>
-        /// The y-coordinate of the first control point of the current command.
+        /// Gets the y-coordinate of the first control point of the current command.
         /// </summary>
         public double Cy => GetCurrentDecoder().Cy;
 
         /// <summary>
-        /// The x-coordinate of the second control point of the current command.
+        /// Gets the x-coordinate of the second control point of the current command.
         /// </summary>
         public double Cx1 => GetCurrentDecoder().Cx1;
 
         /// <summary>
-        /// The y-coordinate of the second control point of the current command.
+        /// Gets the y-coordinate of the second control point of the current command.
         /// </summary>
         public double Cy1 => GetCurrentDecoder().Cy1;
 
         /// <summary>
-        /// The minimal value <see cref="X"/>, <see cref="Cx"/>, or <see cref="Cx1"/> can have for the current glyph.
+        /// Gets the minimal value <see cref="X"/>, <see cref="Cx"/>, or <see cref="Cx1"/> can have for the current glyph.
         /// </summary>
         public double XMin => GetCurrentDecoder().XMin;
 
         /// <summary>
-        /// The maximal value <see cref="X"/>, <see cref="Cx"/>, or <see cref="Cx1"/> can have for the current glyph.
+        /// Gets the maximal value <see cref="X"/>, <see cref="Cx"/>, or <see cref="Cx1"/> can have for the current glyph.
         /// </summary>
         public double XMax => GetCurrentDecoder().XMax;
 
         /// <summary>
-        /// The minimal value <see cref="Y"/>, <see cref="Cy"/>, or <see cref="Cy1"/> can have for the current glyph.
+        /// Gets the minimal value <see cref="Y"/>, <see cref="Cy"/>, or <see cref="Cy1"/> can have for the current glyph.
         /// </summary>
         public double YMin => GetCurrentDecoder().YMin;
 
         /// <summary>
-        /// The maximal value <see cref="Y"/>, <see cref="Cy"/>, or <see cref="Cy1"/> can have for the current glyph.
+        /// Gets the maximal value <see cref="Y"/>, <see cref="Cy"/>, or <see cref="Cy1"/> can have for the current glyph.
         /// </summary>
         public double YMax => GetCurrentDecoder().YMax;
 
         /// <summary>
-        /// The scale used to transform values.
+        /// Gets the scale used to transform values.
         /// </summary>
         public double Scale => GetCurrentDecoder().Scale;
 

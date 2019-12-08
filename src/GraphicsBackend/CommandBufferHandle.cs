@@ -24,7 +24,7 @@ namespace NStuff.GraphicsBackend
         public static bool operator !=(CommandBufferHandle buffer1, CommandBufferHandle buffer2) => !buffer1.Equals(buffer2);
 
         /// <summary>
-        /// The value of this handle.
+        /// Gets the value of this handle.
         /// </summary>
         public IntPtr Value { get; }
 

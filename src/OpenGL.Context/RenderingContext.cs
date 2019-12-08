@@ -11,9 +11,9 @@ namespace NStuff.OpenGL.Context
     public sealed class RenderingContext : IRenderingContext, IDisposable
     {
         /// <summary>
-        /// The delegate called by the instances of <c>RenderingContext</c> to create <see cref="NativeRenderingContextBase"/> instances.
+        /// Gets the delegate called by the instances of <c>RenderingContext</c> to create <see cref="NativeRenderingContextBase"/> instances.
         /// </summary>
-        /// <value>By default it is initialized with a delegate that supports Windows, macOS, and Linux.</value>
+        /// <value>By default it is initialized with <see cref="CreateNativeRenderingContext()"/>.</value>
         public static Func<NativeRenderingContextBase> NativeRenderingContextCreator { get; set; } = CreateNativeRenderingContext;
 
         [ThreadStatic]
@@ -27,28 +27,22 @@ namespace NStuff.OpenGL.Context
         /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public Window? CurrentWindow {
             get {
-                if (nativeRenderingContext == null)
-                {
-                    throw new ObjectDisposedException(GetType().FullName);
-                }
+                CheckIfAlive();
                 if (currentWindow != null && currentWindow.Disposed)
                 {
-                    nativeRenderingContext.MakeWindowCurrent(null);
+                    nativeRenderingContext!.MakeWindowCurrent(null);
                     currentWindow = null;
                 }
                 return currentWindow;
             }
             set {
-                if (nativeRenderingContext == null)
-                {
-                    throw new ObjectDisposedException(GetType().FullName);
-                }
+                CheckIfAlive();
                 if (currentWindow != null)
                 {
-                    nativeRenderingContext.MakeWindowCurrent(null);
+                    nativeRenderingContext!.MakeWindowCurrent(null);
                     currentWindow = null;
                 }
-                nativeRenderingContext.MakeWindowCurrent(value);
+                nativeRenderingContext!.MakeWindowCurrent(value);
                 currentWindow = value;
             }
         }
@@ -122,15 +116,12 @@ namespace NStuff.OpenGL.Context
         public bool TryGetOpenGLEntryPoint<TDelegate>(string commandName, [NotNullWhen(returnValue: true)] out TDelegate? result)
             where TDelegate : class
         {
-            if (nativeRenderingContext == null)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             if (currentWindow == null)
             {
                 throw new InvalidOperationException(Resources.GetMessage(Resources.Key.RenderingContextNotSet));
             }
-            var address = nativeRenderingContext.GetCommandAddress(commandName);
+            var address = nativeRenderingContext!.GetCommandAddress(commandName);
             if (address == IntPtr.Zero)
             {
                 result = default;
@@ -165,15 +156,12 @@ namespace NStuff.OpenGL.Context
         /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         void IRenderingContext.AttachRenderingData(WindowServer server, Window window)
         {
-            if (nativeRenderingContext == null)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             if (Settings == null)
             {
                 Settings = new RenderingSettings();
             }
-            nativeRenderingContext.AttachRenderingData(this, server, window);
+            nativeRenderingContext!.AttachRenderingData(this, server, window);
         }
 
         /// <summary>
@@ -183,16 +171,13 @@ namespace NStuff.OpenGL.Context
         /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         void IRenderingContext.DetachRenderingData(Window window)
         {
-            if (nativeRenderingContext == null)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            CheckIfAlive();
             if (window == currentWindow)
             {
-                nativeRenderingContext.MakeWindowCurrent(null);
+                nativeRenderingContext!.MakeWindowCurrent(null);
                 currentWindow = null;
             }
-            nativeRenderingContext.DetachRenderingData(window);
+            nativeRenderingContext!.DetachRenderingData(window);
         }
 
         /// <summary>
@@ -215,7 +200,20 @@ namespace NStuff.OpenGL.Context
         private NativeRenderingContextBase GetNativeRenderingContext() =>
             nativeRenderingContext ?? throw new ObjectDisposedException(GetType().FullName);
 
-        private static NativeRenderingContextBase CreateNativeRenderingContext()
+        private void CheckIfAlive()
+        {
+            if (Disposed)
+            {
+                throw new ObjectDisposedException(GetType().FullName);
+            }
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="NativeRenderingContextBase"/> object.
+        /// Windows, macOS, and Linux are supported by this method.
+        /// </summary>
+        /// <returns>A new native rendering context.</returns>
+        public static NativeRenderingContextBase CreateNativeRenderingContext()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {

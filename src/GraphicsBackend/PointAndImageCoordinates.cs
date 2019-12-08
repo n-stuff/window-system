@@ -26,22 +26,22 @@ namespace NStuff.GraphicsBackend
             !coordinates1.Equals(coordinates2);
 
         /// <summary>
-        /// The x-coordinate of the point.
+        /// Gets the x-coordinate of the point.
         /// </summary>
         public double X { get; }
 
         /// <summary>
-        /// The y-coordinate of the point.
+        /// Gets the y-coordinate of the point.
         /// </summary>
         public double Y { get; }
 
         /// <summary>
-        /// The x-coordinate of the point in an image.
+        /// Gets the x-coordinate of the point in an image.
         /// </summary>
         public double XImage { get; }
 
         /// <summary>
-        /// The y-coordinate of the point in an image.
+        /// Gets the y-coordinate of the point in an image.
         /// </summary>
         public double YImage { get; }
 

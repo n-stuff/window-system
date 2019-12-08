@@ -18,7 +18,7 @@ namespace NStuff.Typography.Font
         /// <summary>
         /// The delegate called by the instances of <c>OpenTypeCollection</c> to get the list of system font folders.
         /// </summary>
-        /// <value>By default it is initialized with a delegate that supports Windows, macOS, and Linux.</value>
+        /// <value>By default it is initialized with <see cref="GetSystemFontFolders()"/>.</value>
         public static Func<IEnumerable<string>> SystemFontFoldersProvider { get; set; } = GetSystemFontFolders;
 
         private struct FontResource
@@ -81,7 +81,7 @@ namespace NStuff.Typography.Font
         }
 
         /// <summary>
-        /// All the font families known to this collection.
+        /// Gets all the font families known to this collection.
         /// </summary>
         public ICollection<string> FontFamilies { get; }
 
@@ -516,7 +516,12 @@ namespace NStuff.Typography.Font
             return true;
         }
 
-        private static IEnumerable<string> GetSystemFontFolders()
+        /// <summary>
+        /// Gets the system folders used to store fonts on the current OS.
+        /// Windows, macOS, and Linux are supported by this method.
+        /// </summary>
+        /// <returns>A set of folder paths.</returns>
+        public static IEnumerable<string> GetSystemFontFolders()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {

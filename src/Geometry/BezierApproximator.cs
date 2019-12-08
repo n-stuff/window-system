@@ -11,17 +11,17 @@ namespace NStuff.Geometry
         private double distanceToleranceSquared;
 
         /// <summary>
-        /// The threshold used to decide whether two segments are collinear.
+        /// Gets or sets the threshold used to decide whether two segments are collinear.
         /// </summary>
         public double CollinearityEpsilon { get; set; } = 1e-3d;
 
         /// <summary>
-        /// The threshold used to decide whether an approximation is acceptable.
+        /// Gets or sets the threshold used to decide whether an approximation is acceptable.
         /// </summary>
         public double DistanceTolerance { get; set; } = 0.5;
 
         /// <summary>
-        /// An action invoked when a new point has been computed.
+        /// Gets or sets an action invoked when a new point has been computed.
         /// </summary>
         public Action<double, double>? PointComputed { get; set; }
 

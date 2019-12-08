@@ -24,12 +24,12 @@ namespace NStuff.GraphicsBackend
         public static bool operator !=(PointCoordinates coordinates1, PointCoordinates coordinates2) => !coordinates1.Equals(coordinates2);
 
         /// <summary>
-        /// The x-coordinate of the point.
+        /// Gets the x-coordinate of the point.
         /// </summary>
         public double X { get; }
 
         /// <summary>
-        /// The y-coordinate of the point.
+        /// Gets the y-coordinate of the point.
         /// </summary>
         public double Y { get; }
 

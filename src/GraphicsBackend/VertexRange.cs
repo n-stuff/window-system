@@ -24,12 +24,12 @@ namespace NStuff.GraphicsBackend
         public static bool operator !=(VertexRange range1, VertexRange range2) => !range1.Equals(range2);
 
         /// <summary>
-        /// The offset of the first vertex in a vertex buffer.
+        /// Gets the offset of the first vertex in a vertex buffer.
         /// </summary>
         public int Offset { get; }
 
         /// <summary>
-        /// The number of vertices in a vertex buffer.
+        /// Gets the number of vertices in a vertex buffer.
         /// </summary>
         public int Count { get; }
 

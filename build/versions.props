@@ -5,7 +5,7 @@
     <CoverletCollectorVersion>1.0.1</CoverletCollectorVersion>
     <MicrosoftNETTestSdkVersion>16.2.0</MicrosoftNETTestSdkVersion>
     <NetStandardId>netstandard2.1</NetStandardId>
-    <NetCoreAppId>netcoreapp3.0</NetCoreAppId>
+    <NetCoreAppId>netcoreapp3.1</NetCoreAppId>
     <XunitVersion>2.4.0</XunitVersion>
     <XunitRunnerVisualstudioVersion>2.4.0</XunitRunnerVisualstudioVersion>
   </PropertyGroup>

@@ -24,22 +24,22 @@ namespace NStuff.GraphicsBackend
         public static bool operator !=(RgbaColor color1, RgbaColor color2) => !color1.Equals(color2);
 
         /// <summary>
-        /// The red component of this color.
+        /// Gets the red component of this color.
         /// </summary>
         public byte Red { get; }
 
         /// <summary>
-        /// The green component of this color.
+        /// Gets the green component of this color.
         /// </summary>
         public byte Green { get; }
 
         /// <summary>
-        /// The blue component of this color.
+        /// Gets the blue component of this color.
         /// </summary>
         public byte Blue { get; }
 
         /// <summary>
-        /// The alpha component of this color.
+        /// Gets the alpha component of this color.
         /// </summary>
         public byte Alpha { get; }
 

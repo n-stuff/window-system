@@ -23,7 +23,7 @@ namespace NStuff.Tessellation
         internal TPolygonData polygonData = default!;
 
         /// <summary>
-        /// The winding rule to determine whether a part of a polygon is inside of outside of this polygon.
+        /// Gets or sets the winding rule to determine whether a part of a polygon is inside of outside of this polygon.
         /// </summary>
         public WindingRule WindingRule { get; set; }
 

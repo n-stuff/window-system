@@ -6,12 +6,12 @@
     public abstract class DrawingBackendBase
     {
         /// <summary>
-        /// The scaling to apply to coordinates to get the number of pixels.
+        /// Gets or sets the scaling to apply to coordinates to get the number of pixels.
         /// </summary>
         public double PixelScaling { get; set; } = 1.0;
 
         /// <summary>
-        /// The size of the windowing system frame containing the drawing area.
+        /// Gets or sets the size of the windowing system frame containing the drawing area.
         /// </summary>
         public (double width, double height) WindowSize { get; set; }
 

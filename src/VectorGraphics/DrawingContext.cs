@@ -34,7 +34,7 @@ namespace NStuff.VectorGraphics
         internal CommandBufferHandle DrawIndirectCommandBuffer { get; private set; }
 
         /// <summary>
-        /// The color used to clear the framebuffer before drawing.
+        /// Gets or sets the color used to clear the framebuffer before drawing.
         /// </summary>
         public RgbaColor ClearColor {
             get => clearColor;
@@ -52,14 +52,14 @@ namespace NStuff.VectorGraphics
         }
 
         /// <summary>
-        /// A value indicating whether the backend's <see cref="Dispose"/> method was called.
+        /// Gets a value indicating whether the backend's <see cref="Dispose"/> method was called.
         /// </summary>
         /// <value><c>true</c> if <c>Dispose</c> was called.</value>
         /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public bool Disposed => backend == null;
 
         /// <summary>
-        /// The scaling to apply to coordinates to get the number of pixels.
+        /// Gets or sets the scaling to apply to coordinates to get the number of pixels.
         /// </summary>
         public double PixelScaling {
             get => Backend.PixelScaling;
