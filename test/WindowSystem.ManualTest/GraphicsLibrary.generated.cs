@@ -20,45 +20,13 @@ namespace NStuff.WindowSystem.ManualTest
         private Uniform3fDelegate glUniform3f;
         private UniformMatrix4fvDelegate glUniformMatrix4fv;
 
-        internal ActiveTextureDelegate ActiveTexture {
-            get {
-                if (glActiveTexture == null)
-                {
-                    glActiveTexture = GetOpenGLEntryPoint<ActiveTextureDelegate>("glActiveTexture");
-                }
-                return glActiveTexture;
-            }
-        }
+        internal ActiveTextureDelegate ActiveTexture => glActiveTexture ??= GetOpenGLEntryPoint<ActiveTextureDelegate>("glActiveTexture");
         internal AttachShaderDelegate AttachShader { get; private set; }
-        internal BindAttribLocationDelegate BindAttribLocation {
-            get {
-                if (glBindAttribLocation == null)
-                {
-                    glBindAttribLocation = GetOpenGLEntryPoint<BindAttribLocationDelegate>("glBindAttribLocation");
-                }
-                return glBindAttribLocation;
-            }
-        }
+        internal BindAttribLocationDelegate BindAttribLocation => glBindAttribLocation ??= GetOpenGLEntryPoint<BindAttribLocationDelegate>("glBindAttribLocation");
         internal BindBufferDelegate BindBuffer { get; private set; }
-        internal BindTextureDelegate BindTexture {
-            get {
-                if (glBindTexture == null)
-                {
-                    glBindTexture = GetOpenGLEntryPoint<BindTextureDelegate>("glBindTexture");
-                }
-                return glBindTexture;
-            }
-        }
+        internal BindTextureDelegate BindTexture => glBindTexture ??= GetOpenGLEntryPoint<BindTextureDelegate>("glBindTexture");
         internal BindVertexArrayDelegate BindVertexArray { get; private set; }
-        internal BlendFuncDelegate BlendFunc {
-            get {
-                if (glBlendFunc == null)
-                {
-                    glBlendFunc = GetOpenGLEntryPoint<BlendFuncDelegate>("glBlendFunc");
-                }
-                return glBlendFunc;
-            }
-        }
+        internal BlendFuncDelegate BlendFunc => glBlendFunc ??= GetOpenGLEntryPoint<BlendFuncDelegate>("glBlendFunc");
         internal BufferDataDelegate BufferData { get; private set; }
         internal BufferSubDataDelegate BufferSubData { get; private set; }
         internal ClearDelegate Clear { get; private set; }
@@ -69,15 +37,7 @@ namespace NStuff.WindowSystem.ManualTest
         internal DeleteBuffersDelegate DeleteBuffers { get; private set; }
         internal DeleteProgramDelegate DeleteProgram { get; private set; }
         internal DeleteShaderDelegate DeleteShader { get; private set; }
-        internal DeleteTexturesDelegate DeleteTextures {
-            get {
-                if (glDeleteTextures == null)
-                {
-                    glDeleteTextures = GetOpenGLEntryPoint<DeleteTexturesDelegate>("glDeleteTextures");
-                }
-                return glDeleteTextures;
-            }
-        }
+        internal DeleteTexturesDelegate DeleteTextures => glDeleteTextures ??= GetOpenGLEntryPoint<DeleteTexturesDelegate>("glDeleteTextures");
         internal DeleteVertexArraysDelegate DeleteVertexArrays { get; private set; }
         internal DisableDelegate Disable { get; private set; }
         internal DrawArraysDelegate DrawArrays { get; private set; }
@@ -85,96 +45,24 @@ namespace NStuff.WindowSystem.ManualTest
         internal EnableDelegate Enable { get; private set; }
         internal EnableVertexAttribArrayDelegate EnableVertexAttribArray { get; private set; }
         internal GenBuffersDelegate GenBuffers { get; private set; }
-        internal GenTexturesDelegate GenTextures {
-            get {
-                if (glGenTextures == null)
-                {
-                    glGenTextures = GetOpenGLEntryPoint<GenTexturesDelegate>("glGenTextures");
-                }
-                return glGenTextures;
-            }
-        }
+        internal GenTexturesDelegate GenTextures => glGenTextures ??= GetOpenGLEntryPoint<GenTexturesDelegate>("glGenTextures");
         internal GenVertexArraysDelegate GenVertexArrays { get; private set; }
         internal GetProgramInfoLogDelegate GetProgramInfoLog { get; private set; }
         internal GetProgramivDelegate GetProgramiv { get; private set; }
         internal GetShaderInfoLogDelegate GetShaderInfoLog { get; private set; }
         internal GetShaderivDelegate GetShaderiv { get; private set; }
         internal GetStringDelegate GetString { get; private set; }
-        internal GetUniformLocationDelegate GetUniformLocation {
-            get {
-                if (glGetUniformLocation == null)
-                {
-                    glGetUniformLocation = GetOpenGLEntryPoint<GetUniformLocationDelegate>("glGetUniformLocation");
-                }
-                return glGetUniformLocation;
-            }
-        }
+        internal GetUniformLocationDelegate GetUniformLocation => glGetUniformLocation ??= GetOpenGLEntryPoint<GetUniformLocationDelegate>("glGetUniformLocation");
         internal LinkProgramDelegate LinkProgram { get; private set; }
-        internal PixelStoreiDelegate PixelStorei {
-            get {
-                if (glPixelStorei == null)
-                {
-                    glPixelStorei = GetOpenGLEntryPoint<PixelStoreiDelegate>("glPixelStorei");
-                }
-                return glPixelStorei;
-            }
-        }
+        internal PixelStoreiDelegate PixelStorei => glPixelStorei ??= GetOpenGLEntryPoint<PixelStoreiDelegate>("glPixelStorei");
         internal ShaderSourceDelegate ShaderSource { get; private set; }
         internal ScissorDelegate Scissor { get; private set; }
-        internal TexImage2DDelegate TexImage2D {
-            get {
-                if (glTexImage2D == null)
-                {
-                    glTexImage2D = GetOpenGLEntryPoint<TexImage2DDelegate>("glTexImage2D");
-                }
-                return glTexImage2D;
-            }
-        }
-        internal TexSubImage2DDelegate TexSubImage2D {
-            get {
-                if (glTexSubImage2D == null)
-                {
-                    glTexSubImage2D = GetOpenGLEntryPoint<TexSubImage2DDelegate>("glTexSubImage2D");
-                }
-                return glTexSubImage2D;
-            }
-        }
-        internal TexParameteriDelegate TexParameteri {
-            get {
-                if (glTexParameteri == null)
-                {
-                    glTexParameteri = GetOpenGLEntryPoint<TexParameteriDelegate>("glTexParameteri");
-                }
-                return glTexParameteri;
-            }
-        }
-        internal Uniform1iDelegate Uniform1i {
-            get {
-                if (glUniform1i == null)
-                {
-                    glUniform1i = GetOpenGLEntryPoint<Uniform1iDelegate>("glUniform1i");
-                }
-                return glUniform1i;
-            }
-        }
-        internal Uniform3fDelegate Uniform3f {
-            get {
-                if (glUniform3f == null)
-                {
-                    glUniform3f = GetOpenGLEntryPoint<Uniform3fDelegate>("glUniform3f");
-                }
-                return glUniform3f;
-            }
-        }
-        internal UniformMatrix4fvDelegate UniformMatrix4fv {
-            get {
-                if (glUniformMatrix4fv == null)
-                {
-                    glUniformMatrix4fv = GetOpenGLEntryPoint<UniformMatrix4fvDelegate>("glUniformMatrix4fv");
-                }
-                return glUniformMatrix4fv;
-            }
-        }
+        internal TexImage2DDelegate TexImage2D => glTexImage2D ??= GetOpenGLEntryPoint<TexImage2DDelegate>("glTexImage2D");
+        internal TexSubImage2DDelegate TexSubImage2D => glTexSubImage2D ??= GetOpenGLEntryPoint<TexSubImage2DDelegate>("glTexSubImage2D");
+        internal TexParameteriDelegate TexParameteri => glTexParameteri ??= GetOpenGLEntryPoint<TexParameteriDelegate>("glTexParameteri");
+        internal Uniform1iDelegate Uniform1i => glUniform1i ??= GetOpenGLEntryPoint<Uniform1iDelegate>("glUniform1i");
+        internal Uniform3fDelegate Uniform3f => glUniform3f ??= GetOpenGLEntryPoint<Uniform3fDelegate>("glUniform3f");
+        internal UniformMatrix4fvDelegate UniformMatrix4fv => glUniformMatrix4fv ??= GetOpenGLEntryPoint<UniformMatrix4fvDelegate>("glUniformMatrix4fv");
         internal UseProgramDelegate UseProgram { get; private set; }
         internal VertexAttribPointerDelegate VertexAttribPointer { get; private set; }
         internal ViewportDelegate Viewport { get; private set; }

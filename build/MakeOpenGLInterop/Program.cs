@@ -384,26 +384,14 @@ namespace NStuff.MakeOpenGLInterop
                     writer.Write(c.Substring(2));
                     if (lazyCommandNames.Contains(c))
                     {
-                        writer.WriteLine(" {");
-                        writer.WriteLine("            get {");
-                        writer.Write("                if (");
+                        writer.Write(" => ");
                         writer.Write(c);
-                        writer.WriteLine(" == null)");
-                        writer.WriteLine("                {");
-                        writer.Write("                    ");
-                        writer.Write(c);
-                        writer.Write(" = GetOpenGLEntryPoint<");
+                        writer.Write(" ??= GetOpenGLEntryPoint<");
                         writer.Write(c.Substring(2));
                         writer.Write("Delegate");
                         writer.Write(">(\"");
                         writer.Write(c);
                         writer.WriteLine("\");");
-                        writer.WriteLine("                }");
-                        writer.Write("                return ");
-                        writer.Write(c);
-                        writer.WriteLine(';');
-                        writer.WriteLine("            }");
-                        writer.WriteLine("        }");
                     }
                     else
                     {
