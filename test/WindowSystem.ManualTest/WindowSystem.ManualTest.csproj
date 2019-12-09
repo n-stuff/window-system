@@ -38,7 +38,8 @@
     <ProjectReference Include="..\..\src\OpenGL.Context\OpenGL.Context.csproj" />
     <ProjectReference Include="..\..\src\RasterGraphics\RasterGraphics.csproj" />
     <ProjectReference Include="..\..\src\Tessellation\Tessellation.csproj" />
-    <ProjectReference Include="..\..\src\Typography.Rasterization\Typography.Rasterization.csproj" />
+    <ProjectReference Include="..\..\src\Typography.Font\Typography.Font.csproj" />
+    <ProjectReference Include="..\..\src\Typography.Typesetting\Typography.Typesetting.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@
 using NStuff.Typography.Font;
 using System;
 
-namespace NStuff.Typography.Rasterization
+namespace NStuff.Typography.Typesetting
 {
     /// <summary>
     /// Provides methods to rasterize font glyphs.

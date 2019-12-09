@@ -92,7 +92,7 @@ namespace NStuff.Geometry
         /// <param name="top">The vertical location of the upper-left corner of the rectangle inside the container.</param>
         /// <returns><c>true</c> if the rectangle fits the container, <c>false</c> otherwise.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If width or height are not positive numbers.</exception>
-        public bool TryPackRectangle(int width, int height, out int left, out int top)
+        public bool TryPackRectangle(int width, int height, out (int left, int top) location)
         {
             if (width <= 0)
             {
@@ -161,8 +161,7 @@ namespace NStuff.Geometry
                         wastedRectangles.Add((r.left + width, r.top, r.width - width, height));
                     }
                 }
-                left = r.left;
-                top = r.top;
+                location = (r.left, r.top);
                 return true;
             }
 
@@ -231,8 +230,7 @@ namespace NStuff.Geometry
             }
             if (bestFitIndex == -1)
             {
-                left = 0;
-                top = 0;
+                location = default;
                 return false;
             }
 
@@ -293,8 +291,7 @@ namespace NStuff.Geometry
                 }
             }
 
-            left = bestFitLeft;
-            top = Height - bestFitArea.height;
+            location = (bestFitLeft, Height - bestFitArea.height);
             return true;
         }
     }

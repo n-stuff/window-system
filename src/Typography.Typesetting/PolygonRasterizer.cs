@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NStuff.Typography.Rasterization
+namespace NStuff.Typography.Typesetting
 {
     internal class PolygonRasterizer
     {

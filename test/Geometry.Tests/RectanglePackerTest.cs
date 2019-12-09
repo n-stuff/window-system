@@ -112,8 +112,8 @@ namespace NStuff.Geometry.Tests
             var packedRectangles = new List<(int left, int top, int width, int height)>();
             foreach(var a in areas)
             {
-                Assert.True(rectanglePacker.TryPackRectangle(a.width, a.height, out var left, out var top));
-                packedRectangles.Add((left, top, a.width, a.height));
+                Assert.True(rectanglePacker.TryPackRectangle(a.width, a.height, out var location));
+                packedRectangles.Add((location.left, location.top, a.width, a.height));
             }
 
             for (int i = 0; i < packedRectangles.Count; i++)

@@ -4,7 +4,7 @@ using NStuff.OpenGL.Backend;
 using NStuff.OpenGL.Context;
 using NStuff.Tessellation;
 using NStuff.Typography.Font;
-using NStuff.Typography.Rasterization;
+using NStuff.Typography.Typesetting;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
