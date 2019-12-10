@@ -55,9 +55,9 @@ It provides types to make computations on curves.
 
 It provides types to decode CFF and TTF font formats.
 
-### Typography.Rasterization project
+### Typography.Typesetting project
 
-It provides types to rasterize font glyphs.
+It provides types to render font glyphs.
 
 [This sample](test/WindowSystem.ManualTest/GlyphLauncher.cs) demonstrates rendering of both rasterized and
 tessellated glyphs loaded from a TTF file.
