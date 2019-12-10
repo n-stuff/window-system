@@ -45,14 +45,14 @@ namespace NStuff.Typography.Font
         /// <returns>A reader that can be used to decode the font.</returns>
         public OpenType this[string family, FontSubfamily subfamily] {
             get {
-                var fontFile = familyResources[family][subfamily];
-                if (!openTypesById.TryGetValue(fontFile.fontId, out var openTypes))
+                var fontResource = familyResources[family][subfamily];
+                if (!openTypesById.TryGetValue(fontResource.fontId, out var openTypes))
                 {
-                    using (var stream = fontFile.streamProvider())
+                    using (var stream = fontResource.streamProvider())
                     {
                         openTypes = OpenType.Load(stream);
                     }
-                    openTypesById.Add(fontFile.fontId, openTypes);
+                    openTypesById.Add(fontResource.fontId, openTypes);
                     var bytes = openTypes[0].DataLength;
                     if (bytes > maxAllocatedBytes / 2)
                     {
@@ -66,17 +66,17 @@ namespace NStuff.Typography.Font
                         fontIds.RemoveAt(0);
                         openTypesById.Remove(p0);
                     }
-                    fontIds.Add(fontFile.fontId);
+                    fontIds.Add(fontResource.fontId);
                 }
                 for (int i = fontIds.Count - 1; i >= 0; i--)
                 {
-                    if (fontIds[i] == fontFile.fontId)
+                    if (fontIds[i] == fontResource.fontId)
                     {
                         fontIds.RemoveAt(i);
-                        fontIds.Add(fontFile.fontId);
+                        fontIds.Add(fontResource.fontId);
                     }
                 }
-                return openTypes[fontFile.index];
+                return openTypes[fontResource.index];
             }
         }
 
@@ -125,11 +125,11 @@ namespace NStuff.Typography.Font
         /// <returns>The closest match to the specified font subfamily.</returns>
         public FontSubfamily LookupFontSubfamily(string fontFamily, FontSubfamily fontSubfamily)
         {
-            var subfamilyPaths = familyResources[fontFamily];
+            var subfamilyResources = familyResources[fontFamily];
             var first = true;
             var candidate = default(FontSubfamily);
             int distance = 0;
-            foreach (var fs in subfamilyPaths.Keys)
+            foreach (var fs in subfamilyResources.Keys)
             {
                 if (fs == fontSubfamily)
                 {
