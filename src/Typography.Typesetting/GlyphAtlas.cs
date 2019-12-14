@@ -65,8 +65,6 @@ namespace NStuff.Typography.Typesetting
             FontMetrics = fontMetrics;
             ImageDimension = imageDimension;
             Images = images.AsReadOnly();
-            images.Add(new byte[imageDimension * imageDimension]);
-            rectanglePackers.Add(new RectanglePacker(imageDimension, imageDimension));
         }
 
         /// <summary>

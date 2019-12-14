@@ -1,7 +1,10 @@
 ﻿using NStuff.Geometry;
 using NStuff.GraphicsBackend;
 using NStuff.Tessellation;
+using NStuff.Typography.Font;
+using NStuff.Typography.Typesetting;
 using System;
+using System.Collections.Generic;
 
 namespace NStuff.WindowSystem.ManualTest.VectorGraphics
 {
@@ -13,10 +16,12 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
         private DrawingBackendBase? backend;
         private RgbaColor clearColor = new RgbaColor(255, 255, 255, 255);
         private CommandBufferHandle clearCommandBuffer;
+        private byte[] buffer = new byte[1024];
 
         internal BezierApproximator BezierApproximator { get; } = new BezierApproximator();
         internal PolylineStroker PolylineStroker { get; }
         internal Tessellator2D<int, int> Tessellator { get; }
+        internal GlyphAtlas GlyphAtlas { get; }
         internal DrawingBackendBase Backend => backend ?? throw new ObjectDisposedException(GetType().FullName);
 
         internal CommandBufferHandle[] CommandBuffers { get; } = new CommandBufferHandle[16];
@@ -24,14 +29,20 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
         internal VertexRange[] VertexRanges { get; } = new VertexRange[16];
         internal AffineTransform[] Transforms { get; } = new AffineTransform[16];
         internal PointCoordinates[] Vertices { get; } = new PointCoordinates[1024];
+        internal PointAndImageCoordinates[] TexturedVertices { get; } = new PointAndImageCoordinates[1024];
 
         internal UniformBufferHandle SingleColorBuffer { get; }
         internal UniformBufferHandle SingleTransformBuffer { get; }
         internal VertexRangeBufferHandle SingleVertexRangeBuffer { get; }
         internal VertexBufferHandle VertexBuffer { get; }
+        internal VertexBufferHandle TexturedVertexBuffer { get; }
 
         internal CommandBufferHandle SetupPlainColorCommandBuffer { get; private set; }
+        internal CommandBufferHandle SetupGreyscaleImageColorCommandBuffer { get; private set; }
         internal CommandBufferHandle DrawIndirectCommandBuffer { get; private set; }
+
+        internal List<ImageHandle> GlyphImages { get; } = new List<ImageHandle>();
+        internal List<CommandBufferHandle> BindGlyphImageCommandBuffers { get; } = new List<CommandBufferHandle>();
 
         /// <summary>
         /// Gets or sets the color used to clear the framebuffer before drawing.
@@ -63,14 +74,18 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
         /// </summary>
         public double PixelScaling {
             get => Backend.PixelScaling;
-            set => Backend.PixelScaling = value;
+            set {
+                Backend.PixelScaling = value;
+                GlyphAtlas.FontMetrics.PixelScaling = value;
+            }
         }
 
         /// <summary>
         /// Initializes a new instance of the <c>DrawingContext</c> class using the provided drawing <paramref name="backend"/>.
         /// </summary>
         /// <param name="backend">The drawing backend to use for rendering.</param>
-        public DrawingContext(DrawingBackendBase backend)
+        /// <param name="openTypeCollection">A collecion of fonts.</param>
+        public DrawingContext(DrawingBackendBase backend, OpenTypeCollection openTypeCollection)
         {
             this.backend = backend;
             Tessellator = new Tessellator2D<int, int>(new TessellateHandler())
@@ -78,17 +93,26 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
                 OutputKind = OutputKind.TriangleEnumerator
             };
             PolylineStroker = new PolylineStroker(new PolylineStrokeHandler(Tessellator));
+            GlyphAtlas = new GlyphAtlas(new FontMetrics(openTypeCollection), Math.Min(backend.GetMaxTextureDimension(), 2048));
+            GlyphAtlas.FontMetrics.PixelScaling = backend.PixelScaling;
 
             SingleColorBuffer = backend.CreateUniformBuffer(UniformType.RgbaColor, 1);
             SingleTransformBuffer = backend.CreateUniformBuffer(UniformType.AffineTransform, 1);
             SingleVertexRangeBuffer = backend.CreateVertexRangeBuffer(1);
             VertexBuffer = backend.CreateVertexBuffer(VertexType.PointCoordinates, Vertices.Length);
+            TexturedVertexBuffer = backend.CreateVertexBuffer(VertexType.PointAndImageCoordinates, TexturedVertices.Length);
 
             SetupPlainColorCommandBuffer = backend.CreateCommandBuffer();
             backend.BeginRecordCommands(SetupPlainColorCommandBuffer);
             backend.AddUseShaderCommand(SetupPlainColorCommandBuffer, ShaderKind.PlainColor);
             backend.AddBindVertexBufferCommand(SetupPlainColorCommandBuffer, VertexBuffer);
             backend.EndRecordCommands(SetupPlainColorCommandBuffer);
+
+            SetupGreyscaleImageColorCommandBuffer = backend.CreateCommandBuffer();
+            backend.BeginRecordCommands(SetupGreyscaleImageColorCommandBuffer);
+            backend.AddUseShaderCommand(SetupGreyscaleImageColorCommandBuffer, ShaderKind.GreyscaleImage);
+            backend.AddBindVertexBufferCommand(SetupGreyscaleImageColorCommandBuffer, TexturedVertexBuffer);
+            backend.EndRecordCommands(SetupGreyscaleImageColorCommandBuffer);
 
             DrawIndirectCommandBuffer = backend.CreateCommandBuffer();
             backend.BeginRecordCommands(DrawIndirectCommandBuffer);
@@ -121,8 +145,14 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
             {
                 if (clearCommandBuffer != default)
                 {
+                    foreach (var commandBuffer in BindGlyphImageCommandBuffers)
+                    {
+                        backend.DestroyCommandBuffer(commandBuffer);
+                    }
                     backend.DestroyCommandBuffer(DrawIndirectCommandBuffer);
+                    backend.DestroyCommandBuffer(SetupGreyscaleImageColorCommandBuffer);
                     backend.DestroyCommandBuffer(SetupPlainColorCommandBuffer);
+                    backend.DestroyVertexBuffer(TexturedVertexBuffer);
                     backend.DestroyVertexBuffer(VertexBuffer);
                     backend.DestroyCommandBuffer(clearCommandBuffer);
                     backend.DestroyVertexRangeBuffer(SingleVertexRangeBuffer);
@@ -163,6 +193,65 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
         public void FinishDrawing()
         {
             Backend.EndRenderFrame();
+        }
+
+        internal Glyph GetGlyph(string fontFamily, FontSubfamily fontSubfamily, double fontPoints, int codePoint)
+        {
+            var glyph = GlyphAtlas.GetGlyph(fontFamily, fontSubfamily, fontPoints, codePoint, out var newGlyph);
+            if (newGlyph && glyph.HasImage)
+            {
+                var dimension = GlyphAtlas.ImageDimension;
+                for (int i = GlyphImages.Count; i <= glyph.Index; i++)
+                {
+                    var imageHandle = Backend.CreateImage(dimension, dimension, ImageFormat.GreyscaleAlpha, ImageComponentType.UnsignedByte);
+                    GlyphImages.Add(imageHandle);
+                    var commandBuffer = Backend.CreateCommandBuffer();
+                    Backend.BeginRecordCommands(commandBuffer);
+                    Backend.AddBindImageCommand(commandBuffer, imageHandle);
+                    Backend.EndRecordCommands(commandBuffer);
+                    BindGlyphImageCommandBuffers.Add(commandBuffer);
+                }
+                var width = glyph.Width;
+                var height = glyph.Height;
+                if (buffer.Length < width * height)
+                {
+                    buffer = new byte[width * height * 2];
+                }
+                var data = GlyphAtlas.Images[glyph.Index];
+                for (int i = 0; i < height; i++)
+                {
+                    Array.Copy(data, glyph.X + (glyph.Y + i) * dimension, buffer, i * width, width);
+                }
+                Backend.UpdateImage(GlyphImages[glyph.Index], buffer, glyph.X, glyph.Y, glyph.Width, glyph.Height);
+            }
+            return glyph;
+        }
+
+        internal void ComputeGlyphVertices(Glyph glyph, double x, double y, ref int vertexCount)
+        {
+            if (glyph.HasImage)
+            {
+                var imageDimension = GlyphAtlas.ImageDimension;
+
+                var left = Math.Round(x + glyph.Left) / PixelScaling;
+                var top = Math.Round(y + glyph.Top) / PixelScaling;
+                var right = Math.Round(x + glyph.Left + glyph.Width) / PixelScaling;
+                var bottom = Math.Round(y + glyph.Top + glyph.Height) / PixelScaling;
+
+                var textureLeft = (double)glyph.X / imageDimension;
+                var textureTop = (double)glyph.Y / imageDimension;
+                var textureRight = (glyph.X + glyph.Width) / (double)imageDimension;
+                var textureBottom = (glyph.Y + glyph.Height) / (double)imageDimension;
+
+                var i = vertexCount;
+                TexturedVertices[i++] = new PointAndImageCoordinates(left, bottom, textureLeft, textureBottom);
+                TexturedVertices[i++] = new PointAndImageCoordinates(right, top, textureRight, textureTop);
+                TexturedVertices[i++] = new PointAndImageCoordinates(left, top, textureLeft, textureTop);
+                TexturedVertices[i++] = new PointAndImageCoordinates(left, bottom, textureLeft, textureBottom);
+                TexturedVertices[i++] = new PointAndImageCoordinates(right, bottom, textureRight, textureBottom);
+                TexturedVertices[i++] = new PointAndImageCoordinates(right, top, textureRight, textureTop);
+                vertexCount += 6;
+            }
         }
 
         internal static (double x, double y) TransformPoint((double x, double y) point, ref AffineTransform transform)

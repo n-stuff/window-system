@@ -15,7 +15,7 @@
         /// Gets a value indicating whether the image representing this glyph is empty. 
         /// </summary>
         /// <value><c>true</c> if the image is empty.</value>
-        public bool HasImage => Index < 0;
+        public bool HasImage => Index >= 0;
 
         /// <summary>
         /// Gets the index of the image of the <see cref="GlyphAtlas"/> where this glyph is stored.

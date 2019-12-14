@@ -1,6 +1,7 @@
 ﻿using NStuff.GraphicsBackend;
 using NStuff.OpenGL.Backend;
 using NStuff.OpenGL.Context;
+using NStuff.Typography.Font;
 using NStuff.WindowSystem.ManualTest.VectorGraphics;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,10 @@ namespace NStuff.WindowSystem.ManualTest
             var viewportSize = window.ViewportSize;
             var windowSize = window.Size;
             var backend = new DrawingBackend(new EntryPointLoader(renderingContext));
-            var drawingContext = new DrawingContext(backend)
+            var openTypeCollection = new OpenTypeCollection();
+            var nameId = typeof(BezierLauncher).Namespace + ".Resources.ebrima.ttf";
+            openTypeCollection.AddFontResource(nameId, () => Assembly.GetExecutingAssembly().GetManifestResourceStream(nameId)!);
+            var drawingContext = new DrawingContext(backend, openTypeCollection)
             {
                 ClearColor = new RgbaColor(155, 155, 155, 255)
             };
@@ -163,6 +167,13 @@ namespace NStuff.WindowSystem.ManualTest
                 }
             };
 
+            var label = new LabelDrawing();
+            label.FontFamily = "Ebrima";
+            label.FontSubfamily = FontSubfamily.Normal;
+            label.FontPoints = 50;
+            label.Text = "The quick brown fox jumps over the lazy dog.";
+            label.Transform = new AffineTransform(m11: 1, m22: 1, m31: 20, m32: 50);
+
             void draw()
             {
                 var sw = new System.Diagnostics.Stopwatch();
@@ -177,7 +188,7 @@ namespace NStuff.WindowSystem.ManualTest
                 {
                     drawingContext.Draw(path);
                 }
-
+                drawingContext.Draw(label);
 
                 drawingContext.FinishDrawing();
                 renderingContext.SwapBuffers(window);
