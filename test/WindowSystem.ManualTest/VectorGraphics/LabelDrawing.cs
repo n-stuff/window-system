@@ -2,7 +2,6 @@
 using NStuff.Text;
 using NStuff.Typography.Font;
 using NStuff.Typography.Typesetting;
-using System;
 
 namespace NStuff.WindowSystem.ManualTest.VectorGraphics
 {
