@@ -1,4 +1,5 @@
 ﻿using NStuff.GraphicsBackend;
+using NStuff.Text;
 using NStuff.Typography.Font;
 using NStuff.Typography.Typesetting;
 using System;
@@ -33,7 +34,7 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
             var vertexCount = 0;
             var y = 0;
             int imageIndex = -1;
-            while (TryGetCodePoint(Text, ref index, out var codePoint))
+            while (TextHelper.TryGetCodePoint(Text, ref index, out var codePoint))
             {
                 var x = glyphLayout.X;
                 glyphLayout.Insert(codePoint);
@@ -48,39 +49,6 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
             if (vertexCount > 0)
             {
                 DrawCharacters(context, Color, Transform, imageIndex, ref vertexCount);
-            }
-        }
-
-        private static bool TryGetCodePoint(string text, ref int index, out int codePoint)
-        {
-            if (index >= text.Length)
-            {
-                codePoint = 0;
-                return false;
-            }
-            var c = text[index++];
-            if (char.IsHighSurrogate(c))
-            {
-                if (index >= text.Length)
-                {
-                    throw new ArgumentException(nameof(text));
-                }
-                var c2 = text[index++];
-                if (!char.IsLowSurrogate(c2))
-                {
-                    throw new ArgumentException(nameof(text));
-                }
-                codePoint = char.ConvertToUtf32(c, c2);
-                return true;
-            }
-            else if (char.IsLowSurrogate(c))
-            {
-                throw new ArgumentException(nameof(text));
-            }
-            else
-            {
-                codePoint = c;
-                return true;
             }
         }
 

@@ -10,15 +10,9 @@
             return (int)((value * 0x01010101) >> 24);
         }
 
-        internal static int GetHighZeroCount(uint value)
-        {
-            return GetOneCount(~SetLowBits(value));
-        }
+        internal static int GetHighZeroCount(uint value) => GetOneCount(~SetLowBits(value));
 
-        internal static int GetHighOneIndex(uint value)
-        {
-            return 31 - GetHighZeroCount(value);
-        }
+        internal static int GetHighOneIndex(uint value) => 31 - GetHighZeroCount(value);
 
         private static uint SetLowBits(uint value)
         {

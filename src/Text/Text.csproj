@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\build\versions.props" />
+
+  <PropertyGroup>
+    <TargetFramework>$(NetStandardId)</TargetFramework>
+    <RootNamespace>NStuff.Text</RootNamespace>
+    <AssemblyName>NStuff.Text</AssemblyName>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

@@ -181,7 +181,7 @@ namespace NStuff.Geometry
                 nextLeft += a.width;
                 var j = i + 1;
                 var wasted = 0;
-                for (; ; )
+                for (;;)
                 {
                     if (a.height < height)
                     {

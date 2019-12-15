@@ -155,7 +155,7 @@ namespace NStuff.Typography.Font
 
         internal override bool Move()
         {
-            for (; ; )
+            for (;;)
             {
                 switch (instruction)
                 {

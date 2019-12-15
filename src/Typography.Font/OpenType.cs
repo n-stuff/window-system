@@ -296,7 +296,7 @@ namespace NStuff.Typography.Font
         /// <summary>
         /// Gets this font's preferred line gap.
         /// </summary>
-        /// <returns>An integer representing the line gap.</returns>
+        /// <returns>An integer representing the recommended whitespace between lines.</returns>
         public int GetLineGap() => ReadInt16(hhea, 8);
 
         /// <summary>
@@ -814,14 +814,10 @@ namespace NStuff.Typography.Font
 
         private static ushort ReadUInt16(byte[] data, uint index) => (ushort)(data[index] << 8 | data[index + 1]);
 
-        private static int ReadInt32(byte[] data, uint index)
-        {
-            return data[index] << 24 | data[index + 1] << 16 | data[index + 2] << 8 | data[index + 3];
-        }
+        private static int ReadInt32(byte[] data, uint index) =>
+            data[index] << 24 | data[index + 1] << 16 | data[index + 2] << 8 | data[index + 3];
 
-        private static uint ReadUInt32(byte[] data, uint index)
-        {
-            return (uint)data[index] << 24 | (uint)data[index + 1] << 16 | (uint)data[index + 2] << 8 | data[index + 3];
-        }
+        private static uint ReadUInt32(byte[] data, uint index) =>
+            (uint)data[index] << 24 | (uint)data[index + 1] << 16 | (uint)data[index + 2] << 8 | data[index + 3];
     }
 }

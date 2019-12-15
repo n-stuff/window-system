@@ -180,10 +180,8 @@ namespace NStuff.Typography.Font
         /// Adds the font represented by the specified path to the collection.
         /// </summary>
         /// <param name="fontPath">The path to an OpenType font file.</param>
-        public void AddFontFile(string fontPath)
-        {
+        public void AddFontFile(string fontPath) =>
             AddFontResource(fontPath, () => new FileStream(fontPath, FileMode.Open, FileAccess.Read));
-        }
 
         /// <summary>
         /// Adds the font represented by the specified ID and stream provider delegate to the collection.
