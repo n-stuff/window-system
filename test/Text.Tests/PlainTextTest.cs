@@ -2,7 +2,7 @@
 
 using Xunit;
 
-namespace NStuff.Text.Test
+namespace NStuff.Text.Tests
 {
     public class PlainTextTest
     {

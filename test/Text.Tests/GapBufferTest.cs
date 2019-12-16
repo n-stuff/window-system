@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Xunit;
 
-namespace NStuff.Text.Test
+namespace NStuff.Text.Tests
 {
     public class GapBufferTest
     {

@@ -3,7 +3,7 @@
 using Xunit;
 using Xunit.Abstractions;
 
-namespace NStuff.Tessellation.Test
+namespace NStuff.Tessellation.Tests
 {
     public class TessellatorTest
     {
