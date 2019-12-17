@@ -122,6 +122,7 @@ namespace NStuff.Typography.Typesetting
                     glyph = new Glyph(glyphInfo, index, location.left, location.top, rasterizer.Width, rasterizer.Height,
                         rasterizer.BoundingBoxLeft, rasterizer.BoundingBoxTop);
                 }
+                glyphs.Add(key, glyph);
             }
             else
             {

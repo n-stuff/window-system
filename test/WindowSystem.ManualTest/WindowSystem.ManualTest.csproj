@@ -18,6 +18,7 @@
     <None Remove="Resources\Ghostscript_Tiger.svg" />
     <None Remove="Resources\grass.png" />
     <None Remove="Resources\grass_side.png" />
+    <None Remove="Resources\Hack-Regular.ttf" />
     <None Remove="Resources\kitten.bmp" />
     <None Remove="Resources\kitten.png" />
   </ItemGroup>
@@ -28,6 +29,7 @@
     <EmbeddedResource Include="Resources\Ghostscript_Tiger.svg" />
     <EmbeddedResource Include="Resources\grass.png" />
     <EmbeddedResource Include="Resources\grass_side.png" />
+    <EmbeddedResource Include="Resources\Hack-Regular.ttf" />
     <EmbeddedResource Include="Resources\kitten.bmp" />
     <EmbeddedResource Include="Resources\kitten.png" />
   </ItemGroup>
