@@ -31,7 +31,6 @@ namespace NStuff.WindowSystem
         /// Gets a value indicating whether the window server's <see cref="Dispose"/> method was called.
         /// </summary>
         /// <value><c>true</c> if <c>Dispose</c> was called.</value>
-        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
         public bool Disposed => NativeWindowServer == null;
 
         /// <summary>

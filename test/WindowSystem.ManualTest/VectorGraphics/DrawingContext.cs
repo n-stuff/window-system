@@ -143,7 +143,7 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
         {
             if (backend != null)
             {
-                if (clearCommandBuffer != default)
+                if (clearCommandBuffer != default && !backend.Disposed)
                 {
                     foreach (var commandBuffer in BindGlyphImageCommandBuffers)
                     {

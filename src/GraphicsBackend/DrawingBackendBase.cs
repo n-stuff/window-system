@@ -1,10 +1,18 @@
-﻿namespace NStuff.GraphicsBackend
+﻿using System;
+
+namespace NStuff.GraphicsBackend
 {
     /// <summary>
     /// Provides a base class to implement a drawing backend with direct access to GPU.
     /// </summary>
     public abstract class DrawingBackendBase
     {
+        /// <summary>
+        /// Gets a value indicating whether the backend was disposed.
+        /// </summary>
+        /// <value><c>true</c> if the backend was disposed.</value>
+        public abstract bool Disposed { get; }
+
         /// <summary>
         /// Gets or sets the scaling to apply to coordinates to get the number of pixels.
         /// </summary>

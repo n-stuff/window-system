@@ -126,8 +126,7 @@ namespace NStuff.OpenGL.Backend
         /// Gets a value indicating whether the backend's <see cref="Dispose"/> method was called.
         /// </summary>
         /// <value><c>true</c> if <c>Dispose</c> was called.</value>
-        /// <exception cref="ObjectDisposedException">If <see cref="Dispose()"/> was called.</exception>
-        public bool Disposed => gl == null;
+        public override bool Disposed => gl == null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DrawingBackend"/> class using the supplied <paramref name="entryPointLoader"/>.

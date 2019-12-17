@@ -5,6 +5,7 @@ using NStuff.Text;
 using NStuff.Typography.Font;
 using NStuff.WindowSystem.ManualTest.VectorGraphics;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -87,12 +88,15 @@ namespace NStuff.WindowSystem.ManualTest
                         break;
                     case Keycode.Backspace:
                         textArea.Backspace();
+                        hideCaret = false;
                         break;
                     case Keycode.Tab:
                         textArea.Tab();
+                        hideCaret = false;
                         break;
                     case Keycode.Enter:
                         textArea.Enter();
+                        hideCaret = false;
                         break;
                 }
             };
@@ -100,6 +104,7 @@ namespace NStuff.WindowSystem.ManualTest
             window.TextInput += (sender, e) =>
             {
                 textArea.Insert(e.CodePoint);
+                hideCaret = false;
             };
 
             window.MouseDown += (sender, e) =>
@@ -108,6 +113,7 @@ namespace NStuff.WindowSystem.ManualTest
                 {
                     var (x, y) = window.CursorPosition;
                     textArea.LeftMouseDown(x, y);
+                    hideCaret = false;
                 }
             };
 
@@ -147,11 +153,18 @@ namespace NStuff.WindowSystem.ManualTest
             var version = 0;
             var th = new Thread(() =>
             {
-                var regex = new Regex("\\b(break|case|class|const|else|false|float|for|foreach|" +
-                    "if|int|internal|public|namespace|new|unsafe|using|string|switch|true|var|void)\\b");
-                var style = styles.GetStyle(fontSubfamily,
-                    new RgbaColor (81, 153, 213, 255),
-                    new RgbaColor(0, 0, 0, 0));
+                var regexList = new List<Regex>();
+                var styleList = new List<MonospaceTextStyle>();
+
+                regexList.Add(new Regex("\\b(break|case|class|const|else|false|float|for|foreach|" +
+                    "if|int|internal|public|namespace|new|unsafe|using|string|switch|true|var|void)\\b"));
+                styleList.Add(styles.GetStyle(fontSubfamily, new RgbaColor(81, 153, 213, 255), new RgbaColor(0, 0, 0, 0)));
+
+                regexList.Add(new Regex(@"\b-?\d+(,\d+)*(\.\d+((e|E)\d+)?)?\b"));
+                styleList.Add(styles.GetStyle(fontSubfamily, new RgbaColor(0, 0, 0, 255), new RgbaColor(230, 180, 50, 255)));
+
+                regexList.Add(new Regex(@"""(\\.|[^""\\])*"""));
+                styleList.Add(styles.GetStyle(fontSubfamily, new RgbaColor(250, 180, 230, 255), new RgbaColor(0, 0, 0, 0)));
 
                 while (!interruptThread)
                 {
@@ -168,11 +181,15 @@ namespace NStuff.WindowSystem.ManualTest
                         }
                         for (int i = 0; i < t.Length; i++)
                         {
-                            var m = regex.Match(t[i]);
-                            while (m.Success)
+                            for (int j = 0; j < regexList.Count; j++)
                             {
-                                txt.StyleRange(style, (i, m.Index), (i, m.Index + m.Length));
-                                m = m.NextMatch();
+                                var m = regexList[j].Match(t[i]);
+                                var s = styleList[j];
+                                while (m.Success)
+                                {
+                                    txt.StyleRange(s, (i, m.Index), (i, m.Index + m.Length));
+                                    m = m.NextMatch();
+                                }
                             }
                         }
                         void f(int currentVersion, StyledMonospaceText newText)
