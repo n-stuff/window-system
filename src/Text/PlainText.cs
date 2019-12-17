@@ -8,7 +8,7 @@ namespace NStuff.Text
     /// </summary>
     public class PlainText
     {
-        internal const int DefaultCapacity = 4;
+        protected const int DefaultCapacity = 4;
 
         private readonly GapBuffer<CodePointBuffer> lines;
 
@@ -55,14 +55,14 @@ namespace NStuff.Text
         /// <summary>
         /// Initializes a new instance of the <c>PlainText</c> class using the supplied text.
         /// </summary>
-        /// <param name="text">The text to copy.</param>
-        public PlainText(PlainText text)
+        /// <param name="plainText">The text to copy.</param>
+        public PlainText(PlainText plainText)
         {
-            var lineCount = text.LineCount;
+            var lineCount = plainText.LineCount;
             lines = new GapBuffer<CodePointBuffer>((int)BitHelper.GetNextPowerOfTwo((uint)lineCount));
             for (int i = 0; i < lineCount; i++)
             {
-                lines.Insert(i, new CodePointBuffer(text.lines[i]));
+                lines.Insert(i, new CodePointBuffer(plainText.lines[i]));
             }
         }
 

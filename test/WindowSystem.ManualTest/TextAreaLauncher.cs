@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 
@@ -149,7 +150,7 @@ namespace NStuff.WindowSystem.ManualTest
             };
 
             var runLoop = MainRunLoop.Create(windowServer);
-            string[]? text = null;
+            var text = default(DecoratedText<byte>);
             var version = 0;
             var th = new Thread(() =>
             {
@@ -173,17 +174,16 @@ namespace NStuff.WindowSystem.ManualTest
                     var v = version;
                     if (t != null)
                     {
-                        var txt = new StyledMonospaceText(new DecoratedText<byte>(), styles);
-                        (int line, int column) loc = (0, 0);
-                        for (int i = 0; i < t.Length; i++)
+                        var txt = new StyledMonospaceText(t, styles);
+                        var builder = new StringBuilder();
+                        for (int i = 0; i < txt.LineCount; i++)
                         {
-                            loc = txt.Insert(loc, t[i]);
-                        }
-                        for (int i = 0; i < t.Length; i++)
-                        {
+                            builder.Clear();
+                            txt.CopyLineTo(i, builder);
+                            var str = builder.ToString();
                             for (int j = 0; j < regexList.Count; j++)
                             {
-                                var m = regexList[j].Match(t[i]);
+                                var m = regexList[j].Match(str);
                                 var s = styleList[j];
                                 while (m.Success)
                                 {

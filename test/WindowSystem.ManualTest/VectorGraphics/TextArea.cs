@@ -69,19 +69,7 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
             RequireRestyle = true;
         }
 
-        public string[] GetText()
-        {
-            var sb = new StringBuilder();
-            var lineCount = text.LineCount;
-            var result = new string[lineCount];
-            for (int i = 0; i < lineCount; i++)
-            {
-                sb.Clear();
-                text.CopyLineTo(i, sb);
-                result[i] = sb.ToString();
-            }
-            return result;
-        }
+        public DecoratedText<byte> GetText() => new DecoratedText<byte>(text.DecoratedText);
 
         public void SetText(StyledMonospaceText text)
         {

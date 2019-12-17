@@ -11,7 +11,6 @@ namespace NStuff.Text
     /// <typeparam name="TDecoration">The type of some decoration to apply to each code point.</typeparam>
     public class MonospaceText<TDecoration>
     {
-        private readonly DecoratedText<TDecoration> decoratedText;
         private readonly List<(int line, int column)> lineToTextLocation = new List<(int line, int column)>();
         private readonly List<int> textLocationLineToLine = new List<int>();
         private (int line, int column) caretLocation;
@@ -20,9 +19,16 @@ namespace NStuff.Text
         private int maxLineLength;
 
         /// <summary>
+        /// Gets the underlying decorated text.
+        /// </summary>
+        /// <value>The object supplied to the constructor.</value>
+        public DecoratedText<TDecoration> DecoratedText { get; }
+
+        /// <summary>
         /// Gets a number that is incremented each time the text is modified.
         /// </summary>
-        public int Version => decoratedText.Version;
+        /// <value>A number changing at each modification of the text.</value>
+        public int Version => DecoratedText.Version;
 
         /// <summary>
         /// Gets or sets the maximum line length, used to format the text.
@@ -45,11 +51,12 @@ namespace NStuff.Text
         /// Gets the number of lines of this text.
         /// </summary>
         /// <value>A positive number.</value>
-        public int LineCount => decoratedText.LineCount;
+        public int LineCount => DecoratedText.LineCount;
 
         /// <summary>
         /// Gets the current caret location, in formatted coordinates.
         /// </summary>
+        /// <value>The location of the caret.</value>
         public (int line, int column) CaretLocation {
             get {
                 UpdateCaretLocation();
@@ -68,22 +75,22 @@ namespace NStuff.Text
         /// <param name="location">A valid location in this text.</param>
         /// <returns>The code point and decoration at the specified location.</returns>
         public (int codePoint, TDecoration decoration) this[(int line, int column) location] {
-            get => decoratedText[location];
-            set => decoratedText[location] = value;
+            get => DecoratedText[location];
+            set => DecoratedText[location] = value;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MonospaceText{TDecoration}"/> class.
         /// </summary>
         /// <param name="decoratedText">A text used as storage.</param>
-        public MonospaceText(DecoratedText<TDecoration> decoratedText) => this.decoratedText = decoratedText;
+        public MonospaceText(DecoratedText<TDecoration> decoratedText) => DecoratedText = decoratedText;
 
         /// <summary>
         /// Gets the size in bytes of the code points that compose the specified line.
         /// </summary>
         /// <param name="lineNumber">A valid line number.</param>
         /// <returns>1, 2, or 3</returns>
-        public int GetLineMaxCodePointSize(int lineNumber) => decoratedText.GetLineMaxCodePointSize(lineNumber);
+        public int GetLineMaxCodePointSize(int lineNumber) => DecoratedText.GetLineMaxCodePointSize(lineNumber);
 
         /// <summary>
         /// Inserts the character with the specified code point at the current location of the caret.
@@ -247,7 +254,7 @@ namespace NStuff.Text
         /// <param name="ignoreNewline">A value indicating whether the trailing new line characters should ignored when
         /// counting the code points.</param>
         /// <returns>A number of code points.</returns>
-        public int GetColumnCount(int lineNumber, bool ignoreNewline = false) => decoratedText.GetColumnCount(lineNumber, ignoreNewline);
+        public int GetColumnCount(int lineNumber, bool ignoreNewline = false) => DecoratedText.GetColumnCount(lineNumber, ignoreNewline);
 
         /// <summary>
         /// Gets the number of line of this text, after formatting was applied.
@@ -259,7 +266,7 @@ namespace NStuff.Text
             {
                 return LineCount;
             }
-            UpdateMappingsToTextLines(decoratedText.LineCount);
+            UpdateMappingsToTextLines(DecoratedText.LineCount);
             return lineToTextLocation.Count;
         }
 
@@ -292,7 +299,7 @@ namespace NStuff.Text
         /// <returns>The location just after the inserted code point.</returns>
         public (int line, int column) Insert((int line, int column) location, int codePoint)
         {
-            var result = decoratedText.Insert(location, codePoint);
+            var result = DecoratedText.Insert(location, codePoint);
             InvalidateOnInsert(location, result);
             return result;
         }
@@ -306,7 +313,7 @@ namespace NStuff.Text
         /// <returns>The location just after the last inserted code point.</returns>
         public (int line, int column) Insert((int line, int column) location, string text)
         {
-            var result = decoratedText.Insert(location, text);
+            var result = DecoratedText.Insert(location, text);
             InvalidateOnInsert(location, result);
             return result;
         }
@@ -321,7 +328,7 @@ namespace NStuff.Text
                     {
                         var line = textLocationLineToLine[location.line + 1] - 1;
                         var textLocation = lineToTextLocation[line];
-                        if ((decoratedText.GetColumnCount(location.line, ignoreNewline: true) - textLocation.column) > maxLineLength)
+                        if ((DecoratedText.GetColumnCount(location.line, ignoreNewline: true) - textLocation.column) > maxLineLength)
                         {
                             InvalidateFromLine(line + 1);
                         }
@@ -350,7 +357,7 @@ namespace NStuff.Text
         /// <param name="start">The location of the first character to decorate.</param>
         /// <param name="end">The location just after the last character to decorate.</param>
         public void DecorateRange(TDecoration decoration, (int line, int column) start, (int line, int column) end) =>
-            decoratedText.DecorateRange(decoration, start, end);
+            DecoratedText.DecorateRange(decoration, start, end);
 
         /// <summary>
         /// Removes all code points between the two supplied locations in this text.
@@ -367,7 +374,7 @@ namespace NStuff.Text
                     {
                         var line = textLocationLineToLine[start.line + 1] - 1;
                         var textLocation = lineToTextLocation[line];
-                        var lastLineLength = decoratedText.GetColumnCount(start.line, ignoreNewline: true) - textLocation.column;
+                        var lastLineLength = DecoratedText.GetColumnCount(start.line, ignoreNewline: true) - textLocation.column;
                         var removedColumns = end.column - start.column;
                         if (lastLineLength < removedColumns)
                         {
@@ -391,7 +398,7 @@ namespace NStuff.Text
                     checkCaretLocation = true;
                 }
             }
-            decoratedText.RemoveRange(start, end);
+            DecoratedText.RemoveRange(start, end);
         }
 
         private void InvalidateFromLine(int line)
@@ -408,11 +415,11 @@ namespace NStuff.Text
         /// <returns>A location in the formatted text.</returns>
         public (int line, int column) LocationFromText((int line, int column) location)
         {
-            if (location.line >= decoratedText.LineCount)
+            if (location.line >= DecoratedText.LineCount)
             {
                 throw new ArgumentOutOfRangeException(nameof(location.line));
             }
-            if (location.column > decoratedText.GetColumnCount(location.line, ignoreNewline: true))
+            if (location.column > DecoratedText.GetColumnCount(location.line, ignoreNewline: true))
             {
                 throw new ArgumentOutOfRangeException(nameof(location.column));
             }
@@ -434,11 +441,11 @@ namespace NStuff.Text
         {
             if (maxLineLength == 0)
             {
-                if (location.line >= decoratedText.LineCount)
+                if (location.line >= DecoratedText.LineCount)
                 {
                     throw new ArgumentOutOfRangeException(nameof(location.line));
                 }
-                if (location.column > decoratedText.GetColumnCount(location.line, ignoreNewline: true))
+                if (location.column > DecoratedText.GetColumnCount(location.line, ignoreNewline: true))
                 {
                     throw new ArgumentOutOfRangeException(nameof(location.column));
                 }
@@ -451,7 +458,7 @@ namespace NStuff.Text
             }
             var textLocation = lineToTextLocation[location.line];
             var column = textLocation.column + location.column;
-            if (column > decoratedText.GetColumnCount(textLocation.line, ignoreNewline: true))
+            if (column > DecoratedText.GetColumnCount(textLocation.line, ignoreNewline: true))
             {
                 throw new ArgumentOutOfRangeException(nameof(location.column));
             }
@@ -463,7 +470,7 @@ namespace NStuff.Text
         /// </summary>
         /// <param name="lineNumber">A valid line number.</param>
         /// <param name="stringBuilder">The string builder to fill.</param>
-        public void CopyLineTo(int lineNumber, StringBuilder stringBuilder) => decoratedText.CopyLineTo(lineNumber, stringBuilder);
+        public void CopyLineTo(int lineNumber, StringBuilder stringBuilder) => DecoratedText.CopyLineTo(lineNumber, stringBuilder);
 
         /// <summary>
         /// Copies the code points composing the formatted line at <paramref name="lineNumber"/> into the supplied string builder.
@@ -485,7 +492,7 @@ namespace NStuff.Text
         /// Copies all the contents of this text into the supplied string builder.
         /// </summary>
         /// <param name="stringBuilder">The string builder to fill.</param>
-        public void CopyTo(StringBuilder stringBuilder) => decoratedText.CopyTo(stringBuilder);
+        public void CopyTo(StringBuilder stringBuilder) => DecoratedText.CopyTo(stringBuilder);
 
         /// <summary>
         /// Reads at most <paramref name="count"/> characters starting from the supplied <paramref name="location"/>.
@@ -496,7 +503,7 @@ namespace NStuff.Text
         /// <param name="location">The location where the first character to read is located.</param>
         /// <returns>The number of character actually read.</returns>
         public int Read(char[] buffer, int index, int count, ref (int line, int column) location) =>
-            decoratedText.Read(buffer, index, count, ref location);
+            DecoratedText.Read(buffer, index, count, ref location);
 
         private int GetTextLocationIndex((int line, int column) location)
         {
@@ -519,7 +526,7 @@ namespace NStuff.Text
             while (location.line < lineCount)
             {
                 location = GetNextTextLocation(location);
-                if (location.line >= decoratedText.LineCount)
+                if (location.line >= DecoratedText.LineCount)
                 {
                     break;
                 }
@@ -538,7 +545,7 @@ namespace NStuff.Text
             while (lineToTextLocation.Count < lineCount)
             {
                 location = GetNextTextLocation(location);
-                if (location.line >= decoratedText.LineCount)
+                if (location.line >= DecoratedText.LineCount)
                 {
                     break;
                 }
@@ -551,7 +558,7 @@ namespace NStuff.Text
         {
             int line = textLocationLineToLine.Count;
             int index = (line == 0) ? 0 : textLocationLineToLine[line - 1];
-            while (index < lineToTextLocation.Count && line < decoratedText.LineCount)
+            while (index < lineToTextLocation.Count && line < DecoratedText.LineCount)
             {
                 if (line == lineToTextLocation[index].line)
                 {
@@ -579,7 +586,7 @@ namespace NStuff.Text
 
         private (int line, int column) GetNextTextLocation((int line, int column) location)
         {
-            var count = decoratedText.GetColumnCount(location.line, ignoreNewline: true) - location.column;
+            var count = DecoratedText.GetColumnCount(location.line, ignoreNewline: true) - location.column;
             if (count <= maxLineLength)
             {
                 return (location.line + 1, 0);
