@@ -84,4 +84,4 @@ and from [an input file](test/WindowSystem.ManualTest/glinterop.xml) listing the
 * **Tessellation** project is based on the algorithm from [GLU libtess](https://gitlab.freedesktop.org/mesa/glu/tree/master/src/libtess)
 * **Geometry** project is approximating Bézier curves using recursive subdivision as described in an article on
 antigrain.com (site mostly down).
-* **Typography.Rasterization** project is inspired by [that article](http://nothings.org/gamedev/rasterize/).
+* The font rasterization code of the **Typography.Typesetting** project is inspired by [that article](http://nothings.org/gamedev/rasterize/).
