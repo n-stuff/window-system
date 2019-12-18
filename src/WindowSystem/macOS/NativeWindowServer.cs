@@ -631,10 +631,8 @@ namespace NStuff.WindowSystem.macOS
         protected internal override void UnblockProcessEvents()
         {
             var nsEvent = NSEvent.Get(otherEventWithType_location_modifierFlags_timestamp_windowNumber_context_subtype_data1_data2_,
-                NSEventTypeApplicationDefined, new NSPoint(), 0, 0, 0, default, 0, 0, 0);
+                NSEventTypeApplicationDefined, default, 0, 0, 0, default, 0, 0, 0);
             NSApp.Send(postEvent_atStart_, nsEvent, true);
-            autoreleasePool.Send(release);
-            autoreleasePool = NSAutoreleasePool.Get(@new);
         }
 
         // Application ----------------------------------------------------------------------------
