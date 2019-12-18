@@ -3,7 +3,7 @@
     /// <summary>
     /// Lists the most common font weights.
     /// </summary>
-    public enum WeightClass
+    public enum WeightClass : short
     {
         /// <summary>
         /// Thin.

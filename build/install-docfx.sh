@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-DOCFX_VERSION=2.47.0
+DOCFX_VERSION=2.48.0
 
 SH_SCRIPT_ROOT=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 

@@ -110,7 +110,7 @@ namespace NStuff.Typography.Typesetting
         public double GetDescent(FontInfo fontInfo, double fontPoints) => GetFontScaling(fontInfo, fontPoints) * fontInfo.Descent;
 
         /// <summary>
-        /// Gets the distance between two lines of text displayed using the supplied font.
+        /// Gets the recommended whitespace between two lines of text displayed using the supplied font.
         /// </summary>
         /// <param name="fontInfo">The font to query.</param>
         /// <param name="fontPoints">The size of the font in points.</param>

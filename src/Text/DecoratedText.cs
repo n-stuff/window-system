@@ -9,7 +9,7 @@ namespace NStuff.Text
     /// <typeparam name="TDecoration">The type of some decoration to apply to each code point.</typeparam>
     public class DecoratedText<TDecoration> : PlainText
     {
-        private readonly GapBuffer<GapBuffer<TDecoration>> lines = new GapBuffer<GapBuffer<TDecoration>>(DefaultCapacity);
+        private readonly GapBuffer<GapBuffer<TDecoration>> lines;
 
         /// <summary>
         /// Gets a number that is incremented each time the text is modified.
@@ -36,7 +36,11 @@ namespace NStuff.Text
         /// <summary>
         /// Initializes a new instance of the <see cref="DecoratedText{TDecoration}"/> class.
         /// </summary>
-        public DecoratedText() => lines.Insert(0, new GapBuffer<TDecoration>(DefaultCapacity));
+        public DecoratedText()
+        {
+            lines = new GapBuffer<GapBuffer<TDecoration>>(DefaultCapacity);
+            lines.Insert(0, new GapBuffer<TDecoration>(DefaultCapacity));
+        }
 
         /// <summary>
         /// Initializes a new instance of the <c>DecoratedText</c> class using the supplied text.
@@ -45,10 +49,11 @@ namespace NStuff.Text
         public DecoratedText(PlainText plainText) : base(plainText)
         {
             var lineCount = plainText.LineCount;
+            lines = new GapBuffer<GapBuffer<TDecoration>>((int)BitHelper.GetNextPowerOfTwo((uint)lineCount));
             for (int i = 0; i < lineCount; i++)
             {
-                var line = new GapBuffer<TDecoration>(DefaultCapacity);
                 var columnCount = plainText.GetColumnCount(i);
+                var line = new GapBuffer<TDecoration>((int)BitHelper.GetNextPowerOfTwo((uint)columnCount));
                 for (int j = 0; j < columnCount; j++)
                 {
                     line.Insert(j, default!);

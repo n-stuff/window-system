@@ -1,5 +1,5 @@
 
-$DocFxVersion = "2.47.0"
+$DocFxVersion = "2.48.0"
 
 . $PSScriptRoot\install-nuget.ps1
 

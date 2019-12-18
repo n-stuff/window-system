@@ -6,7 +6,7 @@ namespace NStuff.Typography.Font
     /// Indicates information concerning the nature of the font patterns.
     /// </summary>
     [Flags]
-    public enum MacStyles
+    public enum MacStyles : short
     {
         /// <summary>
         /// Glyphs are emboldened.

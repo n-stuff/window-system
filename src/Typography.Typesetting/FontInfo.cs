@@ -39,7 +39,7 @@ namespace NStuff.Typography.Typesetting
         public int Descent { get; }
 
         /// <summary>
-        /// Gets the distance between two lines of text displayed using this font.
+        /// Gets the recommended whitespece between two lines of text displayed using this font.
         /// </summary>
         /// <value>A number in design units.</value>
         public int LineGap { get; }

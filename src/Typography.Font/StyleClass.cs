@@ -3,7 +3,7 @@
     /// <summary>
     /// Lists the font styles.
     /// </summary>
-    public enum StyleClass
+    public enum StyleClass : short
     {
         /// <summary>
         /// A normal font.

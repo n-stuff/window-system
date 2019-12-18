@@ -20,9 +20,9 @@ namespace NStuff.Text
 
         internal int ElementSize => (endLength < 0) ? 3 : (startLength < 0) ? 2 : 1;
 
-        public int Count => StartLength + EndLength;
+        internal int Count => StartLength + EndLength;
 
-        public int this[int index] {
+        internal int this[int index] {
             get {
                 var elementSize = ElementSize;
                 index = GetActualIndex(index) * elementSize;
@@ -39,14 +39,14 @@ namespace NStuff.Text
             }
         }
 
-        public CodePointBuffer(int capacity)
+        internal CodePointBuffer(int capacity)
         {
             data = new byte[capacity];
             startLength = 0;
             endLength = 0;
         }
 
-        public CodePointBuffer(CodePointBuffer buffer)
+        internal CodePointBuffer(CodePointBuffer buffer)
         {
             int count = buffer.Count;
             data = new byte[BitHelper.GetNextPowerOfTwo((uint)count)];
@@ -64,14 +64,14 @@ namespace NStuff.Text
             }
         }
 
-        public void Insert(int index, int codePoint)
+        internal void Insert(int index, int codePoint)
         {
             UpdateElementSize(codePoint);
             UpdateForInsertion(index, 1);
             SetCodePoint(index, ElementSize, codePoint);
         }
 
-        public void InsertRange(int index, int[] items, int offset, int length)
+        internal void InsertRange(int index, int[] items, int offset, int length)
         {
             if (length > 0)
             {
@@ -88,7 +88,7 @@ namespace NStuff.Text
             }
         }
 
-        public void RemoveRange(int index, int length)
+        internal void RemoveRange(int index, int length)
         {
             if (length == 0)
             {

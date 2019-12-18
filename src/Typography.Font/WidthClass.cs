@@ -3,7 +3,7 @@
     /// <summary>
     /// Lists the font width categories.
     /// </summary>
-    public enum WidthClass
+    public enum WidthClass : short
     {
         /// <summary>
         /// Ultra-condensed.

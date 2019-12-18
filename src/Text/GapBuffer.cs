@@ -15,9 +15,9 @@ namespace NStuff.Text
             set => data[GetActualIndex(index)] = value;
         }
 
-        public GapBuffer(int capacity) => data = new TElement[capacity];
+        internal GapBuffer(int capacity) => data = new TElement[capacity];
 
-        public void Insert(int index, TElement item)
+        internal void Insert(int index, TElement item)
         {
             if ((uint)index > (uint)Count)
             {
@@ -27,7 +27,7 @@ namespace NStuff.Text
             data[index] = item;
         }
 
-        public void InsertRange(int index, TElement[] items, int offset, int length)
+        internal void InsertRange(int index, TElement[] items, int offset, int length)
         {
             if ((uint)index > (uint)Count)
             {
@@ -44,9 +44,9 @@ namespace NStuff.Text
             }
         }
 
-        public void RemoveAt(int index) => RemoveRange(index, 1);
+        internal void RemoveAt(int index) => RemoveRange(index, 1);
 
-        public void RemoveRange(int index, int length)
+        internal void RemoveRange(int index, int length)
         {
             int count = Count;
             if ((uint)index > (uint)count)
