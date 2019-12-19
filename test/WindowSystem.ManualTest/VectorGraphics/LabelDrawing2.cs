@@ -5,7 +5,7 @@ using NStuff.Typography.Typesetting;
 
 namespace NStuff.WindowSystem.ManualTest.VectorGraphics
 {
-    public class LabelDrawing : DrawingBase
+    public class LabelDrawing2 : DrawingBase2
     {
         public string? FontFamily { get; set; }
 
@@ -17,7 +17,7 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
 
         public RgbaColor Color { get; set; } = new RgbaColor(0, 0, 0, 255);
 
-        internal override void Draw(DrawingContext context)
+        internal override void Draw(DrawingContext2 context)
         {
             if (FontFamily == null || FontSubfamily == null || FontPoints == 0 || string.IsNullOrEmpty(Text))
             {
@@ -51,7 +51,7 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
             }
         }
 
-        private static void DrawCharacters(DrawingContext context, RgbaColor color, AffineTransform transform, int imageIndex, ref int vertexCount)
+        private static void DrawCharacters(DrawingContext2 context, RgbaColor color, AffineTransform transform, int imageIndex, ref int vertexCount)
         {
             var commandCount = 0;
             context.CommandBuffers[commandCount++] = context.SetupGreyscaleImageColorCommandBuffer;

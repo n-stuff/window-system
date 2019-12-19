@@ -43,6 +43,7 @@
     <ProjectReference Include="..\..\src\Text\Text.csproj" />
     <ProjectReference Include="..\..\src\Typography.Font\Typography.Font.csproj" />
     <ProjectReference Include="..\..\src\Typography.Typesetting\Typography.Typesetting.csproj" />
+    <ProjectReference Include="..\..\src\VectorGraphics\VectorGraphics.csproj" />
   </ItemGroup>
 
 </Project>

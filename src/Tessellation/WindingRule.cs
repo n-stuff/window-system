@@ -6,14 +6,14 @@
     public enum WindingRule
     {
         /// <summary>
-        /// A part of the polygon is inside if the winding number is odd.
-        /// </summary>
-        Odd,
-        
-        /// <summary>
         /// A part of the polygon is inside if the winding number is non-zero.
         /// </summary>
         NonZero,
+
+        /// <summary>
+        /// A part of the polygon is inside if the winding number is odd.
+        /// </summary>
+        Odd,
         
         /// <summary>
         /// A part of the polygon is inside if the winding number is positive.

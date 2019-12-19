@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\build\versions.props" />
+
+  <PropertyGroup>
+    <TargetFramework>$(NetStandardId)</TargetFramework>
+    <RootNamespace>NStuff.VectorGraphics</RootNamespace>
+    <AssemblyName>NStuff.VectorGraphics</AssemblyName>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GraphicsBackend\GraphicsBackend.csproj" />
+    <ProjectReference Include="..\Tessellation\Tessellation.csproj" />
+    <ProjectReference Include="..\Typography.Typesetting\Typography.Typesetting.csproj" />
+  </ItemGroup>
+
+</Project>

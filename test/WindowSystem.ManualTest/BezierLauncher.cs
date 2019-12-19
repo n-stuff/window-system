@@ -2,7 +2,7 @@
 using NStuff.OpenGL.Backend;
 using NStuff.OpenGL.Context;
 using NStuff.Typography.Font;
-using NStuff.WindowSystem.ManualTest.VectorGraphics;
+using NStuff.VectorGraphics;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -32,7 +32,8 @@ namespace NStuff.WindowSystem.ManualTest
             var openTypeCollection = new OpenTypeCollection();
             var nameId = typeof(BezierLauncher).Namespace + ".Resources.ebrima.ttf";
             openTypeCollection.AddFontResource(nameId, () => Assembly.GetExecutingAssembly().GetManifestResourceStream(nameId)!);
-            var drawingContext = new DrawingContext(backend, openTypeCollection)
+            using var sharedContext = new SharedDrawingContext(backend, openTypeCollection);
+            using var drawingContext = new DrawingContext(sharedContext)
             {
                 ClearColor = new RgbaColor(155, 155, 155, 255)
             };
@@ -51,7 +52,7 @@ namespace NStuff.WindowSystem.ManualTest
 
                             var pathReader = new SvgPathReader();
                             paths.Clear();
-                            var transform = new AffineTransform(m11: 1.6, m22: 1.6, m31: 300, m32: 240);
+                            var transform = new AffineTransform(m11: 1.76, m22: 1.76, m31: 325, m32: 255);
 
                             var namePrefix = typeof(BezierLauncher).Namespace + ".Resources.";
                             XDocument document;
@@ -167,12 +168,14 @@ namespace NStuff.WindowSystem.ManualTest
                 }
             };
 
-            var label = new LabelDrawing();
+            /*
+            var label = new LabelDrawing2();
             label.FontFamily = "Ebrima";
             label.FontSubfamily = FontSubfamily.Normal;
             label.FontPoints = 50;
             label.Text = "The quick brown fox jumps over the lazy dog.";
             label.Transform = new AffineTransform(m11: 1, m22: 1, m31: 20, m32: 50);
+            */
 
             void draw()
             {
@@ -186,9 +189,9 @@ namespace NStuff.WindowSystem.ManualTest
 
                 foreach (var path in paths)
                 {
-                    drawingContext.Draw(path);
+                    path.Draw(drawingContext);
                 }
-                drawingContext.Draw(label);
+                //drawingContext.Draw(label);
 
                 drawingContext.FinishDrawing();
                 renderingContext.SwapBuffers(window);

@@ -11,7 +11,7 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
     /// <summary>
     /// Provides shared resources and services to render vector graphics.
     /// </summary>
-    public sealed class DrawingContext : IDisposable
+    public sealed class DrawingContext2 : IDisposable
     {
         private DrawingBackendBase? backend;
         private RgbaColor clearColor = new RgbaColor(255, 255, 255, 255);
@@ -85,7 +85,7 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
         /// </summary>
         /// <param name="backend">The drawing backend to use for rendering.</param>
         /// <param name="openTypeCollection">A collecion of fonts.</param>
-        public DrawingContext(DrawingBackendBase backend, OpenTypeCollection openTypeCollection)
+        public DrawingContext2(DrawingBackendBase backend, OpenTypeCollection openTypeCollection)
         {
             this.backend = backend;
             Tessellator = new Tessellator2D<int, int>(new TessellateHandler())
@@ -125,9 +125,9 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
 
         /// <summary>
         /// Ensures that resources are freed and other cleanup operations are performed when the garbage collector
-        /// reclaims the <see cref="DrawingContext"/>.
+        /// reclaims the <see cref="DrawingContext2"/>.
         /// </summary>
-        ~DrawingContext() => FreeResources();
+        ~DrawingContext2() => FreeResources();
 
         /// <summary>
         /// Releases the resources associated with this object. After calling this method, calling the other methods of this object
@@ -185,7 +185,7 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
         /// Draws the supplied object.
         /// </summary>
         /// <param name="drawing">An object to draw.</param>
-        public void Draw(DrawingBase drawing) => drawing.Draw(this);
+        public void Draw(DrawingBase2 drawing) => drawing.Draw(this);
 
         /// <summary>
         /// Finishes the current image.

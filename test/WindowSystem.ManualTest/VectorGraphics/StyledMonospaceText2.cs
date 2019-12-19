@@ -3,13 +3,13 @@ using NStuff.Text;
 
 namespace NStuff.WindowSystem.ManualTest.VectorGraphics
 {
-    public class StyledMonospaceText : MonospaceText<byte>
+    public class StyledMonospaceText2 : MonospaceText<byte>
     {
-        public MonospaceTextStyles Styles { get; }
+        public MonospaceTextStyles2 Styles { get; }
 
-        public MonospaceTextStyle DefaultStyle => Styles.GetStyle(0);
+        public MonospaceTextStyle2 DefaultStyle => Styles.GetStyle(0);
 
-        public new(int codePoint, MonospaceTextStyle style) this[(int line, int column) location] {
+        public new(int codePoint, MonospaceTextStyle2 style) this[(int line, int column) location] {
             get {
                 (var codePoint, var index) = ((MonospaceText<byte>)this)[location];
                 return (codePoint, Styles.GetStyle(index));
@@ -19,12 +19,12 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
             }
         }
 
-        public StyledMonospaceText(DecoratedText<byte> decoratedText, MonospaceTextStyles styles) : base(decoratedText) => Styles = styles;
+        public StyledMonospaceText2(DecoratedText<byte> decoratedText, MonospaceTextStyles2 styles) : base(decoratedText) => Styles = styles;
 
-        public void StyleRange(MonospaceTextStyle style, (int line, int column) start, (int line, int column) end) =>
+        public void StyleRange(MonospaceTextStyle2 style, (int line, int column) start, (int line, int column) end) =>
             DecorateRange((byte)Styles.GetStyleIndex(style), start, end);
 
-        internal void Draw(DrawingContext context, AffineTransform transform, string fontFamily, double fontPoints,
+        internal void Draw(DrawingContext2 context, AffineTransform transform, string fontFamily, double fontPoints,
             int firstLine, int lineCount, double lineHeight = -1d)
         {
             var fontMetrics = context.GlyphAtlas.FontMetrics;
@@ -44,7 +44,7 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
 
             var columnWidth = fontMetrics.GetAdvanceWidth(
                 fontMetrics.GetGlyphInfo(fontFamily, DefaultStyle.FontSubfamily, 'e'), fontPoints);
-            var previousStyle = default(MonospaceTextStyle);
+            var previousStyle = default(MonospaceTextStyle2);
             var vertexBuffer = context.Vertices;
             var vertexCount = 0;
             var firstDraw = true;
@@ -138,7 +138,7 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
             }
         }
 
-        private static void DrawRectangles(DrawingContext context, RgbaColor color, AffineTransform transform,
+        private static void DrawRectangles(DrawingContext2 context, RgbaColor color, AffineTransform transform,
             ref bool firstDraw, ref int vertexCount)
         {
             var commandCount = 0;
@@ -160,7 +160,7 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
             vertexCount = 0;
         }
 
-        private static void DrawCharacters(DrawingContext context, RgbaColor color, AffineTransform transform,
+        private static void DrawCharacters(DrawingContext2 context, RgbaColor color, AffineTransform transform,
             int imageIndex, ref bool firstDraw, ref int vertexCount)
         {
             var commandCount = 0;

@@ -3,7 +3,7 @@ using NStuff.Typography.Font;
 
 namespace NStuff.WindowSystem.ManualTest.VectorGraphics
 {
-    public class MonospaceTextStyle
+    public class MonospaceTextStyle2
     {
         public FontSubfamily FontSubfamily { get; }
 
@@ -11,7 +11,7 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
 
         public RgbaColor Background { get; }
 
-        internal MonospaceTextStyle(FontSubfamily fontSubfamily, RgbaColor foreground, RgbaColor background)
+        internal MonospaceTextStyle2(FontSubfamily fontSubfamily, RgbaColor foreground, RgbaColor background)
         {
             FontSubfamily = fontSubfamily;
             Foreground = foreground;

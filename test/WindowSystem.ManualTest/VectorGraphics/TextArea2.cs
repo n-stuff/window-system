@@ -7,11 +7,11 @@ using NStuff.Typography.Font;
 
 namespace NStuff.WindowSystem.ManualTest.VectorGraphics
 {
-    public class TextArea
+    public class TextArea2
     {
         private readonly string fontFamily;
         private readonly FontSubfamily fontSubfamily;
-        private StyledMonospaceText text;
+        private StyledMonospaceText2 text;
         private double fontPoints;
         private double renderX;
         private double renderY;
@@ -53,13 +53,13 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
 
         public int Version => text.Version;
 
-        public TextArea(MonospaceTextStyles styles, string fontFamily, FontSubfamily fontSubfamily, double fontPoints)
+        public TextArea2(MonospaceTextStyles2 styles, string fontFamily, FontSubfamily fontSubfamily, double fontPoints)
         {
             this.fontFamily = fontFamily;
             this.fontSubfamily = fontSubfamily;
             this.fontPoints = fontPoints;
 
-            text = new StyledMonospaceText(new DecoratedText<byte>(), styles);
+            text = new StyledMonospaceText2(new DecoratedText<byte>(), styles);
         }
 
         public void Load(string path)
@@ -71,7 +71,7 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
 
         public DecoratedText<byte> GetText() => new DecoratedText<byte>(text.DecoratedText);
 
-        public void SetText(StyledMonospaceText text)
+        public void SetText(StyledMonospaceText2 text)
         {
             text.CaretLocation = this.text.CaretLocation;
             this.text = text;
@@ -164,7 +164,7 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
             RequireRestyle = true;
         }
 
-        public void Render(DrawingContext drawingContext)
+        public void Render(DrawingContext2 drawingContext)
         {
             RequireRender = false;
 
