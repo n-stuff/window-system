@@ -41,6 +41,17 @@ namespace NStuff.VectorGraphics
         public bool Disposed => backend == null || backend.Disposed;
 
         /// <summary>
+        /// Gets the <c>FontMetrics</c> instance used to draw text.
+        /// </summary>
+        /// <value>The <c>FontMetrics</c> instance used to draw text.</value>
+        public FontMetrics FontMetrics {
+            get {
+                CheckIfAlive();
+                return glyphAtlas.FontMetrics;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the scaling to apply to coordinates to get the number of pixels.
         /// </summary>
         public double PixelScaling {

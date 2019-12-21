@@ -3,6 +3,7 @@ using NStuff.OpenGL.Backend;
 using NStuff.OpenGL.Context;
 using NStuff.Text;
 using NStuff.Typography.Font;
+using NStuff.VectorGraphics;
 using NStuff.WindowSystem.ManualTest.VectorGraphics;
 using System;
 using System.Collections.Generic;
@@ -40,15 +41,16 @@ namespace NStuff.WindowSystem.ManualTest
             var nameId = typeof(BezierLauncher).Namespace + ".Resources.Hack-Regular.ttf";
             openTypeCollection.AddFontResource(nameId, () => Assembly.GetExecutingAssembly().GetManifestResourceStream(nameId)!);
 
-            var drawingContext = new DrawingContext2(backend, openTypeCollection)
+            using var sharedContext = new SharedDrawingContext(backend, openTypeCollection);
+            using var drawingContext = new DrawingContext(sharedContext)
             {
-                ClearColor = new RgbaColor(55, 55, 55, 255)
+                ClearColor = new RgbaColor(35, 35, 35, 255)
             };
 
-            var styles = new MonospaceTextStyles2(256);
+            var styles = new MonospaceTextStyles(256);
             var fontSubfamily = openTypeCollection.LookupFontSubfamily("Hack", FontSubfamily.Normal);
             styles.GetStyle(fontSubfamily, new RgbaColor(255, 255, 255, 255), new RgbaColor(0, 0, 0, 0));
-            var textArea = new TextArea2(styles, "Hack", fontSubfamily, 9);
+            var textArea = new TextArea(styles, "Hack", fontSubfamily, 9);
             var path = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!, "..", "..", "..", "TextAreaLauncher.cs");
             textArea.Load(path);
             const int textLeft = 20;
@@ -123,7 +125,7 @@ namespace NStuff.WindowSystem.ManualTest
             void draw()
             {
                 renderingContext.CurrentWindow = window;
-                backend.PixelScaling = viewportSize.height / windowSize.height;
+                drawingContext.SharedContext.PixelScaling = viewportSize.height / windowSize.height;
 
                 drawingContext.StartDrawing();
 
@@ -155,7 +157,7 @@ namespace NStuff.WindowSystem.ManualTest
             var th = new Thread(() =>
             {
                 var regexList = new List<Regex>();
-                var styleList = new List<MonospaceTextStyle2>();
+                var styleList = new List<MonospaceTextStyle>();
 
                 regexList.Add(new Regex("\\b(break|case|class|const|else|false|float|for|foreach|" +
                     "if|int|internal|public|namespace|new|unsafe|using|string|switch|true|var|void)\\b"));
@@ -174,7 +176,7 @@ namespace NStuff.WindowSystem.ManualTest
                     var v = version;
                     if (t != null)
                     {
-                        var txt = new StyledMonospaceText2(t, styles);
+                        var txt = new StyledMonospaceText(t, styles);
                         var builder = new StringBuilder();
                         for (int i = 0; i < txt.LineCount; i++)
                         {
@@ -192,7 +194,7 @@ namespace NStuff.WindowSystem.ManualTest
                                 }
                             }
                         }
-                        void f(int currentVersion, StyledMonospaceText2 newText)
+                        void f(int currentVersion, StyledMonospaceText newText)
                         {
                             runLoop.InvokeLater(0, (lag) =>
                             {

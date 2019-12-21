@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace NStuff.WindowSystem.ManualTest.VectorGraphics
 {
-    public class MonospaceTextStyles2
+    public class MonospaceTextStyles
     {
         private struct MonospaceStyleKey : IEquatable<MonospaceStyleKey>
         {
@@ -26,15 +26,15 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
             public override int GetHashCode() => HashCode.Combine(fontSubfamily, foreground, background);
         }
 
-        private readonly Dictionary<MonospaceStyleKey, (MonospaceTextStyle2 style, int index)> styles =
-            new Dictionary<MonospaceStyleKey, (MonospaceTextStyle2 style, int index)>();
-        private readonly List<MonospaceTextStyle2> stylesByIndex = new List<MonospaceTextStyle2>();
+        private readonly Dictionary<MonospaceStyleKey, (MonospaceTextStyle style, int index)> styles =
+            new Dictionary<MonospaceStyleKey, (MonospaceTextStyle style, int index)>();
+        private readonly List<MonospaceTextStyle> stylesByIndex = new List<MonospaceTextStyle>();
 
         public int Capacity { get; }
 
-        public MonospaceTextStyles2(int capacity) => Capacity = capacity;
+        public MonospaceTextStyles(int capacity) => Capacity = capacity;
 
-        public MonospaceTextStyle2 GetStyle(FontSubfamily fontSubfamily, RgbaColor foreground, RgbaColor background)
+        public MonospaceTextStyle GetStyle(FontSubfamily fontSubfamily, RgbaColor foreground, RgbaColor background)
         {
             var key = new MonospaceStyleKey(fontSubfamily, foreground, background);
             if (!styles.TryGetValue(key, out var value))
@@ -43,16 +43,16 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
                 {
                     throw new InvalidOperationException("too much styles");
                 }
-                value = (new MonospaceTextStyle2(fontSubfamily, foreground, background), styles.Count);
+                value = (new MonospaceTextStyle(fontSubfamily, foreground, background), styles.Count);
                 styles.Add(key, value);
                 stylesByIndex.Add(value.style);
             }
             return value.style;
         }
 
-        internal MonospaceTextStyle2 GetStyle(int index) => stylesByIndex[index];
+        internal MonospaceTextStyle GetStyle(int index) => stylesByIndex[index];
 
-        internal int GetStyleIndex(MonospaceTextStyle2 style) =>
+        internal int GetStyleIndex(MonospaceTextStyle style) =>
             styles[new MonospaceStyleKey(style.FontSubfamily, style.Foreground, style.Background)].index;
     }
 }

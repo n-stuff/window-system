@@ -1,17 +1,17 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using NStuff.GraphicsBackend;
 using NStuff.Text;
 using NStuff.Typography.Font;
+using NStuff.VectorGraphics;
 
 namespace NStuff.WindowSystem.ManualTest.VectorGraphics
 {
-    public class TextArea2
+    public class TextArea
     {
         private readonly string fontFamily;
         private readonly FontSubfamily fontSubfamily;
-        private StyledMonospaceText2 text;
+        private StyledMonospaceText text;
         private double fontPoints;
         private double renderX;
         private double renderY;
@@ -53,13 +53,13 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
 
         public int Version => text.Version;
 
-        public TextArea2(MonospaceTextStyles2 styles, string fontFamily, FontSubfamily fontSubfamily, double fontPoints)
+        public TextArea(MonospaceTextStyles styles, string fontFamily, FontSubfamily fontSubfamily, double fontPoints)
         {
             this.fontFamily = fontFamily;
             this.fontSubfamily = fontSubfamily;
             this.fontPoints = fontPoints;
 
-            text = new StyledMonospaceText2(new DecoratedText<byte>(), styles);
+            text = new StyledMonospaceText(new DecoratedText<byte>(), styles);
         }
 
         public void Load(string path)
@@ -71,7 +71,7 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
 
         public DecoratedText<byte> GetText() => new DecoratedText<byte>(text.DecoratedText);
 
-        public void SetText(StyledMonospaceText2 text)
+        public void SetText(StyledMonospaceText text)
         {
             text.CaretLocation = this.text.CaretLocation;
             this.text = text;
@@ -164,13 +164,13 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
             RequireRestyle = true;
         }
 
-        public void Render(DrawingContext2 drawingContext)
+        public void Render(DrawingContext drawingContext)
         {
             RequireRender = false;
 
-            var pixelScaling = drawingContext.PixelScaling;
+            var pixelScaling = drawingContext.SharedContext.PixelScaling;
 
-            var fontMetrics = drawingContext.GlyphAtlas.FontMetrics;
+            var fontMetrics = drawingContext.SharedContext.FontMetrics;
             var advanceWidth = fontMetrics.GetAdvanceWidth(fontMetrics.GetGlyphInfo(fontFamily, fontSubfamily, 'e'), fontPoints);
             text.MaxLineLength = (int)Math.Floor(renderWidth * pixelScaling / advanceWidth);
 
@@ -289,36 +289,23 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
 
             if (!hideCaret)
             {
-                var vertexBuffer = drawingContext.Vertices;
+                var pathDrawing = new PathDrawing()
+                {
+                    Transform = new AffineTransform(m11: 1, m22: 1, m31: renderX, m32: renderY),
+                    FillColor = new RgbaColor(255, 255, 128, 255)
+                };
 
                 double x0 = caretLeft / pixelScaling - 1;
                 double y0 = caretTop / pixelScaling;
-                double x1 = x0;
+                double x1 = x0 + 2;
                 double y1 = (caretTop + lineHeight) / pixelScaling;
-                double x2 = x0 + 2;
-                double y2 = y1;
-                vertexBuffer[0] = new PointCoordinates(x0, y0);
-                vertexBuffer[1] = new PointCoordinates(x1, y1);
-                vertexBuffer[2] = new PointCoordinates(x2, y2);
 
-                x1 = x2;
-                y2 = y0;
+                pathDrawing.Move((x0, y0));
+                pathDrawing.AddLine((x0, y1));
+                pathDrawing.AddLine((x1, y1));
+                pathDrawing.AddLine((x1, y0));
 
-                vertexBuffer[3] = new PointCoordinates(x0, y0);
-                vertexBuffer[4] = new PointCoordinates(x1, y1);
-                vertexBuffer[5] = new PointCoordinates(x2, y2);
-
-                drawingContext.CommandBuffers[0] = drawingContext.SetupPlainColorCommandBuffer;
-                drawingContext.Colors[0] = new RgbaColor(255, 255, 128, 255);
-                drawingContext.Backend.UpdateUniformBuffer(drawingContext.SingleColorBuffer, drawingContext.Colors, 0, 1);
-                drawingContext.Transforms[0] = new AffineTransform(m11: 1, m22: 1, m31: renderX, m32: renderY);
-                drawingContext.Backend.UpdateUniformBuffer(drawingContext.SingleTransformBuffer, drawingContext.Transforms, 0, 1);
-                drawingContext.Backend.UpdateVertexBuffer(drawingContext.VertexBuffer, drawingContext.Vertices, 0, 6);
-                drawingContext.VertexRanges[0] = new VertexRange(0, 6);
-                drawingContext.Backend.UpdateVertexRangeBuffer(drawingContext.SingleVertexRangeBuffer, drawingContext.VertexRanges, 0, 1);
-
-                drawingContext.CommandBuffers[1] = drawingContext.DrawIndirectCommandBuffer;
-                drawingContext.Backend.SubmitCommands(drawingContext.CommandBuffers, 0, 2);
+                pathDrawing.Draw(drawingContext);
             }
         }
     }

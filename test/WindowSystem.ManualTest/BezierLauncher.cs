@@ -173,7 +173,7 @@ namespace NStuff.WindowSystem.ManualTest
                 Transform = new AffineTransform(m11: 4, m22: 4, m31: 20, m32: 50),
                 FontFamily = "Ebrima",
                 FontSubfamily = FontSubfamily.Normal,
-                FontPoints = 16
+                FontPoints = 8
             };
             label.AppendString("The quick brown fox jumps over the lazy dog.");
 
@@ -182,7 +182,7 @@ namespace NStuff.WindowSystem.ManualTest
                 Transform = new AffineTransform(m11: 1, m22: 1, m31: 20, m32: 100),
                 FontFamily = "Ebrima",
                 FontSubfamily = FontSubfamily.Normal,
-                FontPoints = 64
+                FontPoints = 32
             };
             label2.AppendString("The quick brown fox jumps over the lazy dog.");
 
@@ -192,7 +192,7 @@ namespace NStuff.WindowSystem.ManualTest
                 sw.Start();
 
                 renderingContext.CurrentWindow = window;
-                backend.PixelScaling = viewportSize.height / windowSize.height;
+                drawingContext.SharedContext.PixelScaling = viewportSize.height / windowSize.height;
 
                 drawingContext.StartDrawing();
 

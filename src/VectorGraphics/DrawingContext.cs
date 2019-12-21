@@ -79,6 +79,17 @@ namespace NStuff.VectorGraphics
         public bool Disposed => sharedContext == null || sharedContext.Disposed;
 
         /// <summary>
+        /// Gets the shared context used to create this context.
+        /// </summary>
+        /// <value>The shared context used to create this context.</value>
+        public SharedDrawingContext SharedContext {
+            get {
+                CheckIfAlive();
+                return sharedContext!;
+            }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <c>DrawingContext</c> class using the supplied <paramref name="sharedContext"/>.
         /// </summary>
         /// <param name="sharedContext">The object used to share ressources between contexts.</param>
