@@ -42,7 +42,7 @@ namespace NStuff.Typography.Typesetting
         public FontSubfamily? FontSubFamily {
             get => fontSubfamily;
             set {
-                if (fontSubfamily != value)
+                if (fontSubfamily.HasValue != value.HasValue || (fontSubfamily.HasValue && fontSubfamily.Value != value!.Value))
                 {
                     fontSubfamily = value;
                     previousGlyph = null;
@@ -116,6 +116,17 @@ namespace NStuff.Typography.Typesetting
         /// </summary>
         /// <param name="fontMetrics"></param>
         public GlyphLayout(FontMetrics fontMetrics) => FontMetrics = fontMetrics;
+
+        /// <summary>
+        /// Puts this <c>GlyphLayout</c> instance back to its initial state.
+        /// </summary>
+        public void Reset()
+        {
+            Line = -1;
+            fontFamily = null;
+            fontSubfamily = null;
+            StartLine();
+        }
 
         /// <summary>
         /// Starts a new line using the current font properties. <see cref="Line"/> is incremented.

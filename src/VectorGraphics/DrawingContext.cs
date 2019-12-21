@@ -1,6 +1,7 @@
 ﻿using NStuff.Geometry;
 using NStuff.GraphicsBackend;
 using NStuff.Tessellation;
+using NStuff.Typography.Font;
 using NStuff.Typography.Typesetting;
 using System;
 
@@ -46,6 +47,7 @@ namespace NStuff.VectorGraphics
         internal BezierApproximator BezierApproximator => sharedContext!.BezierApproximator;
         internal Tessellator2D<int, int> Tessellator => sharedContext!.Tessellator;
         internal PolylineStroker PolylineStroker => sharedContext!.PolylineStroker;
+        internal GlyphLayout GlyphLayout => sharedContext!.GlyphLayout;
 
         /// <summary>
         /// Gets or sets the color used to clear the framebuffer before drawing.
@@ -76,6 +78,10 @@ namespace NStuff.VectorGraphics
         /// <value><c>true</c> if <c>Dispose</c> was called.</value>
         public bool Disposed => sharedContext == null || sharedContext.Disposed;
 
+        /// <summary>
+        /// Initializes a new instance of the <c>DrawingContext</c> class using the supplied <paramref name="sharedContext"/>.
+        /// </summary>
+        /// <param name="sharedContext">The object used to share ressources between contexts.</param>
         public DrawingContext(SharedDrawingContext sharedContext)
         {
             this.sharedContext = sharedContext;
@@ -181,6 +187,10 @@ namespace NStuff.VectorGraphics
             CheckIfAlive();
 
             SubmitDrawingCommand();
+            if (commandCount > 0)
+            {
+                Backend.SubmitCommands(CommandBuffers, 0, commandCount);
+            }
             Backend.EndRenderFrame();
         }
 
@@ -253,41 +263,41 @@ namespace NStuff.VectorGraphics
 
         internal void AppendGlyphVertices(Glyph glyph, double x, double y)
         {
-            if (glyph.HasImage)
+            var texturedVertices = TexturedVertices;
+            if (texturedVertexCount + 6 > texturedVertices.Length)
             {
-                var texturedVertices = TexturedVertices;
-                if (texturedVertexCount + 6 > texturedVertices.Length)
-                {
-                    SubmitDrawingCommand();
-                }
-
-                var imageDimension = sharedContext!.ImageDimension;
-                var pixelScaling = sharedContext!.PixelScaling;
-
-                var left = Math.Round(x + glyph.Left) / pixelScaling;
-                var top = Math.Round(y + glyph.Top) / pixelScaling;
-                var right = Math.Round(x + glyph.Left + glyph.Width) / pixelScaling;
-                var bottom = Math.Round(y + glyph.Top + glyph.Height) / pixelScaling;
-
-                var textureLeft = (double)glyph.X / imageDimension;
-                var textureTop = (double)glyph.Y / imageDimension;
-                var textureRight = (glyph.X + glyph.Width) / (double)imageDimension;
-                var textureBottom = (glyph.Y + glyph.Height) / (double)imageDimension;
-
-                var i = texturedVertexCount;
-                texturedVertices[i++] = new PointAndImageCoordinates(left, bottom, textureLeft, textureBottom);
-                texturedVertices[i++] = new PointAndImageCoordinates(right, top, textureRight, textureTop);
-                texturedVertices[i++] = new PointAndImageCoordinates(left, top, textureLeft, textureTop);
-                texturedVertices[i++] = new PointAndImageCoordinates(left, bottom, textureLeft, textureBottom);
-                texturedVertices[i++] = new PointAndImageCoordinates(right, bottom, textureRight, textureBottom);
-                texturedVertices[i++] = new PointAndImageCoordinates(right, top, textureRight, textureTop);
-                texturedVertexCount += 6;
+                SubmitDrawingCommand();
             }
+
+            var imageDimension = sharedContext!.ImageDimension;
+            var pixelScaling = sharedContext!.PixelScaling;
+
+            var left = Math.Round(x + glyph.Left) / pixelScaling;
+            var top = Math.Round(y + glyph.Top) / pixelScaling;
+            var right = Math.Round(x + glyph.Left + glyph.Width) / pixelScaling;
+            var bottom = Math.Round(y + glyph.Top + glyph.Height) / pixelScaling;
+
+            var textureLeft = (double)glyph.X / imageDimension;
+            var textureTop = (double)glyph.Y / imageDimension;
+            var textureRight = (glyph.X + glyph.Width) / (double)imageDimension;
+            var textureBottom = (glyph.Y + glyph.Height) / (double)imageDimension;
+
+            var i = texturedVertexCount;
+            texturedVertices[i++] = new PointAndImageCoordinates(left, bottom, textureLeft, textureBottom);
+            texturedVertices[i++] = new PointAndImageCoordinates(right, top, textureRight, textureTop);
+            texturedVertices[i++] = new PointAndImageCoordinates(left, top, textureLeft, textureTop);
+            texturedVertices[i++] = new PointAndImageCoordinates(left, bottom, textureLeft, textureBottom);
+            texturedVertices[i++] = new PointAndImageCoordinates(right, bottom, textureRight, textureBottom);
+            texturedVertices[i++] = new PointAndImageCoordinates(right, top, textureRight, textureTop);
+            texturedVertexCount += 6;
         }
+
+        internal Glyph GetGlyph(string fontFamily, FontSubfamily fontSubfamily, double fontPoints, int codePoint) =>
+            sharedContext!.GetGlyph(fontFamily, fontSubfamily, fontPoints, codePoint);
 
         private void SubmitDrawingCommand()
         {
-            var draw = commandCount > 0;
+            var draw = false;
             if (vertexCount > 0)
             {
                 if (!currentColor.HasValue || !currentTransform.HasValue || !shaderCommandBuffer.HasValue)
@@ -318,7 +328,6 @@ namespace NStuff.VectorGraphics
             if (draw)
             {
                 Backend.UpdateVertexRangeBuffer(singleVertexRangeBuffer, VertexRanges, 0, 1);
-
                 CommandBuffers[commandCount++] = drawIndirectCommandBuffer;
                 Backend.SubmitCommands(CommandBuffers, 0, commandCount);
                 commandCount = 0;

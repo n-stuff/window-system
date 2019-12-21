@@ -23,6 +23,7 @@ namespace NStuff.VectorGraphics
         internal BezierApproximator BezierApproximator { get; } = new BezierApproximator();
         internal PolylineStroker PolylineStroker { get; }
         internal Tessellator2D<int, int> Tessellator { get; }
+        internal GlyphLayout GlyphLayout { get; }
 
         internal CommandBufferHandle[] CommandBuffers { get; } = new CommandBufferHandle[16];
         internal RgbaColor[] Colors { get; } = new RgbaColor[16];
@@ -69,6 +70,7 @@ namespace NStuff.VectorGraphics
                 OutputKind = OutputKind.TriangleEnumerator
             };
             PolylineStroker = new PolylineStroker(new PolylineStrokeHandler(Tessellator));
+            GlyphLayout = new GlyphLayout(glyphAtlas.FontMetrics);
         }
 
         /// <summary>

@@ -126,6 +126,16 @@ namespace NStuff.VectorGraphics
         }
 
         /// <summary>
+        /// Clears the curves composing this shape.
+        /// </summary>
+        public void ClearCurves()
+        {
+            commands.Clear();
+            points.Clear();
+            ClearCachedValues();
+        }
+
+        /// <summary>
         /// Changes the current point.
         /// </summary>
         /// <param name="currentPoint">The new current point.</param>
@@ -198,7 +208,7 @@ namespace NStuff.VectorGraphics
         {
             if (context.Disposed)
             {
-                throw new ObjectDisposedException(GetType().FullName);
+                throw new ObjectDisposedException(context.GetType().FullName);
             }
 
             if (commands.Count == 0 || (StrokeColor.Alpha == 0 && FillColor.Alpha == 0))

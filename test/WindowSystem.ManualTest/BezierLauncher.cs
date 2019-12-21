@@ -168,14 +168,23 @@ namespace NStuff.WindowSystem.ManualTest
                 }
             };
 
-            /*
-            var label = new LabelDrawing2();
-            label.FontFamily = "Ebrima";
-            label.FontSubfamily = FontSubfamily.Normal;
-            label.FontPoints = 50;
-            label.Text = "The quick brown fox jumps over the lazy dog.";
-            label.Transform = new AffineTransform(m11: 1, m22: 1, m31: 20, m32: 50);
-            */
+            var label = new LabelDrawing
+            {
+                Transform = new AffineTransform(m11: 4, m22: 4, m31: 20, m32: 50),
+                FontFamily = "Ebrima",
+                FontSubfamily = FontSubfamily.Normal,
+                FontPoints = 16
+            };
+            label.AppendString("The quick brown fox jumps over the lazy dog.");
+
+            var label2 = new LabelDrawing
+            {
+                Transform = new AffineTransform(m11: 1, m22: 1, m31: 20, m32: 100),
+                FontFamily = "Ebrima",
+                FontSubfamily = FontSubfamily.Normal,
+                FontPoints = 64
+            };
+            label2.AppendString("The quick brown fox jumps over the lazy dog.");
 
             void draw()
             {
@@ -187,17 +196,18 @@ namespace NStuff.WindowSystem.ManualTest
 
                 drawingContext.StartDrawing();
 
+                label.Draw(drawingContext);
+                label2.Draw(drawingContext);
                 foreach (var path in paths)
                 {
                     path.Draw(drawingContext);
                 }
-                //drawingContext.Draw(label);
 
                 drawingContext.FinishDrawing();
                 renderingContext.SwapBuffers(window);
 
                 sw.Stop();
-                Console.WriteLine($"Paths drawn in {sw.ElapsedMilliseconds}ms.");
+                Console.WriteLine($"Drawn in {sw.ElapsedMilliseconds}ms.");
             }
 
             void resize()

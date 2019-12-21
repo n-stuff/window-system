@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\GraphicsBackend\GraphicsBackend.csproj" />
     <ProjectReference Include="..\Tessellation\Tessellation.csproj" />
+    <ProjectReference Include="..\Text\Text.csproj" />
     <ProjectReference Include="..\Typography.Typesetting\Typography.Typesetting.csproj" />
   </ItemGroup>
 
