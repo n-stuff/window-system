@@ -38,7 +38,7 @@ namespace NStuff.WindowSystem.ManualTest
             };
 
             var openTypeCollection = new OpenTypeCollection();
-            var nameId = typeof(BezierLauncher).Namespace + ".Resources.Hack-Regular.ttf";
+            var nameId = typeof(VectorGraphicsLauncher).Namespace + ".Resources.Hack-Regular.ttf";
             openTypeCollection.AddFontResource(nameId, () => Assembly.GetExecutingAssembly().GetManifestResourceStream(nameId)!);
 
             using var sharedContext = new SharedDrawingContext(backend, openTypeCollection);

@@ -10,12 +10,13 @@ using System.Xml.Linq;
 
 namespace NStuff.WindowSystem.ManualTest
 {
-    class BezierLauncher
+    class VectorGraphicsLauncher
     {
         internal void Launch()
         {
             Console.WriteLine("Bezier...");
-            Console.WriteLine("    't': SVG tiger.");
+            Console.WriteLine("    's': SVG tiger.");
+            Console.WriteLine("    't': Text.");
 
             using var windowServer = new WindowServer();
             using var renderingContext = new RenderingContext { Settings = new RenderingSettings { Samples = 8 } };
@@ -30,7 +31,7 @@ namespace NStuff.WindowSystem.ManualTest
             var windowSize = window.Size;
             var backend = new DrawingBackend(new EntryPointLoader(renderingContext));
             var openTypeCollection = new OpenTypeCollection();
-            var nameId = typeof(BezierLauncher).Namespace + ".Resources.ebrima.ttf";
+            var nameId = typeof(VectorGraphicsLauncher).Namespace + ".Resources.ebrima.ttf";
             openTypeCollection.AddFontResource(nameId, () => Assembly.GetExecutingAssembly().GetManifestResourceStream(nameId)!);
             using var sharedContext = new SharedDrawingContext(backend, openTypeCollection);
             using var drawingContext = new DrawingContext(sharedContext)
@@ -40,21 +41,24 @@ namespace NStuff.WindowSystem.ManualTest
             var redrawRequired = true;
 
             var paths = new List<PathDrawing>();
+            var labels = new List<LabelDrawing>();
 
             window.TextInput += (sender, e) =>
             {
                 switch (e.CodePoint)
                 {
-                    case 't':
+                    case 's':
                         {
+                            paths.Clear();
+                            labels.Clear();
+
                             var sw = new System.Diagnostics.Stopwatch();
                             sw.Start();
 
                             var pathReader = new SvgPathReader();
-                            paths.Clear();
                             var transform = new AffineTransform(m11: 1.76, m22: 1.76, m31: 325, m32: 255);
 
-                            var namePrefix = typeof(BezierLauncher).Namespace + ".Resources.";
+                            var namePrefix = typeof(VectorGraphicsLauncher).Namespace + ".Resources.";
                             XDocument document;
                             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(namePrefix + "Ghostscript_Tiger.svg"))
                             {
@@ -165,26 +169,38 @@ namespace NStuff.WindowSystem.ManualTest
                             redrawRequired = true;
                         }
                         break;
+                    case 't':
+                        {
+                            paths.Clear();
+                            labels.Clear();
+
+                            var label = new LabelDrawing
+                            {
+                                Transform = new AffineTransform(m11: 4, m22: 4, m31: 20, m32: 50),
+                                FontFamily = "Ebrima",
+                                FontSubfamily = FontSubfamily.Normal,
+                                FontPoints = 8
+                            };
+                            label.AppendString("The quick brown fox jumps over the lazy dog.");
+                            labels.Add(label);
+
+                            for (int i = 0; i < 15; i++)
+                            {
+                                label = new LabelDrawing
+                                {
+                                    Transform = new AffineTransform(m11: 1, m22: 1, m31: 20, m32: 100 + i * 30),
+                                    FontFamily = "Ebrima",
+                                    FontSubfamily = FontSubfamily.Normal,
+                                    FontPoints = 32 - i * 2
+                                };
+                                label.AppendString("The quick brown fox jumps over the lazy dog.");
+                                labels.Add(label);
+                            }
+                            redrawRequired = true;
+                        }
+                        break;
                 }
             };
-
-            var label = new LabelDrawing
-            {
-                Transform = new AffineTransform(m11: 4, m22: 4, m31: 20, m32: 50),
-                FontFamily = "Ebrima",
-                FontSubfamily = FontSubfamily.Normal,
-                FontPoints = 8
-            };
-            label.AppendString("The quick brown fox jumps over the lazy dog.");
-
-            var label2 = new LabelDrawing
-            {
-                Transform = new AffineTransform(m11: 1, m22: 1, m31: 20, m32: 100),
-                FontFamily = "Ebrima",
-                FontSubfamily = FontSubfamily.Normal,
-                FontPoints = 32
-            };
-            label2.AppendString("The quick brown fox jumps over the lazy dog.");
 
             void draw()
             {
@@ -196,11 +212,13 @@ namespace NStuff.WindowSystem.ManualTest
 
                 drawingContext.StartDrawing();
 
-                label.Draw(drawingContext);
-                label2.Draw(drawingContext);
                 foreach (var path in paths)
                 {
                     path.Draw(drawingContext);
+                }
+                foreach (var label in labels)
+                {
+                    label.Draw(drawingContext);
                 }
 
                 drawingContext.FinishDrawing();

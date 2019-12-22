@@ -19,7 +19,7 @@ namespace NStuff.WindowSystem.ManualTest
                 Console.WriteLine("  e - Terrain.");
                 Console.WriteLine("  f - Tessellation.");
                 Console.WriteLine("  g - Glyph.");
-                Console.WriteLine("  h - Bezier.");
+                Console.WriteLine("  h - Vector Graphics.");
                 Console.WriteLine("  i - Text Area.");
                 Console.WriteLine("  q - Quit.");
                 var line = Console.ReadLine();
@@ -58,7 +58,7 @@ namespace NStuff.WindowSystem.ManualTest
                         break;
 
                     case "h":
-                        new BezierLauncher().Launch();
+                        new VectorGraphicsLauncher().Launch();
                         break;
 
                     case "i":
