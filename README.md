@@ -15,7 +15,7 @@ Native interoperability with these APIs is achieved in C# through __P/Invoke__: 
 The code is developed on Windows 10 64bit, macOS Catalina, and Ubuntu 18.04 64bit installed in a virtual machine.
 Once .NET Core is installed, samples and tests work out-of-the-box.
 
-To run the samples laucher use the following command:
+To run the samples launcher use the following command:
 ```
 dotnet run -p test/WindowSystem.ManualTest
 ```
@@ -23,10 +23,10 @@ Then choose a sample by typing a letter. Samples demontrate how to:
 * create windows and handle events
 * draw polygons and textures using OpenGL
 * animate 3D objects using OpenGL
-* create a minecraft-like procedural world and move inside it
-* display font glyphs as images or triangles
+* create a minecraft-like procedural world and move inside it using OpenGL
+* display OpenType font glyphs as images or triangles
 * decode a simple SVG file containing paths and render it
-* build a simple text area widget from the building blocks provides by the libraries
+* build a simple text area widget from the supplied building blocks
 
 #### OpenGL bindings
 
@@ -41,4 +41,5 @@ and from [an input file](test/WindowSystem.ManualTest/glinterop.xml) listing the
 * **Tessellation** project is based on the algorithm from [GLU libtess](https://gitlab.freedesktop.org/mesa/glu/tree/master/src/libtess)
 * **Geometry** project is approximating Bézier curves using recursive subdivision as described in an article on
 antigrain.com (site mostly down).
+* The **Typography.Font** OpenType decoding code is inspired by [this public domain C code](https://github.com/nothings/stb/blob/master/stb_truetype.h)
 * The font rasterization code of the **Typography.Typesetting** project is inspired by [that article](http://nothings.org/gamedev/rasterize/).
