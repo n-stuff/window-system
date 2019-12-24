@@ -1,5 +1,6 @@
 ﻿using NStuff.Geometry;
 using NStuff.GraphicsBackend;
+using NStuff.RasterGraphics;
 using NStuff.Tessellation;
 using NStuff.Typography.Font;
 using NStuff.Typography.Typesetting;
@@ -31,7 +32,8 @@ namespace NStuff.VectorGraphics
         private readonly VertexBufferHandle texturedVertexBuffer;
 
         private readonly CommandBufferHandle setupPlainColorCommandBuffer;
-        private readonly CommandBufferHandle setupGreyscaleImageColorCommandBuffer;
+        private readonly CommandBufferHandle setupGreyscaleImageCommandBuffer;
+        private readonly CommandBufferHandle setupTrueColorImageCommandBuffer;
         private readonly CommandBufferHandle drawIndirectCommandBuffer;
 
         private int vertexCount;
@@ -110,11 +112,17 @@ namespace NStuff.VectorGraphics
             Backend.AddBindVertexBufferCommand(setupPlainColorCommandBuffer, vertexBuffer);
             Backend.EndRecordCommands(setupPlainColorCommandBuffer);
 
-            setupGreyscaleImageColorCommandBuffer = Backend.CreateCommandBuffer();
-            Backend.BeginRecordCommands(setupGreyscaleImageColorCommandBuffer);
-            Backend.AddUseShaderCommand(setupGreyscaleImageColorCommandBuffer, ShaderKind.GreyscaleImage);
-            Backend.AddBindVertexBufferCommand(setupGreyscaleImageColorCommandBuffer, texturedVertexBuffer);
-            Backend.EndRecordCommands(setupGreyscaleImageColorCommandBuffer);
+            setupGreyscaleImageCommandBuffer = Backend.CreateCommandBuffer();
+            Backend.BeginRecordCommands(setupGreyscaleImageCommandBuffer);
+            Backend.AddUseShaderCommand(setupGreyscaleImageCommandBuffer, ShaderKind.GreyscaleImage);
+            Backend.AddBindVertexBufferCommand(setupGreyscaleImageCommandBuffer, texturedVertexBuffer);
+            Backend.EndRecordCommands(setupGreyscaleImageCommandBuffer);
+
+            setupTrueColorImageCommandBuffer = Backend.CreateCommandBuffer();
+            Backend.BeginRecordCommands(setupTrueColorImageCommandBuffer);
+            Backend.AddUseShaderCommand(setupTrueColorImageCommandBuffer, ShaderKind.TrueColorImage);
+            Backend.AddBindVertexBufferCommand(setupTrueColorImageCommandBuffer, texturedVertexBuffer);
+            Backend.EndRecordCommands(setupTrueColorImageCommandBuffer);
 
             drawIndirectCommandBuffer = Backend.CreateCommandBuffer();
             Backend.BeginRecordCommands(drawIndirectCommandBuffer);
@@ -151,7 +159,7 @@ namespace NStuff.VectorGraphics
                         Backend.DestroyCommandBuffer(clearCommandBuffer);
                     }
                     Backend.DestroyCommandBuffer(drawIndirectCommandBuffer);
-                    Backend.DestroyCommandBuffer(setupGreyscaleImageColorCommandBuffer);
+                    Backend.DestroyCommandBuffer(setupGreyscaleImageCommandBuffer);
                     Backend.DestroyCommandBuffer(setupPlainColorCommandBuffer);
                     Backend.DestroyVertexBuffer(texturedVertexBuffer);
                     Backend.DestroyVertexBuffer(vertexBuffer);
@@ -237,13 +245,23 @@ namespace NStuff.VectorGraphics
             }
         }
 
-        internal void SetupGreyScaleImageColorRendering()
+        internal void SetupGreyScaleImageRendering()
         {
-            if (!shaderCommandBuffer.HasValue || shaderCommandBuffer.Value != setupGreyscaleImageColorCommandBuffer)
+            if (!shaderCommandBuffer.HasValue || shaderCommandBuffer.Value != setupGreyscaleImageCommandBuffer)
             {
                 SubmitDrawingCommand();
-                shaderCommandBuffer = setupGreyscaleImageColorCommandBuffer;
-                CommandBuffers[commandCount++] = setupGreyscaleImageColorCommandBuffer;
+                shaderCommandBuffer = setupGreyscaleImageCommandBuffer;
+                CommandBuffers[commandCount++] = setupGreyscaleImageCommandBuffer;
+            }
+        }
+
+        internal void SetupTrueColorImageRendering()
+        {
+            if (!shaderCommandBuffer.HasValue || shaderCommandBuffer.Value != setupTrueColorImageCommandBuffer)
+            {
+                SubmitDrawingCommand();
+                shaderCommandBuffer = setupTrueColorImageCommandBuffer;
+                CommandBuffers[commandCount++] = setupTrueColorImageCommandBuffer;
             }
         }
 
@@ -255,6 +273,46 @@ namespace NStuff.VectorGraphics
                 currentImageIndex = imageIndex;
                 CommandBuffers[commandCount++] = sharedContext!.GetBindGlyphImageCommandBuffer(imageIndex);
             }
+        }
+
+        internal void DrawImage(RasterImage image)
+        {
+            var texturedVertices = TexturedVertices;
+            if (texturedVertexCount > 0)
+            {
+                SubmitDrawingCommand();
+            }
+            var handle = Backend.CreateImage(image.Size.width, image.Size.height, ImageFormat.TrueColorAlpha, ImageComponentType.UnsignedByte);
+            Backend.UpdateImage(handle, image.Data, 0, 0, image.Size.width, image.Size.height);
+
+            var commandBuffer = Backend.CreateCommandBuffer();
+            Backend.BeginRecordCommands(commandBuffer);
+            Backend.AddBindImageCommand(commandBuffer, handle);
+            Backend.EndRecordCommands(commandBuffer);
+            CommandBuffers[commandCount++] = commandBuffer;
+
+            var left = 0d;
+            var right = image.Size.width;
+            var top = 0d;
+            var bottom = image.Size.height;
+
+            var textureLeft = 0d;
+            var textureRight = 1d;
+            var textureTop = 0d;
+            var textureBottom = 1d;
+
+            texturedVertices[0] = new PointAndImageCoordinates(left, bottom, textureLeft, textureBottom);
+            texturedVertices[1] = new PointAndImageCoordinates(right, top, textureRight, textureTop);
+            texturedVertices[2] = new PointAndImageCoordinates(left, top, textureLeft, textureTop);
+            texturedVertices[3] = new PointAndImageCoordinates(left, bottom, textureLeft, textureBottom);
+            texturedVertices[4] = new PointAndImageCoordinates(right, bottom, textureRight, textureBottom);
+            texturedVertices[5] = new PointAndImageCoordinates(right, top, textureRight, textureTop);
+            texturedVertexCount = 6;
+
+            SubmitDrawingCommand();
+
+            Backend.DestroyCommandBuffer(commandBuffer);
+            Backend.DestroyImage(handle);
         }
 
         internal void AppendTriangleVertices((double x, double y) p1, (double x, double y) p2, (double x, double y) p3)
@@ -324,7 +382,7 @@ namespace NStuff.VectorGraphics
             }
             else if (texturedVertexCount > 0)
             {
-                if (!currentColor.HasValue || !currentTransform.HasValue || !shaderCommandBuffer.HasValue || !currentImageIndex.HasValue)
+                if (!currentColor.HasValue || !currentTransform.HasValue || !shaderCommandBuffer.HasValue) // || !currentImageIndex.HasValue)
                 {
                     throw new InvalidOperationException();
                 }

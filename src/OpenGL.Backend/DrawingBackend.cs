@@ -236,15 +236,18 @@ namespace NStuff.OpenGL.Backend
             gl!.GenTextures(1, &t);
             TexturePixelFormat textureFormat;
             PixelFormat pixelFormat;
-            if (format == ImageFormat.TrueColorAlpha)
+            switch (format)
             {
-                textureFormat = TexturePixelFormat.Rgb8;
-                pixelFormat = PixelFormat.Rgb;
-            }
-            else
-            {
-                textureFormat = TexturePixelFormat.R8;
-                pixelFormat = PixelFormat.Red;
+                case ImageFormat.TrueColorAlpha:
+                    textureFormat = TexturePixelFormat.Rgba8;
+                    pixelFormat = PixelFormat.Rgba;
+                    break;
+                case ImageFormat.GreyscaleAlpha:
+                    textureFormat = TexturePixelFormat.R8;
+                    pixelFormat = PixelFormat.Red;
+                    break;
+                default:
+                    throw new InvalidOperationException("Unhandled format: " + format);
             }
             imagePixelFormats.Add(new IntPtr(t), pixelFormat);
             gl.ActiveTexture(TextureUnit.Texture0);

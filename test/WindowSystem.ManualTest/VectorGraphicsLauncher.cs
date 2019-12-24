@@ -1,6 +1,7 @@
 ﻿using NStuff.GraphicsBackend;
 using NStuff.OpenGL.Backend;
 using NStuff.OpenGL.Context;
+using NStuff.RasterGraphics;
 using NStuff.Typography.Font;
 using NStuff.VectorGraphics;
 using System;
@@ -15,6 +16,7 @@ namespace NStuff.WindowSystem.ManualTest
         internal void Launch()
         {
             Console.WriteLine("Bezier...");
+            Console.WriteLine("    'i': Image.");
             Console.WriteLine("    's': SVG tiger.");
             Console.WriteLine("    't': Text.");
 
@@ -40,6 +42,7 @@ namespace NStuff.WindowSystem.ManualTest
             };
             var redrawRequired = true;
 
+            var images = new List<ImageDrawing>();
             var paths = new List<PathDrawing>();
             var labels = new List<LabelDrawing>();
 
@@ -47,8 +50,25 @@ namespace NStuff.WindowSystem.ManualTest
             {
                 switch (e.CodePoint)
                 {
+                    case 'i':
+                        {
+                            var image = new RasterImage();
+                            var namePrefix = typeof(DrawTextureLauncher).Namespace + ".Resources.";
+                            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(namePrefix + "kitten.png"))
+                            {
+                                image.LoadPng(stream ?? throw new InvalidOperationException());
+                            }
+                            var imageDrawing = new ImageDrawing()
+                            {
+                                Image = image
+                            };
+                            images.Add(imageDrawing);
+                            redrawRequired = true;
+                        }
+                        break;
                     case 's':
                         {
+                            images.Clear();
                             paths.Clear();
                             labels.Clear();
 
@@ -171,6 +191,7 @@ namespace NStuff.WindowSystem.ManualTest
                         break;
                     case 't':
                         {
+                            images.Clear();
                             paths.Clear();
                             labels.Clear();
 
@@ -212,6 +233,10 @@ namespace NStuff.WindowSystem.ManualTest
 
                 drawingContext.StartDrawing();
 
+                foreach (var image in images)
+                {
+                    image.Draw(drawingContext);
+                }
                 foreach (var path in paths)
                 {
                     path.Draw(drawingContext);

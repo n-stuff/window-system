@@ -86,7 +86,7 @@ namespace NStuff.VectorGraphics
 
             context.SetColor(Color);
             context.SetTransform(Transform);
-            context.SetupGreyScaleImageColorRendering();
+            context.SetupGreyScaleImageRendering();
 
             var glyphLayout = context.GlyphLayout;
             glyphLayout.Reset();
@@ -94,7 +94,6 @@ namespace NStuff.VectorGraphics
             glyphLayout.FontSubFamily = FontSubfamily;
             glyphLayout.FontPoints = FontPoints;
 
-            var y = 0;
             for (int i = 0; i < codePoints.Count; i++)
             {
                 var codePoint = codePoints[i];
@@ -104,7 +103,7 @@ namespace NStuff.VectorGraphics
                 if (glyph.HasImage)
                 {
                     context.BindGlyphImage(glyph.Index);
-                    context.AppendGlyphVertices(glyph, x, y);
+                    context.AppendGlyphVertices(glyph, x, 0);
                 }
             }
         }
