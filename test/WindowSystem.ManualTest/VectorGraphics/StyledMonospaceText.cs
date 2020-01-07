@@ -80,10 +80,13 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
 
             x = 0d;
             y = 0d;
+            var labelX = 0d;
+            var labelY = 0d;
             var labelDrawing = new LabelDrawing()
             {
                 FontFamily = fontFamily,
-                FontPoints = fontPoints
+                FontPoints = fontPoints,
+                Transform = transform
             };
             for (int i = firstLine; i < firstLine + lineCount; i++)
             {
@@ -95,13 +98,13 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
                     (var codePoint, var style) = this[location];
                     if (previousStyle != null && previousStyle != style)
                     {
-                        labelDrawing.Draw(context);
+                        labelDrawing.Draw(context, labelX, labelY);
                         labelDrawing.Clear();
+                        labelX = x;
+                        labelY = y;
                     }
                     if (previousStyle == null || previousStyle != style)
                     {
-                        labelDrawing.Transform = new AffineTransform(m11: 1, m22: 1,
-                            m31: transform.M31 + x / pixelScaling, m32: transform.M32 + y / pixelScaling);
                         labelDrawing.Color = style.Foreground;
                         labelDrawing.FontSubfamily = style.FontSubfamily;
                     }
@@ -112,10 +115,12 @@ namespace NStuff.WindowSystem.ManualTest.VectorGraphics
                     x += columnWidth;
                     previousStyle = style;
                 }
-                labelDrawing.Draw(context);
+                labelDrawing.Draw(context, labelX, labelY);
                 labelDrawing.Clear();
                 x = 0d;
                 y += lineHeight;
+                labelX = x;
+                labelY = y;
             }
         }
     }

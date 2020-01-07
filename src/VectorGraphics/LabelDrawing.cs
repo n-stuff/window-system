@@ -72,7 +72,9 @@ namespace NStuff.VectorGraphics
         /// Draws this label.
         /// </summary>
         /// <param name="context">The context used to draw this label.</param>
-        public void Draw(DrawingContext context)
+        /// <param name="x">The x coordinate where the first glyph of this label must be drawn.</param>
+        /// <param name="y">The y coordinate where the first glyph of this label must be drawn.</param>
+        public void Draw(DrawingContext context, double x, double y)
         {
             if (context.Disposed)
             {
@@ -97,13 +99,13 @@ namespace NStuff.VectorGraphics
             for (int i = 0; i < codePoints.Count; i++)
             {
                 var codePoint = codePoints[i];
-                var x = glyphLayout.X;
+                var glyphX = x + glyphLayout.X;
                 glyphLayout.Insert(codePoint);
                 var glyph = context.GetGlyph(FontFamily, FontSubfamily.Value, FontPoints, codePoint);
                 if (glyph.HasImage)
                 {
                     context.BindGlyphImage(glyph.Index);
-                    context.AppendGlyphVertices(glyph, x, 0);
+                    context.AppendGlyphVertices(glyph, glyphX, y);
                 }
             }
         }

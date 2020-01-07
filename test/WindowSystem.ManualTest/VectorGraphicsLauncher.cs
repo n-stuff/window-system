@@ -243,7 +243,7 @@ namespace NStuff.WindowSystem.ManualTest
                 }
                 foreach (var label in labels)
                 {
-                    label.Draw(drawingContext);
+                    label.Draw(drawingContext, 0, 0);
                 }
 
                 drawingContext.FinishDrawing();
