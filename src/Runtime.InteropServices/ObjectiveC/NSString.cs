@@ -57,6 +57,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// Converts the Objective C string to a managed string.
         /// </summary>
         /// <returns>A managed string.</returns>
-        public override string ToString() => Marshal.PtrToStringAnsi(IntPtr_objc_msgSend(Handle, UTF8String.Handle));
+        public override string ToString() => Marshal.PtrToStringAnsi(IntPtr_objc_msgSend(Handle, UTF8String.Handle))
+            ?? throw new NullReferenceException();
     }
 }

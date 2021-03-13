@@ -2,12 +2,12 @@
 <Project>
 
   <PropertyGroup>
-    <CoverletCollectorVersion>1.0.1</CoverletCollectorVersion>
-    <MicrosoftNETTestSdkVersion>16.2.0</MicrosoftNETTestSdkVersion>
-    <NetStandardId>netstandard2.1</NetStandardId>
-    <NetCoreAppId>netcoreapp3.1</NetCoreAppId>
-    <XunitVersion>2.4.0</XunitVersion>
-    <XunitRunnerVisualstudioVersion>2.4.0</XunitRunnerVisualstudioVersion>
+    <CoverletCollectorVersion>1.3.0</CoverletCollectorVersion>
+    <MicrosoftNETTestSdkVersion>16.7.1</MicrosoftNETTestSdkVersion>
+    <NetStandardId>net5.0</NetStandardId>
+    <NetCoreAppId>net5.0</NetCoreAppId>
+    <XunitVersion>2.4.1</XunitVersion>
+    <XunitRunnerVisualstudioVersion>2.4.3</XunitRunnerVisualstudioVersion>
   </PropertyGroup>
   
 </Project>

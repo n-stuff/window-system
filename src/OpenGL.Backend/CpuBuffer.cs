@@ -5,10 +5,10 @@ namespace NStuff.OpenGL.Backend
 {
     internal class CpuBuffers<TElement>
     {
-        private readonly List<(int nextFree, TElement element)> storage = new List<(int nextFree, TElement element)>();
+        private readonly List<(int nextFree, TElement? element)> storage = new List<(int nextFree, TElement? element)>();
         private int lastFreeIndex = -1;
 
-        internal TElement this[IntPtr handle] {
+        internal TElement? this[IntPtr handle] {
             get => storage[(int)handle].element;
             set => storage[(int)handle] = (0, value);
         }

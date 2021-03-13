@@ -1477,11 +1477,7 @@ namespace NStuff.WindowSystem.Linux
                                             byteBuffer[byteCount++] = p[start++];
                                         }
                                     }
-                                    var charCount = Encoding.UTF8.GetMaxCharCount(byteCount);
-                                    var charBuffer = stackalloc char[charCount];
-                                    var count = Encoding.UTF8.GetChars(byteBuffer, byteCount, charBuffer, charCount);
-                                    var s = new string(charBuffer, 0, count);
-                                    stringList.Add(s);
+                                    stringList.Add(DecodeUtf8String(byteBuffer, byteCount));
                                 }
                                 if (stringList.Count > 0)
                                 {
@@ -1522,6 +1518,14 @@ namespace NStuff.WindowSystem.Linux
             }
             XFlush(display);
             return result;
+        }
+
+        private unsafe static string DecodeUtf8String(byte* byteBuffer, int byteCount)
+        {
+            var charCount = Encoding.UTF8.GetMaxCharCount(byteCount);
+            var charBuffer = stackalloc char[charCount];
+            var count = Encoding.UTF8.GetChars(byteBuffer, byteCount, charBuffer, charCount);
+            return new string(charBuffer, 0, count);
         }
 
         private bool IsCursorInClientArea(Window window)
@@ -2007,7 +2011,7 @@ namespace NStuff.WindowSystem.Linux
             {
                 try
                 {
-                    result.data = Encoding.GetEncoding("ISO-8859-1").GetBytes(clipboardString);
+                    result.data = Encoding.GetEncoding("ISO-8859-1").GetBytes(clipboardString ?? string.Empty);
                     result.type = type;
                     result.format = 8;
                     result.count = result.data.Length;
@@ -2020,7 +2024,7 @@ namespace NStuff.WindowSystem.Linux
             {
                 try
                 {
-                    result.data = Encoding.UTF8.GetBytes(clipboardString);
+                    result.data = Encoding.UTF8.GetBytes(clipboardString ?? string.Empty);
                     result.type = type;
                     result.format = 8;
                     result.count = result.data.Length;

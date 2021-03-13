@@ -985,7 +985,7 @@ namespace NStuff.WindowSystem.macOS
         {
             var self = new Id(receiverPtr);
             var nsWindow = self.Get(Selectors.window);
-            if (TryGetWindow(nsWindow, out var window))
+            if (TryGetWindow(nsWindow, out Window window))
             {
                 var data = GetData(window);
                 if (!data.MouseInside)
@@ -1395,7 +1395,9 @@ namespace NStuff.WindowSystem.macOS
 
         private static bool TryGetWindow(Id nsWindow, out Window window)
         {
-            return Shared.windows.TryGetValue(nsWindow.Handle, out window);
+            bool result = Shared.windows.TryGetValue(nsWindow.Handle, out var w);
+            window = w ?? throw new NullReferenceException();
+            return result;
         }
 
         private void CenterCursor(Window window)

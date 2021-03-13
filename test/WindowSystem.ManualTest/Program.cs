@@ -22,7 +22,7 @@ namespace NStuff.WindowSystem.ManualTest
                 Console.WriteLine("  h - Vector Graphics.");
                 Console.WriteLine("  i - Text Area.");
                 Console.WriteLine("  q - Quit.");
-                var line = Console.ReadLine();
+                var line = Console.ReadLine() ?? throw new NullReferenceException();
                 switch (line.Trim())
                 {
                     case "q":

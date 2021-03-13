@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable disable
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -427,7 +428,7 @@ namespace NStuff.MakeOpenGLInterop
             var add = parent.Name.LocalName == "require";
             foreach (var e in parent.Elements())
             {
-                HashSet<string>? set = null;
+                HashSet<string> set = null;
                 switch (e.Name.LocalName)
                 {
                     case "enum":
@@ -459,7 +460,7 @@ namespace NStuff.MakeOpenGLInterop
         private static string GetParameterType(string command, XElement p, Dictionary<string, Dictionary<string, string>> commandOverrides,
             Dictionary<string, string> groupTypes, HashSet<string> usedTypes)
         {
-            string? result = null;
+            string result = null;
             var ptype = p.Element("ptype");
             var pname = p.Element("name").Value;
             var ptrCount = p.Value.Count(c => c == '*');

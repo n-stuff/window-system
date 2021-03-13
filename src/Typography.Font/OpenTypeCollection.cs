@@ -545,7 +545,8 @@ namespace NStuff.Typography.Font
                 }
                 string? home = null;
                 var folders = new List<string>();
-                foreach (var e in document.Element("fontconfig").Elements("dir"))
+                var element = document.Element("fontconfig") ?? throw new NullReferenceException();
+                foreach (var e in element.Elements("dir"))
                 {
                     if (e.Attribute("prefix") == null)
                     {

@@ -478,6 +478,10 @@ namespace NStuff.OpenGL.Backend
         {
             CheckIfAlive();
             var buffer = vertexRangeBuffers[handle.Value];
+            if (buffer == null)
+            {
+                throw new NullReferenceException();
+            }
             if (offset + count > buffer.Length)
             {
                 throw new ArgumentException("Capacity exceeded: " + buffer.Length);
@@ -809,7 +813,7 @@ namespace NStuff.OpenGL.Backend
                         case CommandType.DrawIndirect:
                             {
                                 var drawMode = ConvertPrimitiveType(c.drawIndirectArgs.primitive);
-                                var buffer = vertexRangeBuffers[c.drawIndirectArgs.bufferHandle.Value];
+                                var buffer = vertexRangeBuffers[c.drawIndirectArgs.bufferHandle.Value] ?? throw new NullReferenceException();
                                 var range = buffer[c.drawIndirectArgs.vertexRangeIndex];
                                 gl!.DrawArrays(drawMode, range.Offset, range.Count);
                             }

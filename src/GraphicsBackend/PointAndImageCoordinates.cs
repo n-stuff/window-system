@@ -75,7 +75,7 @@ namespace NStuff.GraphicsBackend
         /// </summary>
         /// <param name="obj">An object.</param>
         /// <returns><c>true</c> if the supplied object is equal to this instance.</returns>
-        public override readonly bool Equals(object obj) => obj is PointAndImageCoordinates && Equals((PointAndImageCoordinates)obj);
+        public override readonly bool Equals(object? obj) => obj is PointAndImageCoordinates && Equals((PointAndImageCoordinates)obj);
 
         /// <summary>
         /// Compares this <see cref="PointAndImageCoordinates"/> object with another one.

@@ -16,7 +16,8 @@ namespace NStuff.Runtime.InteropServices
         }
 
         internal static ResourceManager ResourceManager { get; } =
-            new ResourceManager(typeof(Resources).FullName, typeof(Resources).GetTypeInfo().Assembly);
+            new ResourceManager(typeof(Resources).FullName ?? throw new System.NullReferenceException(),
+                typeof(Resources).GetTypeInfo().Assembly);
 
         internal static string GetMessage(Key key) => ResourceManager.GetString(key.ToString()) ?? key.ToString();
 

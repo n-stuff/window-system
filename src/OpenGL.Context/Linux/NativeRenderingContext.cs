@@ -23,7 +23,7 @@ namespace NStuff.OpenGL.Context.Linux
             if (swapInterval == null)
             {
                 display = windowData.Display;
-                var extensions = Marshal.PtrToStringAnsi(glXQueryExtensionsString(display, XDefaultScreen(display)));
+                var extensions = Marshal.PtrToStringAnsi(glXQueryExtensionsString(display, XDefaultScreen(display))) ?? string.Empty;
                 if (HasExtension(extensions, "GLX_EXT_swap_control"))
                 {
                     var proc = Marshal.GetDelegateForFunctionPointer<PFNGLXSWAPINTERVALEXTPROC>(GetCommandAddress("glXSwapIntervalEXT"));

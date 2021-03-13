@@ -576,7 +576,7 @@ namespace NStuff.WindowSystem.Windows
             var handle = GetActiveWindow();
             if (handle != IntPtr.Zero)
             {
-                if (windows.TryGetValue(handle, out Window window))
+                if (windows.TryGetValue(handle, out Window? window))
                 {
                     if (((GetAsyncKeyState(VK_LSHIFT) >> 15) & 1) == 0 && window.IsKeyPressed(Keycode.LeftShift))
                     {

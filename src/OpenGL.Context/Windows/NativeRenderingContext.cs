@@ -52,13 +52,13 @@ namespace NStuff.OpenGL.Context.Windows
                 if (proc != IntPtr.Zero)
                 {
                     var getExtensions = Marshal.GetDelegateForFunctionPointer<PFNWGLGETEXTENSIONSSTRINGEXTPROC>(proc);
-                    extensionsEXT = Marshal.PtrToStringAnsi(getExtensions());
+                    extensionsEXT = Marshal.PtrToStringAnsi(getExtensions()) ?? string.Empty;
                 }
                 proc = wglGetProcAddress("wglGetExtensionsStringARB");
                 if (proc != IntPtr.Zero)
                 {
                     var getExtensions = Marshal.GetDelegateForFunctionPointer<PFNWGLGETEXTENSIONSSTRINGARBPROC>(proc);
-                    extensionsARB = Marshal.PtrToStringAnsi(getExtensions(dc));
+                    extensionsARB = Marshal.PtrToStringAnsi(getExtensions(dc)) ?? string.Empty;
                 }
 
                 if (HasExtension(extensionsEXT, extensionsARB, "WGL_EXT_swap_control"))

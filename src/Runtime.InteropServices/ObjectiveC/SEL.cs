@@ -54,7 +54,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// </summary>
         /// <param name="obj">An object.</param>
         /// <returns><c>true</c> if the supplied object is equal to this instance.</returns>
-        public override readonly bool Equals(object obj) => obj is SEL && Equals((SEL)obj);
+        public override readonly bool Equals(object? obj) => obj is SEL && Equals((SEL)obj);
 
         /// <summary>
         /// Compares this <see cref="SEL"/> object with another one.

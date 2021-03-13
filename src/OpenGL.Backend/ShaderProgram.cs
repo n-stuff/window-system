@@ -117,8 +117,8 @@ namespace NStuff.OpenGL.Backend
         {
             if (shaderHeader == null)
             {
-                string s = Marshal.PtrToStringAnsi(new IntPtr(gl.GetString(StringParameter.ShadingLanguageVersion)));
-                if (s.StartsWith("4."))
+                string? s = Marshal.PtrToStringAnsi(new IntPtr(gl.GetString(StringParameter.ShadingLanguageVersion)));
+                if (!string.IsNullOrEmpty(s) && s.StartsWith("4."))
                 {
                     shaderHeader = $"#version 4{s.Substring(2, 2)} core\n";
                 }
