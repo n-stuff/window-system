@@ -12,13 +12,13 @@ namespace NStuff.VectorGraphics
     /// </summary>
     public class LabelDrawing
     {
-        private readonly List<int> codePoints = new List<int>();
+        private readonly List<int> codePoints = new();
 
         /// <summary>
         /// Gets or sets the transform to apply to all coordinates of the drawing.
         /// </summary>
         /// <value>An affine transform. The initial value is the identity matrix.</value>
-        public AffineTransform Transform { get; set; } = new AffineTransform(m11: 1, m22: 1);
+        public AffineTransform Transform { get; set; } = new(m11: 1, m22: 1);
 
         /// <summary>
         /// Gets or sets the name of the font family to use to render this label.
@@ -42,7 +42,7 @@ namespace NStuff.VectorGraphics
         /// Gets or sets the color to use to render the text.
         /// </summary>
         /// <value>Default is fully opaque black.</value>
-        public RgbaColor Color { get; set; } = new RgbaColor(0, 0, 0, 255);
+        public RgbaColor Color { get; set; } = new(0, 0, 0, 255);
 
         /// <summary>
         /// Clears the text of this label.

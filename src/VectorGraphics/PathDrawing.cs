@@ -11,12 +11,12 @@ namespace NStuff.VectorGraphics
     /// </summary>
     public class PathDrawing
     {
-        private readonly List<PathDrawingCommand> commands = new List<PathDrawingCommand>();
-        private readonly List<(double x, double y)> points = new List<(double x, double y)>();
-        private readonly List<List<(double x, double y)>> polygon = new List<List<(double x, double y)>>();
-        private readonly List<(double x, double y)> fillVertices = new List<(double x, double y)>();
-        private readonly List<(double x, double y)> strokeVertices = new List<(double x, double y)>();
-        private AffineTransform transform = new AffineTransform(m11: 1, m22: 1);
+        private readonly List<PathDrawingCommand> commands = new();
+        private readonly List<(double x, double y)> points = new();
+        private readonly List<List<(double x, double y)>> polygon = new();
+        private readonly List<(double x, double y)> fillVertices = new();
+        private readonly List<(double x, double y)> strokeVertices = new();
+        private AffineTransform transform = new(m11: 1, m22: 1);
         private double strokeWidth = 1;
         private double strokeMiterLimit = 4;
         private StrokeLinecap strokeLinecap;

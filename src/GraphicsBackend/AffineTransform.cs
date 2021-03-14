@@ -89,7 +89,7 @@ namespace NStuff.GraphicsBackend
         /// </summary>
         /// <param name="obj">An object.</param>
         /// <returns><c>true</c> if the supplied object is equal to this instance.</returns>
-        public override readonly bool Equals(object? obj) => obj is AffineTransform && Equals((AffineTransform)obj);
+        public override readonly bool Equals(object? obj) => obj is AffineTransform transform && Equals(transform);
 
         /// <summary>
         /// Compares this <see cref="AffineTransform"/> object with another one.

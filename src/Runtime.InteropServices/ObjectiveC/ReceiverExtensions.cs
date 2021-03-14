@@ -16,7 +16,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// <param name="selector">The selector identifying the message.</param>
         /// <returns>An <see cref="Id"/>.</returns>
         public static Id Get(this IReceiver receiver, SEL selector) =>
-            new Id(IntPtr_objc_msgSend(receiver.Handle, selector.Handle));
+            new(IntPtr_objc_msgSend(receiver.Handle, selector.Handle));
 
         /// <summary>
         /// Sends a message to <paramref name="receiver"/>.
@@ -26,7 +26,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// <param name="arg0">A <see cref="bool"/>.</param>
         /// <returns>An <see cref="Id"/>.</returns>
         public static Id Get(this IReceiver receiver, SEL selector, bool arg0) =>
-            new Id(IntPtr_objc_msgSend(receiver.Handle, selector.Handle, (sbyte)(arg0 ? 1 : 0)));
+            new(IntPtr_objc_msgSend(receiver.Handle, selector.Handle, (sbyte)(arg0 ? 1 : 0)));
 
         /// <summary>
         /// Sends a message to <paramref name="receiver"/>.
@@ -37,7 +37,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// <param name="arg1">An <see cref="IntPtr"/>.</param>
         /// <returns>An <see cref="Id"/>.</returns>
         public static Id Get(this IReceiver receiver, SEL selector, IntPtr arg0, IntPtr arg1) =>
-            new Id(IntPtr_objc_msgSend(receiver.Handle, selector.Handle, arg0, arg1));
+            new(IntPtr_objc_msgSend(receiver.Handle, selector.Handle, arg0, arg1));
 
         /// <summary>
         /// Sends a message to <paramref name="receiver"/>.
@@ -61,7 +61,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// <param name="arg2">An <see cref="IntPtr"/>.</param>
         /// <returns>An <see cref="Id"/>.</returns>
         public static Id Get(this IReceiver receiver, SEL selector, IntPtr arg0, IntPtr arg1, IntPtr arg2) =>
-            new Id(IntPtr_objc_msgSend(receiver.Handle, selector.Handle, arg0, arg1, arg2));
+            new(IntPtr_objc_msgSend(receiver.Handle, selector.Handle, arg0, arg1, arg2));
 
         /// <summary>
         /// Sends a message to <paramref name="receiver"/>.
@@ -85,7 +85,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// <param name="arg0">A <see cref="double"/>.</param>
         /// <returns>An <see cref="Id"/>.</returns>
         public static Id Get(this IReceiver receiver, SEL selector, double arg0) =>
-            new Id(IntPtr_objc_msgSend(receiver.Handle, selector.Handle, arg0));
+            new(IntPtr_objc_msgSend(receiver.Handle, selector.Handle, arg0));
 
         /// <summary>
         /// Sends a message to <paramref name="receiver"/>.
@@ -126,7 +126,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// <param name="arg0">An <see cref="IntPtr"/>.</param>
         /// <returns>An <see cref="Id"/>.</returns>
         public static Id Get(this IReceiver receiver, SEL selector, IntPtr arg0) =>
-            new Id(IntPtr_objc_msgSend(receiver.Handle, selector.Handle, arg0));
+            new(IntPtr_objc_msgSend(receiver.Handle, selector.Handle, arg0));
 
         /// <summary>
         /// Sends a message to <paramref name="receiver"/>.
@@ -147,7 +147,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// <returns>An <see cref="Id"/>.</returns>
         public static Id Get(this IReceiver receiver, SEL selector, IntPtr arg0, IntPtr arg1, IntPtr arg2, IntPtr arg3, IntPtr arg4,
             bool arg5, bool arg6, IntPtr arg7, IntPtr arg8, IntPtr arg9, IntPtr arg10) =>
-            new Id(IntPtr_objc_msgSend(receiver.Handle, selector.Handle, arg0, arg1, arg2, arg3, arg4, (sbyte)(arg5 ? 1 : 0),
+            new(IntPtr_objc_msgSend(receiver.Handle, selector.Handle, arg0, arg1, arg2, arg3, arg4, (sbyte)(arg5 ? 1 : 0),
                 (sbyte)(arg6 ? 1 : 0), arg7, arg8, arg9, arg10));
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// <returns>An <see cref="Id"/>.</returns>
         [CLSCompliant(false)]
         public static Id Get(this IReceiver receiver, SEL selector, ulong arg0, Id arg1, Id arg2, bool arg3) =>
-            new Id(IntPtr_objc_msgSend(receiver.Handle, selector.Handle, new IntPtr((long)arg0),
+            new(IntPtr_objc_msgSend(receiver.Handle, selector.Handle, new IntPtr((long)arg0),
                 arg1.Handle, arg2.Handle, (sbyte)(arg3 ? 1 : 0)));
 
         /// <summary>

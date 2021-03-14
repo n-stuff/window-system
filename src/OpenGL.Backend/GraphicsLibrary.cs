@@ -4,7 +4,7 @@ namespace NStuff.OpenGL.Backend
 {
     internal partial class GraphicsLibrary
     {
-        private IEntryPointLoader? entryPointLoader;
+        private readonly IEntryPointLoader? entryPointLoader;
 
         internal GraphicsLibrary(IEntryPointLoader entryPointLoader)
         {

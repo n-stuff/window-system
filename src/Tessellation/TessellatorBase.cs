@@ -242,7 +242,7 @@ namespace NStuff.Tessellation
             }
         }
 
-        private (int size, HalfEdge<TVertexDataContainer> startEdge, PrimitiveKind primitiveKind) ComputeMaximumFan(HalfEdge<TVertexDataContainer> edge)
+        private static (int size, HalfEdge<TVertexDataContainer> startEdge, PrimitiveKind primitiveKind) ComputeMaximumFan(HalfEdge<TVertexDataContainer> edge)
         {
             Face<TVertexDataContainer>? trail = null;
             HalfEdge<TVertexDataContainer> e;
@@ -265,14 +265,14 @@ namespace NStuff.Tessellation
             return (size, e, PrimitiveKind.TriangleFan);
         }
 
-        private void AddToTrail(Face<TVertexDataContainer> face, ref Face<TVertexDataContainer>? trail)
+        private static void AddToTrail(Face<TVertexDataContainer> face, ref Face<TVertexDataContainer>? trail)
         {
             face.Trail = trail;
             trail = face;
             face.Marked = true;
         }
 
-        private (int size, HalfEdge<TVertexDataContainer> startEdge, PrimitiveKind primitiveKind) ComputeMaximumStrip(HalfEdge<TVertexDataContainer> edge)
+        private static (int size, HalfEdge<TVertexDataContainer> startEdge, PrimitiveKind primitiveKind) ComputeMaximumStrip(HalfEdge<TVertexDataContainer> edge)
         {
             var tailSize = 0;
             var headSize = 0;

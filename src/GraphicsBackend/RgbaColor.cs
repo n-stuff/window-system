@@ -73,7 +73,7 @@ namespace NStuff.GraphicsBackend
         /// </summary>
         /// <param name="obj">An object.</param>
         /// <returns><c>true</c> if the supplied object is equal to this instance.</returns>
-        public override readonly bool Equals(object? obj) => obj is RgbaColor && Equals((RgbaColor)obj);
+        public override readonly bool Equals(object? obj) => obj is RgbaColor color && Equals(color);
 
         /// <summary>
         /// Compares this <see cref="RgbaColor"/> object with another one.

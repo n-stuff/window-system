@@ -14,9 +14,7 @@ namespace NStuff.Tessellation
         /// <summary>
         /// Used internally to store 3D coordinates along with actual data.
         /// </summary>
-#pragma warning disable CA1034, CA1815
         public struct VertexData
-#pragma warning restore CA1034, CA1815
         {
             internal TVertexData data;
             internal double x;
@@ -24,7 +22,7 @@ namespace NStuff.Tessellation
             internal double z;
         }
 
-        private readonly SimpleTessellator3D<TVertexData> simpleTessellator = new SimpleTessellator3D<TVertexData>();
+        private readonly SimpleTessellator3D<TVertexData> simpleTessellator = new();
         private bool firstMove;
         private Face<VertexData>? currentFace;
         private HalfEdge<VertexData>? currentEdge;

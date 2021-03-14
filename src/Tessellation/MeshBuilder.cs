@@ -12,7 +12,7 @@ namespace NStuff.Tessellation
 
         private readonly IEdgeCombinator<TPolygonData, TVertexData> edgeCombinator;
         private PriorityQueue<Vertex<TVertexData>> priorityQueue;
-        private readonly ActiveRegion<TVertexData> regionHead = new ActiveRegion<TVertexData>();
+        private readonly ActiveRegion<TVertexData> regionHead = new();
         private Vertex<TVertexData> eventVertex;
         private TPolygonData polygonData;
         private HalfEdge<TVertexData> lastEdge;
@@ -43,11 +43,11 @@ namespace NStuff.Tessellation
             if (lastEdge == null)
             {
                 e = Mesh.MakeEdge();
-                Mesh.Splice(e, e.Symmetric);
+                Mesh<TVertexData>.Splice(e, e.Symmetric);
             }
             else
             {
-                Mesh.SplitEdge(e);
+                Mesh<TVertexData>.SplitEdge(e);
                 e = e.LeftFaceNext;
             }
             lastEdge = e;
@@ -193,7 +193,7 @@ namespace NStuff.Tessellation
                 if (e.OriginVertex.CompareTo(e.DestinationVertex) == 0 && e.LeftFaceNext.LeftFaceNext != e)
                 {
                     SpliceMergeVertices(leftNext, e);
-                    Mesh.Delete(e);
+                    Mesh<TVertexData>.Delete(e);
                     e = leftNext;
                     leftNext = e.LeftFaceNext;
                 }
@@ -205,13 +205,13 @@ namespace NStuff.Tessellation
                         {
                             nextEdge = nextEdge.Next;
                         }
-                        Mesh.Delete(leftNext);
+                        Mesh<TVertexData>.Delete(leftNext);
                     }
                     if (e == nextEdge || e == nextEdge.Symmetric)
                     {
                         nextEdge = nextEdge.Next;
                     }
-                    Mesh.Delete(e);
+                    Mesh<TVertexData>.Delete(e);
                 }
             }
         }
@@ -219,7 +219,7 @@ namespace NStuff.Tessellation
         private void SpliceMergeVertices(HalfEdge<TVertexData> e1, HalfEdge<TVertexData> e2)
         {
             CallCombine(e1.OriginVertex, e1.OriginVertex.Data, e2.OriginVertex.Data, default, default, 0.5, 0.5, 0, 0);
-            Mesh.Splice(e1, e2);
+            Mesh<TVertexData>.Splice(e1, e2);
         }
 
         private void CallCombine(Vertex<TVertexData> intersection,
@@ -283,7 +283,7 @@ namespace NStuff.Tessellation
             }
             if (upEdge.OriginVertex.CompareTo(eventVertex) == 0)
             {
-                Mesh.Splice(topLeft.OriginPrevious, upEdge);
+                Mesh<TVertexData>.Splice(topLeft.OriginPrevious, upEdge);
                 upRegion = GetTopLeftRegion(upRegion);
                 topLeft = upRegion.Below.UpperEdge;
                 FinishLeftRegions(upRegion.Below, lowRegion);
@@ -291,7 +291,7 @@ namespace NStuff.Tessellation
             }
             if (lowEdge.OriginVertex.CompareTo(eventVertex) == 0)
             {
-                Mesh.Splice(bottomLeft, lowEdge.OriginPrevious);
+                Mesh<TVertexData>.Splice(bottomLeft, lowEdge.OriginPrevious);
                 bottomLeft = FinishLeftRegions(lowRegion, null);
                 degenerate = true;
             }
@@ -302,7 +302,7 @@ namespace NStuff.Tessellation
             }
 
             var newEdge = (lowEdge.OriginVertex.CompareTo(upEdge.OriginVertex) <= 0) ? lowEdge.OriginPrevious : upEdge;
-            newEdge = Mesh.Connect(bottomLeft.LeftFacePrevious, newEdge);
+            newEdge = Mesh<TVertexData>.Connect(bottomLeft.LeftFacePrevious, newEdge);
             AddRightEdges(upRegion, newEdge, newEdge.OriginNext, newEdge.OriginNext, false);
             newEdge.Symmetric.ActiveRegion.FixUpperEdge = true;
             WalkDirtyRegions(upRegion);
@@ -326,11 +326,11 @@ namespace NStuff.Tessellation
                 HalfEdge<TVertexData> newEdge;
                 if (region == upRegion)
                 {
-                    newEdge = Mesh.Connect(eventVertex.Edge.Symmetric, upEdge.LeftFaceNext);
+                    newEdge = Mesh<TVertexData>.Connect(eventVertex.Edge.Symmetric, upEdge.LeftFaceNext);
                 }
                 else
                 {
-                    var t = Mesh.Connect(lowEdge.RightPrevious.Symmetric, eventVertex.Edge);
+                    var t = Mesh<TVertexData>.Connect(lowEdge.RightPrevious.Symmetric, eventVertex.Edge);
                     newEdge = t.Symmetric;
                 }
                 if (region.FixUpperEdge)
@@ -365,13 +365,13 @@ namespace NStuff.Tessellation
             }
             if (e.DestinationVertex.CompareTo(eventVertex) != 0)
             {
-                Mesh.SplitEdge(e.Symmetric);
+                Mesh<TVertexData>.SplitEdge(e.Symmetric);
                 if (upRegion.FixUpperEdge)
                 {
-                    Mesh.Delete(e.OriginNext);
+                    Mesh<TVertexData>.Delete(e.OriginNext);
                     upRegion.FixUpperEdge = false;
                 }
-                Mesh.Splice(eventVertex.Edge, e);
+                Mesh<TVertexData>.Splice(eventVertex.Edge, e);
                 SweepEvent(eventVertex);
                 return;
             }
@@ -383,10 +383,10 @@ namespace NStuff.Tessellation
             if (region.FixUpperEdge)
             {
                 DeleteRegion(region);
-                Mesh.Delete(topRight);
+                Mesh<TVertexData>.Delete(topRight);
                 topRight = topLeft.OriginPrevious;
             }
-            Mesh.Splice(eventVertex.Edge, topRight);
+            Mesh<TVertexData>.Splice(eventVertex.Edge, topRight);
             if (!EdgeGoesLeft(topLeft))
             {
                 topLeft = null;
@@ -394,7 +394,7 @@ namespace NStuff.Tessellation
             AddRightEdges(upRegion, topRight.OriginNext, lastEdge, topLeft, true);
         }
 
-        private void DeleteRegion(ActiveRegion<TVertexData> region)
+        private static void DeleteRegion(ActiveRegion<TVertexData> region)
         {
             region.UpperEdge.ActiveRegion = null;
             region.Delete();
@@ -427,8 +427,8 @@ namespace NStuff.Tessellation
                 }
                 if (e.OriginNext != previousEdge)
                 {
-                    Mesh.Splice(e.OriginPrevious, e);
-                    Mesh.Splice(previousEdge.OriginPrevious, e);
+                    Mesh<TVertexData>.Splice(e.OriginPrevious, e);
+                    Mesh<TVertexData>.Splice(previousEdge.OriginPrevious, e);
                 }
                 region.Winding = previousRegion.Winding - e.Winding;
                 region.Inside = WindingInside(region.Winding);
@@ -437,7 +437,7 @@ namespace NStuff.Tessellation
                 {
                     e.AddWinding(previousEdge);
                     DeleteRegion(previousRegion);
-                    Mesh.Delete(previousEdge);
+                    Mesh<TVertexData>.Delete(previousEdge);
                 }
                 firstTime = false;
                 previousRegion = region;
@@ -484,8 +484,8 @@ namespace NStuff.Tessellation
                 }
                 if (upEdge.OriginVertex.CompareTo(lowEdge.OriginVertex) != 0)
                 {
-                    Mesh.SplitEdge(lowEdge.Symmetric);
-                    Mesh.Splice(upEdge, lowEdge.OriginPrevious);
+                    Mesh<TVertexData>.SplitEdge(lowEdge.Symmetric);
+                    Mesh<TVertexData>.Splice(upEdge, lowEdge.OriginPrevious);
                     upRegion.Dirty = lowRegion.Dirty = true;
                 }
                 else if (upEdge.OriginVertex != lowEdge.OriginVertex)
@@ -501,13 +501,13 @@ namespace NStuff.Tessellation
                     return false;
                 }
                 upRegion.Above.Dirty = upRegion.Dirty = true;
-                Mesh.SplitEdge(upEdge.Symmetric);
-                Mesh.Splice(lowEdge.OriginPrevious, upEdge);
+                Mesh<TVertexData>.SplitEdge(upEdge.Symmetric);
+                Mesh<TVertexData>.Splice(lowEdge.OriginPrevious, upEdge);
             }
             return true;
         }
 
-        private bool CheckForLeftSplice(ActiveRegion<TVertexData> upRegion)
+        private static bool CheckForLeftSplice(ActiveRegion<TVertexData> upRegion)
         {
             var lowRegion = upRegion.Below;
             var upEdge = upRegion.UpperEdge;
@@ -519,8 +519,8 @@ namespace NStuff.Tessellation
                     return false;
                 }
                 upRegion.Above.Dirty = upRegion.Dirty = true;
-                var e = Mesh.SplitEdge(upEdge);
-                Mesh.Splice(lowEdge.Symmetric, e);
+                var e = Mesh<TVertexData>.SplitEdge(upEdge);
+                Mesh<TVertexData>.Splice(lowEdge.Symmetric, e);
                 e.LeftFace.Inside = upRegion.Inside;
             }
             else
@@ -530,14 +530,14 @@ namespace NStuff.Tessellation
                     return false;
                 }
                 upRegion.Dirty = lowRegion.Dirty = true;
-                var e = Mesh.SplitEdge(lowEdge);
-                Mesh.Splice(upEdge.LeftFaceNext, lowEdge.Symmetric);
+                var e = Mesh<TVertexData>.SplitEdge(lowEdge);
+                Mesh<TVertexData>.Splice(upEdge.LeftFaceNext, lowEdge.Symmetric);
                 e.RightFace.Inside = upRegion.Inside;
             }
             return true;
         }
 
-        private readonly Vertex<TVertexData> CheckForIntersectTemporaryVertex = new Vertex<TVertexData>();
+        private readonly Vertex<TVertexData> CheckForIntersectTemporaryVertex = new();
 
         private bool CheckForIntersect(ActiveRegion<TVertexData> upRegion)
         {
@@ -603,8 +603,8 @@ namespace NStuff.Tessellation
             {
                 if (lowDestination == eventVertex)
                 {
-                    Mesh.SplitEdge(upEdge.Symmetric);
-                    Mesh.Splice(lowEdge.Symmetric, upEdge);
+                    Mesh<TVertexData>.SplitEdge(upEdge.Symmetric);
+                    Mesh<TVertexData>.Splice(lowEdge.Symmetric, upEdge);
                     upRegion = GetTopLeftRegion(upRegion);
                     upEdge = upRegion.Below.UpperEdge;
                     FinishLeftRegions(upRegion.Below, lowRegion);
@@ -613,8 +613,8 @@ namespace NStuff.Tessellation
                 }
                 if (upDestination == eventVertex)
                 {
-                    Mesh.SplitEdge(lowEdge.Symmetric);
-                    Mesh.Splice(upEdge.LeftFaceNext, lowEdge.OriginPrevious);
+                    Mesh<TVertexData>.SplitEdge(lowEdge.Symmetric);
+                    Mesh<TVertexData>.Splice(upEdge.LeftFaceNext, lowEdge.OriginPrevious);
                     lowRegion = upRegion;
                     upRegion = upRegion.TopRight;
                     var e = upRegion.Below.UpperEdge.RightPrevious;
@@ -626,23 +626,23 @@ namespace NStuff.Tessellation
                 if (GetEdgeSign(upDestination, eventVertex, intersection) >= 0)
                 {
                     upRegion.Above.Dirty = upRegion.Dirty = true;
-                    Mesh.SplitEdge(upEdge.Symmetric);
+                    Mesh<TVertexData>.SplitEdge(upEdge.Symmetric);
                     upEdge.OriginVertex.X = eventVertex.X;
                     upEdge.OriginVertex.Y = eventVertex.Y;
                 }
                 if (GetEdgeSign(lowDestination, eventVertex, intersection) <= 0)
                 {
                     upRegion.Dirty = lowRegion.Dirty = true;
-                    Mesh.SplitEdge(lowEdge.Symmetric);
+                    Mesh<TVertexData>.SplitEdge(lowEdge.Symmetric);
                     lowEdge.OriginVertex.X = eventVertex.X;
                     lowEdge.OriginVertex.Y = eventVertex.Y;
                 }
                 return false;
             }
 
-            Mesh.SplitEdge(upEdge.Symmetric);
-            Mesh.SplitEdge(lowEdge.Symmetric);
-            Mesh.Splice(lowEdge.OriginPrevious, upEdge);
+            Mesh<TVertexData>.SplitEdge(upEdge.Symmetric);
+            Mesh<TVertexData>.SplitEdge(lowEdge.Symmetric);
+            Mesh<TVertexData>.Splice(lowEdge.OriginPrevious, upEdge);
             upEdge.OriginVertex.X = intersection.X;
             upEdge.OriginVertex.Y = intersection.Y;
             priorityQueue.Enqueue(upEdge.OriginVertex);
@@ -661,19 +661,19 @@ namespace NStuff.Tessellation
                 weight1, weight2, weight3, weight4);
         }
 
-        private (double, double) GetVertexWeights(Vertex<TVertexData> intersection, Vertex<TVertexData> origin, Vertex<TVertexData> destination)
+        private static (double, double) GetVertexWeights(Vertex<TVertexData> intersection, Vertex<TVertexData> origin, Vertex<TVertexData> destination)
         {
             var y1 = GetL1Distance(origin, intersection);
             var y2 = GetL1Distance(destination, intersection);
             return (0.5 * y2 / (y1 + y2), 0.5 * y1 / (y1 + y2));
         }
 
-        private ActiveRegion<TVertexData> GetTopLeftRegion(ActiveRegion<TVertexData> region)
+        private static ActiveRegion<TVertexData> GetTopLeftRegion(ActiveRegion<TVertexData> region)
         {
             region = region.TopLeft;
             if (region.FixUpperEdge)
             {
-                var e = Mesh.Connect(region.Below.UpperEdge.Symmetric, region.UpperEdge.LeftFaceNext);
+                var e = Mesh<TVertexData>.Connect(region.Below.UpperEdge.Symmetric, region.UpperEdge.LeftFaceNext);
                 if (e == null)
                 {
                     return null;
@@ -684,9 +684,9 @@ namespace NStuff.Tessellation
             return region;
         }
 
-        private void FixUpperEdge(ActiveRegion<TVertexData> region, HalfEdge<TVertexData> newEdge)
+        private static void FixUpperEdge(ActiveRegion<TVertexData> region, HalfEdge<TVertexData> newEdge)
         {
-            Mesh.Delete(region.UpperEdge);
+            Mesh<TVertexData>.Delete(region.UpperEdge);
             region.FixUpperEdge = false;
             region.UpperEdge = newEdge;
             newEdge.ActiveRegion = region;
@@ -721,14 +721,14 @@ namespace NStuff.Tessellation
                         if (lowRegion.FixUpperEdge)
                         {
                             DeleteRegion(lowRegion);
-                            Mesh.Delete(lowEdge);
+                            Mesh<TVertexData>.Delete(lowEdge);
                             lowRegion = upRegion.Below;
                             lowEdge = lowRegion.UpperEdge;
                         }
                         else if (upRegion.FixUpperEdge)
                         {
                             DeleteRegion(upRegion);
-                            Mesh.Delete(upEdge);
+                            Mesh<TVertexData>.Delete(upEdge);
                             upRegion = lowRegion.Above;
                             upEdge = upRegion.UpperEdge;
                         }
@@ -754,7 +754,7 @@ namespace NStuff.Tessellation
                 {
                     lowEdge.AddWinding(upEdge);
                     DeleteRegion(upRegion);
-                    Mesh.Delete(upEdge);
+                    Mesh<TVertexData>.Delete(upEdge);
                     upRegion = lowRegion.Above;
                 }
             }
@@ -776,13 +776,13 @@ namespace NStuff.Tessellation
                         FinishRegion(previousRegion);
                         break;
                     }
-                    e = Mesh.Connect(previousEdge.LeftFacePrevious, e.Symmetric);
+                    e = Mesh<TVertexData>.Connect(previousEdge.LeftFacePrevious, e.Symmetric);
                     FixUpperEdge(region, e);
                 }
                 if (previousEdge.OriginNext != e)
                 {
-                    Mesh.Splice(e.OriginPrevious, e);
-                    Mesh.Splice(previousEdge, e);
+                    Mesh<TVertexData>.Splice(e.OriginPrevious, e);
+                    Mesh<TVertexData>.Splice(previousEdge, e);
                 }
                 FinishRegion(previousRegion);
                 previousEdge = region.UpperEdge;

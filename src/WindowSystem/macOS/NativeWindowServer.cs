@@ -13,7 +13,7 @@ namespace NStuff.WindowSystem.macOS
 {
     internal class NativeWindowServer : NativeWindowServerBase
     {
-        private static readonly List<object> implementations = new List<object>();
+        private static readonly List<object> implementations = new();
         private static readonly Keycode[] keycodeMappings;
         private static readonly int[] scancodes = new int[(int)Keycode.Invalid];
         private static NativeWindowServer? shared;
@@ -52,7 +52,7 @@ namespace NStuff.WindowSystem.macOS
         private Window? freeLookMouseWindow;
         private (double x, double y) cursorPositionBackup;
         private bool cursorHidden;
-        private readonly Dictionary<IntPtr, Window> windows = new Dictionary<IntPtr, Window>();
+        private readonly Dictionary<IntPtr, Window> windows = new();
 
         public NativeWindowServer()
         {
@@ -1379,11 +1379,11 @@ namespace NStuff.WindowSystem.macOS
             builder.AddMethod(selector, implementation, types);
         }
 
-        private Id AddMenuItem(Id menu, string? title, SEL selector, string? key, ulong mask) =>
+        private static Id AddMenuItem(Id menu, string? title, SEL selector, string? key, ulong mask) =>
             AddMenuItem(menu, (title == null) ? NSString.Empty : new NSString(title),
                 selector, (key == null) ? NSString.Empty : new NSString(key), mask);
 
-        private Id AddMenuItem(Id menu, NSString title, SEL selector, NSString key, ulong mask)
+        private static Id AddMenuItem(Id menu, NSString title, SEL selector, NSString key, ulong mask)
         {
             var result = menu.Get(addItemWithTitle_action_keyEquivalent_, title, selector, key);
             if (mask != 0)

@@ -16,9 +16,7 @@ namespace NStuff.WindowSystem.Windows
 
         static NativeWindowServer() => InitializeKeyMappings();
 
-#pragma warning disable IDE0052 // Remove unread private members: this property is there to prevent GC on the delegate.
         private readonly WNDPROCDelegate wndprocDelegate;
-#pragma warning restore IDE0052 // Remove unread private members
         private Exception? eventException;
         private readonly IntPtr helperWindowHandle;
         private int messageTime;

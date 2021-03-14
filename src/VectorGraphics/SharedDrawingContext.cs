@@ -15,12 +15,12 @@ namespace NStuff.VectorGraphics
     {
         private DrawingBackendBase? backend;
         private readonly GlyphAtlas glyphAtlas;
-        private readonly List<ImageHandle> glyphImages = new List<ImageHandle>();
-        private readonly List<CommandBufferHandle> bindGlyphImageCommandBuffers = new List<CommandBufferHandle>();
+        private readonly List<ImageHandle> glyphImages = new();
+        private readonly List<CommandBufferHandle> bindGlyphImageCommandBuffers = new();
         private byte[] buffer = new byte[1024];
 
         internal DrawingBackendBase Backend => backend ?? throw new ObjectDisposedException(GetType().FullName);
-        internal BezierApproximator BezierApproximator { get; } = new BezierApproximator();
+        internal BezierApproximator BezierApproximator { get; } = new();
         internal PolylineStroker PolylineStroker { get; }
         internal Tessellator2D<int, int> Tessellator { get; }
         internal GlyphLayout GlyphLayout { get; }

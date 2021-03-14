@@ -34,10 +34,10 @@ namespace NStuff.Typography.Typesetting
             public override int GetHashCode() => HashCode.Combine(fontFamily, fontSubfamily, fontPixels, codePoint);
         }
 
-        private readonly Dictionary<GlyphKey, Glyph> glyphs = new Dictionary<GlyphKey, Glyph>();
-        private readonly List<byte[]> images = new List<byte[]>();
-        private readonly GlyphRasterizer rasterizer = new GlyphRasterizer();
-        private readonly List<RectanglePacker> rectanglePackers = new List<RectanglePacker>();
+        private readonly Dictionary<GlyphKey, Glyph> glyphs = new();
+        private readonly List<byte[]> images = new();
+        private readonly GlyphRasterizer rasterizer = new();
+        private readonly List<RectanglePacker> rectanglePackers = new();
 
         /// <summary>
         /// Gets the <see cref="FontMetrics"/> object used to manage glyph information.

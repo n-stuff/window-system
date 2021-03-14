@@ -46,7 +46,7 @@ namespace NStuff.GraphicsBackend
         /// </summary>
         /// <param name="obj">An object.</param>
         /// <returns><c>true</c> if the supplied object is equal to this instance.</returns>
-        public override readonly bool Equals(object? obj) => obj is CommandBufferHandle && Equals((CommandBufferHandle)obj);
+        public override readonly bool Equals(object? obj) => obj is CommandBufferHandle handle && Equals(handle);
 
         /// <summary>
         /// Compares this <see cref="CommandBufferHandle"/> object with another one.

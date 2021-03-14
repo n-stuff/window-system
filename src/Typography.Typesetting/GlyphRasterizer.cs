@@ -11,9 +11,9 @@ namespace NStuff.Typography.Typesetting
     {
         private OpenType openType = default!;
         private double pixelSize;
-        private readonly GlyphReader glyphReader = new GlyphReader();
-        private readonly PolygonRasterizer polygonRasterizer = new PolygonRasterizer();
-        private readonly BezierApproximator bezierApproximator = new BezierApproximator();
+        private readonly GlyphReader glyphReader = new();
+        private readonly PolygonRasterizer polygonRasterizer = new();
+        private readonly BezierApproximator bezierApproximator = new();
         private double xs;
         private double ys;
 

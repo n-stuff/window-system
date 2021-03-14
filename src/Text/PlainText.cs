@@ -108,16 +108,11 @@ namespace NStuff.Text
 
         private static bool IsNewline(int codePoint)
         {
-            switch (codePoint)
+            return codePoint switch
             {
-                case '\r':
-                case '\n':
-                case 0x2028:
-                case 0x2029:
-                    return true;
-                default:
-                    return false;
-            }
+                '\r' or '\n' or 0x2028 or 0x2029 => true,
+                _ => false,
+            };
         }
 
         /// <summary>

@@ -6,6 +6,7 @@ using System.Text;
 
 using static NStuff.WindowSystem.Linux.NativeMethods;
 
+using PDISPLAY = System.IntPtr;
 using XID = System.UInt64;
 
 namespace NStuff.WindowSystem.Linux
@@ -1031,36 +1032,7 @@ namespace NStuff.WindowSystem.Linux
                             }
                             if (XFilterEvent(ref xevent, None) == 0)
                             {
-                                var byteBuffer = stackalloc byte[128];
-                                var count = Xutf8LookupString(data.InputContext, ref xevent.xkey, new IntPtr(byteBuffer), 127, IntPtr.Zero, out var status);
-                                switch (status)
-                                {
-                                    case XBufferOverflow:
-                                        Xutf8ResetIC(data.InputContext);
-                                        break;
-
-                                    case XLookupChars:
-                                    case XLookupBoth:
-                                        var charCount = Encoding.UTF8.GetMaxCharCount(count);
-                                        var charBuffer = stackalloc char[charCount];
-                                        charCount = Encoding.UTF8.GetChars(byteBuffer, count, charBuffer, charCount);
-                                        for (int i = 0; i < charCount; i++)
-                                        {
-                                            var c = charBuffer[i];
-                                            if (char.IsHighSurrogate(c))
-                                            {
-                                                if (i + 1 < charCount)
-                                                {
-                                                    HandleTextInputEvent(window, char.ConvertToUtf32(c, charBuffer[++i]), modifiers);
-                                                }
-                                            }
-                                            else
-                                            {
-                                                HandleTextInputEvent(window, c, modifiers);
-                                            }
-                                        }
-                                        break;
-                                }
+                                HandleTextInputEvent(window, data, ref xevent, modifiers);
                             }
                         }
                         else
@@ -1453,31 +1425,7 @@ namespace NStuff.WindowSystem.Linux
                                         }
                                         start = j - 1;
                                     }
-                                    var byteBuffer = stackalloc byte[end - start];
-                                    var byteCount = 0;
-                                    while (start < end)
-                                    {
-                                        if (isUri && p[start] == '%' && start + 2 < end)
-                                        {
-                                            if (TryConvertDigitToByte(p[start + 1], out var b0) && TryConvertDigitToByte(p[start + 2], out var b1))
-                                            {
-                                                var c = (byte)((b0 << 4) | b1);
-                                                start += 3;
-                                                byteBuffer[byteCount++] = c;
-                                            }
-                                            else
-                                            {
-                                                byteBuffer[byteCount++] = p[start++];
-                                                byteBuffer[byteCount++] = p[start++];
-                                                byteBuffer[byteCount++] = p[start++];
-                                            }
-                                        }
-                                        else
-                                        {
-                                            byteBuffer[byteCount++] = p[start++];
-                                        }
-                                    }
-                                    stringList.Add(DecodeUtf8String(byteBuffer, byteCount));
+                                    stringList.Add(EscapeSelection(isUri, p, start, end));
                                 }
                                 if (stringList.Count > 0)
                                 {
@@ -1520,12 +1468,75 @@ namespace NStuff.WindowSystem.Linux
             return result;
         }
 
+        private unsafe static string EscapeSelection(bool isUri, byte* p, int start, int end)
+        {
+            var byteBuffer = stackalloc byte[end - start];
+            var byteCount = 0;
+            while (start < end)
+            {
+                if (isUri && p[start] == '%' && start + 2 < end)
+                {
+                    if (TryConvertDigitToByte(p[start + 1], out var b0) && TryConvertDigitToByte(p[start + 2], out var b1))
+                    {
+                        var c = (byte)((b0 << 4) | b1);
+                        start += 3;
+                        byteBuffer[byteCount++] = c;
+                    }
+                    else
+                    {
+                        byteBuffer[byteCount++] = p[start++];
+                        byteBuffer[byteCount++] = p[start++];
+                        byteBuffer[byteCount++] = p[start++];
+                    }
+                }
+                else
+                {
+                    byteBuffer[byteCount++] = p[start++];
+                }
+            }
+            return DecodeUtf8String(byteBuffer, byteCount);
+        }
+
         private unsafe static string DecodeUtf8String(byte* byteBuffer, int byteCount)
         {
             var charCount = Encoding.UTF8.GetMaxCharCount(byteCount);
             var charBuffer = stackalloc char[charCount];
             var count = Encoding.UTF8.GetChars(byteBuffer, byteCount, charBuffer, charCount);
             return new string(charBuffer, 0, count);
+        }
+
+        private unsafe void HandleTextInputEvent(Window window, WindowData data, ref XEvent xevent, ModifierKeys modifiers)
+        {
+            var byteBuffer = stackalloc byte[128];
+            var count = Xutf8LookupString(data.InputContext, ref xevent.xkey, new IntPtr(byteBuffer), 127, IntPtr.Zero, out var status);
+            switch (status)
+            {
+                case XBufferOverflow:
+                    Xutf8ResetIC(data.InputContext);
+                    break;
+
+                case XLookupChars:
+                case XLookupBoth:
+                    var charCount = Encoding.UTF8.GetMaxCharCount(count);
+                    var charBuffer = stackalloc char[charCount];
+                    charCount = Encoding.UTF8.GetChars(byteBuffer, count, charBuffer, charCount);
+                    for (int i = 0; i < charCount; i++)
+                    {
+                        var c = charBuffer[i];
+                        if (char.IsHighSurrogate(c))
+                        {
+                            if (i + 1 < charCount)
+                            {
+                                HandleTextInputEvent(window, char.ConvertToUtf32(c, charBuffer[++i]), modifiers);
+                            }
+                        }
+                        else
+                        {
+                            HandleTextInputEvent(window, c, modifiers);
+                        }
+                    }
+                    break;
+            }
         }
 
         private bool IsCursorInClientArea(Window window)
@@ -1920,12 +1931,7 @@ namespace NStuff.WindowSystem.Linux
                 var dataSize = d.count * (d.format >> 3);
                 if (dataSize > maxDataSize)
                 {
-                    unsafe
-                    {
-                        var value = stackalloc long[1];
-                        value[0] = dataSize;
-                        XChangeProperty(requestDisplay, requestor, d.property, INCR, 32, PropModeReplace, value, 1);
-                    }
+                    ChangeProperty(requestDisplay, requestor, d.property, INCR, dataSize);
                     XSelectInput(requestDisplay, requestor, PropertyChangeMask);
                 }
                 else
@@ -1990,6 +1996,13 @@ namespace NStuff.WindowSystem.Linux
             }
             XSelectInput(requestDisplay, requestor, 0);
             XSync(requestDisplay, 0);
+        }
+
+        private unsafe static void ChangeProperty(PDISPLAY display, XID window, XID property, XID type, int dataSize)
+        {
+            var value = stackalloc long[1];
+            value[0] = dataSize;
+            XChangeProperty(display, window, property, type, 32, PropModeReplace, value, 1);
         }
 
         private static int GetMaxDataSize(IntPtr display)

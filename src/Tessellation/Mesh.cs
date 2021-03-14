@@ -33,7 +33,7 @@ namespace NStuff.Tessellation
             return result;
         }
 
-        public void Splice(HalfEdge<TVertexData> origin, HalfEdge<TVertexData> destination)
+        public static void Splice(HalfEdge<TVertexData> origin, HalfEdge<TVertexData> destination)
         {
             if (origin == destination)
             {
@@ -76,7 +76,7 @@ namespace NStuff.Tessellation
             }
         }
 
-        public void Delete(HalfEdge<TVertexData> edge)
+        public static void Delete(HalfEdge<TVertexData> edge)
         {
             var symmetric = edge.Symmetric;
 
@@ -122,7 +122,7 @@ namespace NStuff.Tessellation
             edge.Kill();
         }
 
-        public HalfEdge<TVertexData> AddEdgeVertex(HalfEdge<TVertexData> origin)
+        public static HalfEdge<TVertexData> AddEdgeVertex(HalfEdge<TVertexData> origin)
         {
             var newEdge = MakeEdge(origin);
             var newSymmetric = newEdge.Symmetric;
@@ -134,7 +134,7 @@ namespace NStuff.Tessellation
             return newEdge;
         }
 
-        public HalfEdge<TVertexData> SplitEdge(HalfEdge<TVertexData> origin)
+        public static HalfEdge<TVertexData> SplitEdge(HalfEdge<TVertexData> origin)
         {
             var newEdge = AddEdgeVertex(origin).Symmetric;
             origin.Symmetric.Splice(origin.Symmetric.OriginPrevious);
@@ -147,7 +147,7 @@ namespace NStuff.Tessellation
             return newEdge;
         }
 
-        public HalfEdge<TVertexData> Connect(HalfEdge<TVertexData> origin, HalfEdge<TVertexData> destination)
+        public static HalfEdge<TVertexData> Connect(HalfEdge<TVertexData> origin, HalfEdge<TVertexData> destination)
         {
             var newEdge = MakeEdge(origin);
             var newSymmetric = newEdge.Symmetric;
@@ -219,7 +219,7 @@ namespace NStuff.Tessellation
             }
         }
 
-        private void TessellateRegion(Face<TVertexData> face)
+        private static void TessellateRegion(Face<TVertexData> face)
         {
             var upEdge = face.Edge;
             for (; upEdge.DestinationVertex.CompareTo(upEdge.OriginVertex) <= 0; upEdge = upEdge.LeftFacePrevious) ;

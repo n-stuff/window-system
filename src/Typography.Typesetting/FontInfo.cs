@@ -44,7 +44,7 @@ namespace NStuff.Typography.Typesetting
         /// <value>A number in design units.</value>
         public int LineGap { get; }
 
-        internal Dictionary<uint, int> KerningAdvances { get; } = new Dictionary<uint, int>();
+        internal Dictionary<uint, int> KerningAdvances { get; } = new();
 
         internal FontInfo(string family, FontSubfamily subfamily, int unitsPerEm, int ascent, int descent, int lineGap)
         {

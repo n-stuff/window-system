@@ -12,7 +12,7 @@ namespace NStuff.VectorGraphics
         /// Gets or sets the transform to apply to all coordinates of the drawing.
         /// </summary>
         /// <value>An affine transform. The initial value is the identity matrix.</value>
-        public AffineTransform Transform { get; set; } = new AffineTransform(m11: 1, m22: 1);
+        public AffineTransform Transform { get; set; } = new(m11: 1, m22: 1);
 
         /// <summary>
         /// Gets or sets the raster image to render.

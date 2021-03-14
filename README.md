@@ -2,7 +2,7 @@
 
 This repository provides building blocks to write cross-platform __GUI__ applications in __pure .NET__.
 
-The code only relies on __[.NET Core](https://dotnet.microsoft.com/download) 3.0 64bit__, and on a minimal set of functionalities from those APIs:
+The code only relies on __[.NET Core](https://dotnet.microsoft.com/download) 5 64bit__, and on a minimal set of functionalities from those APIs:
 * Win32 on __Windows__
 * Cocoa on __macOS__
 * Xlib on __Linux__

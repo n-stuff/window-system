@@ -66,9 +66,9 @@ namespace NStuff.WindowSystem.Windows
         internal const int HTMAXBUTTON = 9;
         internal const int HTCLOSE = 20;
 
-        internal readonly static HWND HWND_TOP = new HWND(0);
-        internal readonly static HWND HWND_TOPMOST = new HWND(-1);
-        internal readonly static HWND HWND_NOTOPMOST = new HWND(-2);
+        internal readonly static HWND HWND_TOP = new(0);
+        internal readonly static HWND HWND_TOPMOST = new(-1);
+        internal readonly static HWND HWND_NOTOPMOST = new(-2);
 
         internal readonly static INTRESOURCE IDC_ARROW = (INTRESOURCE)32512;
         internal readonly static INTRESOURCE IDC_IBEAM = (INTRESOURCE)32513;

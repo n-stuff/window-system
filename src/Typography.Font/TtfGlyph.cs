@@ -12,9 +12,9 @@ namespace NStuff.Typography.Font
         internal double XMax { get; private set; }
         internal double YMin { get; private set; }
         internal double YMax { get; private set; }
-        internal List<uint> ContourEndPoints { get; } = new List<uint>();
-        internal List<bool> OnCurveFlags { get; } = new List<bool>();
-        internal List<(double x, double y)> Points { get; } = new List<(double x, double y)>();
+        internal List<uint> ContourEndPoints { get; } = new();
+        internal List<bool> OnCurveFlags { get; } = new();
+        internal List<(double x, double y)> Points { get; } = new();
 
         internal void Setup(OpenType openType, double pixelSize)
         {

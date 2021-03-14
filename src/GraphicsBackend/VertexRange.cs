@@ -55,7 +55,7 @@ namespace NStuff.GraphicsBackend
         /// </summary>
         /// <param name="obj">An object.</param>
         /// <returns><c>true</c> if the supplied object is equal to this instance.</returns>
-        public override readonly bool Equals(object? obj) => obj is VertexRange && Equals((VertexRange)obj);
+        public override readonly bool Equals(object? obj) => obj is VertexRange range && Equals(range);
 
         /// <summary>
         /// Compares this <see cref="VertexRange"/> object with another one.

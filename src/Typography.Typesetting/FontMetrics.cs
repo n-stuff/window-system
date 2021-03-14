@@ -41,8 +41,8 @@ namespace NStuff.Typography.Typesetting
             public override int GetHashCode() => HashCode.Combine(font, codePoint);
         }
 
-        private readonly Dictionary<GlyphInfoKey, GlyphInfo> glyphInfos = new Dictionary<GlyphInfoKey, GlyphInfo>();
-        private readonly Dictionary<FontInfoKey, FontInfo> fontInfos = new Dictionary<FontInfoKey, FontInfo>();
+        private readonly Dictionary<GlyphInfoKey, GlyphInfo> glyphInfos = new();
+        private readonly Dictionary<FontInfoKey, FontInfo> fontInfos = new();
 
         /// <summary>
         /// Gets the font collection this object is providing information about.

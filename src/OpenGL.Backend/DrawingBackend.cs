@@ -111,16 +111,11 @@ namespace NStuff.OpenGL.Backend
         private float[] elementBuffer = new float[1024];
         private readonly int maxTextureDimension;
 
-        private readonly Dictionary<IntPtr, PixelFormat> imagePixelFormats =
-            new Dictionary<IntPtr, PixelFormat>();
-        private readonly CpuBuffers<(UniformType type, float[] buffer)> uniformBuffers =
-            new CpuBuffers<(UniformType type, float[] buffer)>();
-        private readonly Dictionary<IntPtr, (uint id, VertexType type, int capacity)> vertexBuffers =
-            new Dictionary<IntPtr, (uint id, VertexType type, int capacity)>();
-        private readonly CpuBuffers<VertexRange[]> vertexRangeBuffers =
-            new CpuBuffers<VertexRange[]>();
-        private readonly CpuBuffers<(CommandBufferState state, List<Command> commands)> commandBuffers =
-            new CpuBuffers<(CommandBufferState state, List<Command> commands)>();
+        private readonly Dictionary<IntPtr, PixelFormat> imagePixelFormats = new();
+        private readonly CpuBuffers<(UniformType type, float[] buffer)> uniformBuffers = new();
+        private readonly Dictionary<IntPtr, (uint id, VertexType type, int capacity)> vertexBuffers = new();
+        private readonly CpuBuffers<VertexRange[]> vertexRangeBuffers = new();
+        private readonly CpuBuffers<(CommandBufferState state, List<Command> commands)> commandBuffers = new();
 
         /// <summary>
         /// Gets a value indicating whether the backend's <see cref="Dispose"/> method was called.

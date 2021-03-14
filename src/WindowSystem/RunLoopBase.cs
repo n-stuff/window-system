@@ -18,7 +18,7 @@ namespace NStuff.WindowSystem
             int IComparable<ScheduledAction>.CompareTo(ScheduledAction other) => (int)(time - other.time);
         }
 
-        private readonly PriorityQueue<ScheduledAction> scheduledActions = new PriorityQueue<ScheduledAction>();
+        private readonly PriorityQueue<ScheduledAction> scheduledActions = new();
         private readonly Stopwatch stopwatch = Stopwatch.StartNew();
         private bool interrupted;
         private Thread? runThread;
@@ -33,7 +33,7 @@ namespace NStuff.WindowSystem
         /// Gets a list of actions that should be invoked each time the <see cref="Wait(int)"/> method returns.
         /// </summary>
         /// <value>The recurring actions.</value>
-        public List<Action<long>> RecurringActions { get; } = new List<Action<long>>();
+        public List<Action<long>> RecurringActions { get; } = new();
 
         /// <summary>
         /// Notifies the run loop that the <see cref="Run()"/> should terminate.

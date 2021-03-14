@@ -29,13 +29,12 @@ namespace NStuff.Typography.Font
             public bool monospaced;
         }
 
-        private readonly List<string> families = new List<string>();
-        private readonly Dictionary<string, Dictionary<FontSubfamily, FontResource>> familyResources =
-            new Dictionary<string, Dictionary<FontSubfamily, FontResource>>();
-        private readonly Dictionary<string, OpenType[]> openTypesById = new Dictionary<string, OpenType[]>();
+        private readonly List<string> families = new();
+        private readonly Dictionary<string, Dictionary<FontSubfamily, FontResource>> familyResources = new();
+        private readonly Dictionary<string, OpenType[]> openTypesById = new();
         private int allocatedBytes;
         private int maxAllocatedBytes = 32 * 1024 * 1024;
-        private readonly List<string> fontIds = new List<string>();
+        private readonly List<string> fontIds = new();
 
         /// <summary>
         /// Gets the <see cref="OpenType"/> corresponding to the specified font family and subfamily.
@@ -406,7 +405,7 @@ namespace NStuff.Typography.Font
             }
         }
 
-        private bool MatchFontToken(string token, ref StyleClass? style, ref WeightClass? weight, ref WidthClass? width, ref string? prefix)
+        private static bool MatchFontToken(string token, ref StyleClass? style, ref WeightClass? weight, ref WidthClass? width, ref string? prefix)
         {
             switch (token)
             {
@@ -553,7 +552,7 @@ namespace NStuff.Typography.Font
                         if (e.Value.StartsWith("~/"))
                         {
                             home ??= Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                            folders.Add(Path.Combine(home, e.Value.Substring(2)));
+                            folders.Add(Path.Combine(home, e.Value[2..]));
                         }
                         else if (e.Value.StartsWith("/"))
                         {

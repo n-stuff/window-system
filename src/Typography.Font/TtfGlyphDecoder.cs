@@ -2,7 +2,7 @@
 {
     internal class TtfGlyphDecoder : GlyphDecoder
     {
-        private readonly TtfGlyph glyph = new TtfGlyph();
+        private readonly TtfGlyph glyph = new();
         private int index;
         private bool startOff;
         private bool wasOff;

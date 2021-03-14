@@ -11,8 +11,8 @@ namespace NStuff.Text
     /// <typeparam name="TDecoration">The type of some decoration to apply to each code point.</typeparam>
     public class MonospaceText<TDecoration>
     {
-        private readonly List<(int line, int column)> lineToTextLocation = new List<(int line, int column)>();
-        private readonly List<int> textLocationLineToLine = new List<int>();
+        private readonly List<(int line, int column)> lineToTextLocation = new();
+        private readonly List<int> textLocationLineToLine = new();
         private (int line, int column) caretLocation;
         private int caretColumn;
         private bool checkCaretLocation;
@@ -579,7 +579,7 @@ namespace NStuff.Text
             }
             else
             {
-                location = lineToTextLocation[lineToTextLocation.Count - 1];
+                location = lineToTextLocation[^1];
             }
             return location;
         }

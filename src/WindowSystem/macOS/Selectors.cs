@@ -364,7 +364,8 @@ namespace NStuff.WindowSystem.macOS
         /// <summary>
         /// The <c>nextEventMatchingMask:untilDate:inMode:dequeue:</c> selector.
         /// </summary>
-        public static SEL nextEventMatchingMask_untilDate_inMode_dequeue_ = SEL.Register("nextEventMatchingMask:untilDate:inMode:dequeue:");
+        public static SEL nextEventMatchingMask_untilDate_inMode_dequeue_ { get; } =
+            SEL.Register("nextEventMatchingMask:untilDate:inMode:dequeue:");
 
         /// <summary>
         /// The <c>numberWithBool:</c> selector.
@@ -379,7 +380,7 @@ namespace NStuff.WindowSystem.macOS
         /// <summary>
         /// The <c>otherEventWithType:location:modifierFlags:timestamp:windowNumber:context:subtype:data1:data2:</c> selector.
         /// </summary>
-        public static SEL otherEventWithType_location_modifierFlags_timestamp_windowNumber_context_subtype_data1_data2_ =
+        public static SEL otherEventWithType_location_modifierFlags_timestamp_windowNumber_context_subtype_data1_data2_ { get; } =
             SEL.Register("otherEventWithType:location:modifierFlags:timestamp:windowNumber:context:subtype:data1:data2:");
 
         /// <summary>

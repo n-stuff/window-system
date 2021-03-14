@@ -14,7 +14,7 @@ namespace NStuff.VectorGraphics
     public sealed class DrawingContext : IDisposable
     {
         private SharedDrawingContext? sharedContext;
-        private RgbaColor clearColor = new RgbaColor(255, 255, 255, 255);
+        private RgbaColor clearColor = new(255, 255, 255, 255);
         private CommandBufferHandle clearCommandBuffer;
 
         private DrawingBackendBase Backend => sharedContext!.Backend;

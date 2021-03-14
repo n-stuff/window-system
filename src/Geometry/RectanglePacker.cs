@@ -8,8 +8,8 @@ namespace NStuff.Geometry
     /// </summary>
     public class RectanglePacker
     {
-        private readonly List<(int width, int height)> skyline = new List<(int width, int height)>();
-        private readonly List<(int left, int top, int width, int height)> wastedRectangles = new List<(int x, int y, int width, int height)>();
+        private readonly List<(int width, int height)> skyline = new();
+        private readonly List<(int left, int top, int width, int height)> wastedRectangles = new();
 
         /// <summary>
         /// Gets the width of the container rectangle.

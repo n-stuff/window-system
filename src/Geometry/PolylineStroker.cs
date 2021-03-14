@@ -140,7 +140,7 @@ namespace NStuff.Geometry
                 handler.EndContour();
                 handler.BeginContour();
                 p0 = points[1];
-                p1 = points[points.Count - 1];
+                p1 = points[^1];
                 ComputeParallelSegment(offset, p0, p1, out pp0, out pp1);
             }
             else

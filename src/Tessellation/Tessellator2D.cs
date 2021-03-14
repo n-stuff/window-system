@@ -11,7 +11,7 @@ namespace NStuff.Tessellation
         TessellatorBase<TPolygonData, TVertexData, TVertexData>,
         IEdgeCombinator<TPolygonData, TVertexData>
     {
-        private readonly SimpleTessellator2D<TVertexData> simpleTessellator = new SimpleTessellator2D<TVertexData>();
+        private readonly SimpleTessellator2D<TVertexData> simpleTessellator = new();
         private bool firstMove;
         private Face<TVertexData>? currentFace;
         private HalfEdge<TVertexData>? currentEdge;

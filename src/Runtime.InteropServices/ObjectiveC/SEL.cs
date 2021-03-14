@@ -35,7 +35,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// </summary>
         /// <param name="name">The name of the selector.</param>
         /// <returns>A <c>SEL</c> struct representing a selector.</returns>
-        public static SEL Register(string name) => new SEL(sel_registerName(name));
+        public static SEL Register(string name) => new(sel_registerName(name));
 
         /// <summary>
         /// Initializes a new instance of the <c>SEL</c> struct using the provided <paramref name="handle"/>.
@@ -54,7 +54,7 @@ namespace NStuff.Runtime.InteropServices.ObjectiveC
         /// </summary>
         /// <param name="obj">An object.</param>
         /// <returns><c>true</c> if the supplied object is equal to this instance.</returns>
-        public override readonly bool Equals(object? obj) => obj is SEL && Equals((SEL)obj);
+        public override readonly bool Equals(object? obj) => obj is SEL sEL && Equals(sEL);
 
         /// <summary>
         /// Compares this <see cref="SEL"/> object with another one.
