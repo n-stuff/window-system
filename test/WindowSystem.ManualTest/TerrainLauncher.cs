@@ -127,6 +127,8 @@ namespace NStuff.WindowSystem.ManualTest
                     }
                     if (window.IsKeyPressed(Keycode.Escape))
                     {
+                        window.Close();
+                        windowServer.ProcessEvents(0.0);
                         break;
                     }
 

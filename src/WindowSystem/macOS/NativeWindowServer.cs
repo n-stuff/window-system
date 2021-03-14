@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 using NStuff.Runtime.InteropServices;
@@ -985,7 +986,7 @@ namespace NStuff.WindowSystem.macOS
         {
             var self = new Id(receiverPtr);
             var nsWindow = self.Get(Selectors.window);
-            if (TryGetWindow(nsWindow, out Window window))
+            if (TryGetWindow(nsWindow, out Window? window))
             {
                 var data = GetData(window);
                 if (!data.MouseInside)
@@ -1393,12 +1394,8 @@ namespace NStuff.WindowSystem.macOS
             return result;
         }
 
-        private static bool TryGetWindow(Id nsWindow, out Window window)
-        {
-            bool result = Shared.windows.TryGetValue(nsWindow.Handle, out var w);
-            window = w ?? throw new NullReferenceException();
-            return result;
-        }
+        private static bool TryGetWindow(Id nsWindow, [NotNullWhen(returnValue: true)] out Window? window) =>
+            Shared.windows.TryGetValue(nsWindow.Handle, out window);
 
         private void CenterCursor(Window window)
         {
