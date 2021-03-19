@@ -15,6 +15,7 @@ using ULONG = System.UInt64;
 using WINDOW = System.UInt64;
 using XIC = System.IntPtr;
 using XIM = System.IntPtr;
+using XrmDatabase = System.IntPtr;
 
 using XcursorDim = System.UInt32;
 using XcursorPixel = System.UInt32;
@@ -415,6 +416,13 @@ namespace NStuff.WindowSystem.Linux
             internal ULONG* supported_styles;
         }
 
+        [StructLayout(LayoutKind.Sequential)]
+        internal unsafe struct XrmValue
+        {
+            internal uint size;
+            internal IntPtr addr;
+        }
+        
         internal delegate int XCheckIfPredicate(PDISPLAY display, ref XEvent @event, IntPtr pointer);
 
         [DllImport(X11Library)]
@@ -555,6 +563,21 @@ namespace NStuff.WindowSystem.Linux
         [DllImport(X11Library)]
         internal static extern int XResizeWindow(PDISPLAY display, WINDOW window, uint width, uint height);
 
+        [DllImport(X11Library)]
+        internal static extern IntPtr XResourceManagerString(PDISPLAY display);
+
+        [DllImport(X11Library)]
+        internal static extern void XrmDestroyDatabase(XrmDatabase database);
+        
+        [DllImport(X11Library)]
+        internal static extern XrmDatabase XrmGetStringDatabase(IntPtr data);
+        
+        [DllImport(X11Library)]
+        internal static extern BOOL XrmGetResource(XrmDatabase database,
+                                                   [MarshalAs(UnmanagedType.LPStr)] string str_name,
+                                                   [MarshalAs(UnmanagedType.LPStr)] string str_class,
+                                                   out IntPtr str_type_return, out XrmValue value_return);
+        
         [DllImport(X11Library)]
         internal static extern WINDOW XRootWindow(PDISPLAY display, int screenNumber);
 

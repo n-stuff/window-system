@@ -77,6 +77,7 @@ namespace NStuff.WindowSystem.Linux
         private readonly int epoll;
         private Window? freeLookMouseWindow;
         private (double x, double y) cursorPositionBackup;
+        private (double x, double y) scale;
         private readonly Dictionary<XID, Window> windows = new Dictionary<XID, Window>();
 
         internal NativeWindowServer()
@@ -322,6 +323,29 @@ namespace NStuff.WindowSystem.Linux
                     }
                 }
             }
+
+            scale = (1.0, 1.0);
+            var rmString = XResourceManagerString(display);
+            if (rmString != IntPtr.Zero)
+            {
+                var rmDatabase = XrmGetStringDatabase(rmString);
+                if (rmDatabase != IntPtr.Zero)
+                {
+                    if (XrmGetResource(rmDatabase, "Xft.dpi", "Xft.Dpi", out var type, out var value) != 0)
+                    {
+                        if (type != IntPtr.Zero && Marshal.PtrToStringAnsi(type) == "String")
+                        {
+                            var dpiString = Marshal.PtrToStringAnsi(value.addr);
+                            if (double.TryParse(dpiString, out var dpi))
+                            {
+                                var s = dpi / 96.0;
+                                scale = (s, s);
+                            }
+                        }
+                    }
+                    XrmDestroyDatabase(rmDatabase);
+                }
+            }
         }
 
         protected internal override void Shutdown()
@@ -361,10 +385,10 @@ namespace NStuff.WindowSystem.Linux
                 event_mask = KeyPressMask | KeyReleaseMask | ButtonPressMask | ButtonReleaseMask |
                 EnterWindowMask | LeaveWindowMask | PointerMotionMask | ExposureMask | VisibilityChangeMask |
                 StructureNotifyMask | FocusChangeMask | PropertyChangeMask
-
             };
 
-            var id = XCreateWindow(display, rootWindow, 0, 0, DefaultSurfaceWidth, DefaultSurfaceHeight,
+            var id = XCreateWindow(display, rootWindow, 0, 0,
+                (uint)Math.Round(DefaultSurfaceWidth * scale.x), (uint)Math.Round(DefaultSurfaceHeight * scale.y),
                 0, 0, InputOutput, data.Visual, CWEventMask | CWColormap, ref setWindowAttributes);
 
             var protocolCount = 1;
@@ -457,22 +481,29 @@ namespace NStuff.WindowSystem.Linux
         protected internal override (double width, double height) GetWindowSize(Window window)
         {
             XGetWindowAttributes(display, GetId(window), out var windowAttributes);
-            return (windowAttributes.width, windowAttributes.height);
+            var (sx, sy) = scale;
+            return (windowAttributes.width / sx, windowAttributes.height / sy);
         }
 
         protected internal override void SetWindowSize(Window window, (double width, double height) size)
         {
             UpdateWMNormalHints(window, size);
-            XResizeWindow(display, GetId(window), (uint)size.width, (uint)size.height);
+            var (sx, sy) = scale;
+            XResizeWindow(display, GetId(window), (uint)Math.Round(size.width * sx), (uint)Math.Round(size.height * sy));
             XFlush(display);
         }
 
-        protected internal override (double x, double y) GetWindowViewportSize(Window window) => GetWindowSize(window);
+        protected internal override (double x, double y) GetWindowViewportSize(Window window)
+        {
+            XGetWindowAttributes(display, GetId(window), out var windowAttributes);
+            return (windowAttributes.width, windowAttributes.height);
+        }
 
         protected internal override (double x, double y) GetWindowLocation(Window window)
         {
             XTranslateCoordinates(display, GetId(window), rootWindow, 0, 0, out var x, out var y, out var _);
-            return (x, y);
+            var (sx, sy) = scale;
+            return (x / sx, y / sy);
         }
 
         protected internal override void SetWindowLocation(Window window, (double x, double y) location)
@@ -487,7 +518,8 @@ namespace NStuff.WindowSystem.Linux
                     XSetWMNormalHints(display, id, ref sizeHints);
                 }
             }
-            XMoveWindow(display, id, (int)location.x, (int)location.y);
+            var (sx, sy) = scale;
+            XMoveWindow(display, id, (int)Math.Round(location.x * sx), (int)Math.Round(location.y * sy));
             XFlush(display);
         }
 
@@ -685,13 +717,14 @@ namespace NStuff.WindowSystem.Linux
             }
             if (GetWindowProperty(display, data.Id, _NET_FRAME_EXTENTS, XA_CARDINAL, out var pointer) == 4)
             {
+                var (sx, sy) = scale;
                 unsafe
                 {
                     var p = (long*)pointer;
-                    result.left = p[0];
-                    result.right = p[1];
-                    result.top = p[2];
-                    result.bottom = p[3];
+                    result.left = p[0] / sx;
+                    result.right = p[1] / sx;
+                    result.top = p[2] / sy;
+                    result.bottom = p[3] / sy;
                 }
             }
             Free(pointer);
@@ -700,20 +733,24 @@ namespace NStuff.WindowSystem.Linux
 
         protected internal override (double x, double y) ConvertFromScreen(Window window, (double x, double y) point)
         {
-            XTranslateCoordinates(display, rootWindow, GetId(window), (int)point.x, (int)point.y, out var x, out var y, out var child);
+            var (sx, sy) = scale;
+            XTranslateCoordinates(display, rootWindow, GetId(window), (int)Math.Round(point.x * sx), (int)Math.Round(point.y * sy),
+                                  out var x, out var y, out var child);
             if (child != None)
             {
                 XTranslateCoordinates(display, rootWindow, child, 0, 0, out var xc, out var yc, out _);
                 x -= xc;
                 y -= yc;
             }
-            return (x, y);
+            return (x / sx, y / sy);
         }
 
         protected internal override (double x, double y) ConvertToScreen(Window window, (double x, double y) point)
         {
-            XTranslateCoordinates(display, GetId(window), rootWindow, (int)point.x, (int)point.y, out var x, out var y, out var _);
-            return (x, y);
+            var (sx, sy) = scale;
+            XTranslateCoordinates(display, GetId(window), rootWindow, (int)Math.Round(point.x * sx), (int)Math.Round(point.y * sy),
+                                  out var x, out var y, out var _);
+            return (x / sx, y / sy);
         }
 
         protected internal override void SetFreeLookMouseWindow(Window window, bool enable)
@@ -749,14 +786,18 @@ namespace NStuff.WindowSystem.Linux
         protected internal override (double x, double y) GetCursorPosition(Window window)
         {
             XQueryPointer(display, GetId(window), out var _, out var _, out var _, out var _, out var childX, out var childY, out var _);
-            return (childX, childY);
+            var (sx, sy) = scale;
+            return (childX / sx, childY / sy);
         }
 
         protected internal override void SetCursorPosition(Window window, (double x, double y) position)
         {
             var data = GetData(window);
-            data.WrapCursorPosition = ((int)position.x, (int)position.y);
-            XWarpPointer(display, None, data.Id, 0, 0, 0, 0, (int)position.x, (int)position.y);
+            var (sx, sy) = scale;
+            var x = (int)Math.Round(position.x * sx);
+            var y = (int)Math.Round(position.y * sy);
+            data.WrapCursorPosition = (x, y);
+            XWarpPointer(display, None, data.Id, 0, 0, 0, 0, x, y);
             XFlush(display);
         }
 
@@ -789,7 +830,8 @@ namespace NStuff.WindowSystem.Linux
             cursor.NativeData = new CursorData(id);
         }
 
-        protected internal override unsafe void CreateCursor(Cursor cursor, byte[] imageData, (int width, int height) size, (double x, double y) hotSpot)
+        protected internal override unsafe void CreateCursor(Cursor cursor, byte[] imageData, (int width, int height) size,
+                                                             (double x, double y) hotSpot)
         {
             var ximage = XcursorImageCreate(size.width, size.height);
             if (ximage == null)
@@ -1137,13 +1179,15 @@ namespace NStuff.WindowSystem.Linux
                                     }
                                     eventTime = xevent.xmotion.time;
                                     var (cx, cy) = data.LastCursorPosition;
-                                    var (dx, dy) = (x - cx, y - cy);
+                                    var (sx, sy) = scale;
+                                    var (dx, dy) = ((x - cx) / sx, (y - cy) / sy);
                                     MouseMoveEventOccurred(window, window.FreeLookPosition.x + dx, window.FreeLookPosition.y + dy);
                                 }
                                 else
                                 {
                                     eventTime = xevent.xmotion.time;
-                                    MouseMoveEventOccurred(window, x, y);
+                                    var (sx, sy) = scale;
+                                    MouseMoveEventOccurred(window, x / sx, y / sy);
                                 }
                             }
                             data.LastCursorPosition = (x, y);

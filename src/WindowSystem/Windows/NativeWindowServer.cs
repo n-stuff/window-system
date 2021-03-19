@@ -425,7 +425,7 @@ namespace NStuff.WindowSystem.Windows
         {
             var data = GetData(window);
             var (sx, sy) = data.Scale;
-            var point = new POINT { x = (int)(position.x * sx), y = (int)(position.y * sy) };
+            var point = new POINT { x = (int)Math.Round(position.x * sx), y = (int)Math.Round(position.y * sy) };
             data.LastCursorPosition = (point.x, point.y);
             ClientToScreen(data.Handle, &point);
             SetCursorPos(point.x, point.y);
@@ -747,7 +747,8 @@ namespace NStuff.WindowSystem.Windows
                                         dy -= cy;
                                     }
                                     var (fx, fy) = window.FreeLookPosition;
-                                    MouseMoveEventOccurred(window, fx + dx, fy + dy);
+                                    var (sx, sy) = data.Scale;
+                                    MouseMoveEventOccurred(window, fx + dx / sx, fy + dy / sy);
                                     data.LastCursorPosition = (cx + dy, cy + dy);
                                 }
                             }
