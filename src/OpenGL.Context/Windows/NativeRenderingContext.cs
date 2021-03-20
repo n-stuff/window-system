@@ -1,4 +1,6 @@
-﻿using NStuff.Runtime.InteropServices;
+﻿#pragma warning disable CA1806 // Do not ignore method results
+
+using NStuff.Runtime.InteropServices;
 using NStuff.WindowSystem;
 using NStuff.WindowSystem.Windows;
 using System;

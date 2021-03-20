@@ -1,4 +1,6 @@
-﻿using System;
+﻿#pragma warning disable CA1806 // Do not ignore method results
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
@@ -24,7 +26,7 @@ namespace NStuff.WindowSystem.Windows
         private (double x, double y) cursorPositionBackup;
         private IntPtr rawDataBuffer;
         private int rawDataBufferSize;
-        private readonly Dictionary<IntPtr, Window> windows = new Dictionary<IntPtr, Window>();
+        private readonly Dictionary<IntPtr, Window> windows = new();
 
         public NativeWindowServer()
         {
@@ -749,7 +751,7 @@ namespace NStuff.WindowSystem.Windows
                                     var (fx, fy) = window.FreeLookPosition;
                                     var (sx, sy) = data.Scale;
                                     MouseMoveEventOccurred(window, fx + dx / sx, fy + dy / sy);
-                                    data.LastCursorPosition = (cx + dy, cy + dy);
+                                    data.LastCursorPosition = (cx + dx, cy + dy);
                                 }
                             }
                             break;
@@ -1082,7 +1084,7 @@ namespace NStuff.WindowSystem.Windows
             return PtInRect(ref rect, point) != 0;
         }
 
-        private void UpdateWindowCursor(Window window)
+        private static void UpdateWindowCursor(Window window)
         {
             if (window.Disposed)
             {
@@ -1106,7 +1108,7 @@ namespace NStuff.WindowSystem.Windows
             }
         }
 
-        private unsafe void UpdateCursorClip(Window? window)
+        private unsafe static void UpdateCursorClip(Window? window)
         {
             if (window != null)
             {
@@ -1122,7 +1124,7 @@ namespace NStuff.WindowSystem.Windows
             }
         }
 
-        private unsafe IntPtr CreateIcon(byte[] imageData, (int width, int height) size, (double x, double y) hotSpot, bool isIcon)
+        private unsafe static IntPtr CreateIcon(byte[] imageData, (int width, int height) size, (double x, double y) hotSpot, bool isIcon)
         {
             var bi = new BITMAPV5HEADER
             {

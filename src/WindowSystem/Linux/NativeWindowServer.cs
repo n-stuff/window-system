@@ -1,4 +1,6 @@
-﻿using System;
+﻿#pragma warning disable CA1806 // Do not ignore method results
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
@@ -78,7 +80,7 @@ namespace NStuff.WindowSystem.Linux
         private Window? freeLookMouseWindow;
         private (double x, double y) cursorPositionBackup;
         private (double x, double y) scale;
-        private readonly Dictionary<XID, Window> windows = new Dictionary<XID, Window>();
+        private readonly Dictionary<XID, Window> windows = new();
 
         internal NativeWindowServer()
         {
@@ -1549,7 +1551,7 @@ namespace NStuff.WindowSystem.Linux
             return new string(charBuffer, 0, count);
         }
 
-        private unsafe void HandleTextInputEvent(Window window, WindowData data, ref XEvent xevent, ModifierKeys modifiers)
+        private unsafe static void HandleTextInputEvent(Window window, WindowData data, ref XEvent xevent, ModifierKeys modifiers)
         {
             var byteBuffer = stackalloc byte[128];
             var count = Xutf8LookupString(data.InputContext, ref xevent.xkey, new IntPtr(byteBuffer), 127, IntPtr.Zero, out var status);
@@ -1594,7 +1596,7 @@ namespace NStuff.WindowSystem.Linux
             return x < width && y < height;
         }
 
-        private void HandleTextInputEvent(Window window, int codePoint, ModifierKeys modifiers)
+        private static void HandleTextInputEvent(Window window, int codePoint, ModifierKeys modifiers)
         {
             if (codePoint < 32 && (modifiers & ModifierKeys.Control) != 0)
             {
@@ -1673,7 +1675,7 @@ namespace NStuff.WindowSystem.Linux
             return xevent.xselection.property != None;
         }
 
-        private unsafe ModifierKeys TranslateModifierKeys(uint mask)
+        private unsafe static ModifierKeys TranslateModifierKeys(uint mask)
         {
             var result = ModifierKeys.None;
             if ((mask & ShiftMask) != 0)
@@ -1799,7 +1801,7 @@ namespace NStuff.WindowSystem.Linux
             XSendEvent(display, rootWindow, 0, SubstructureNotifyMask | SubstructureRedirectMask, ref xevent);
         }
 
-        private void UpdateWMNormalHints(Window window, (double width, double height) size)
+        private static void UpdateWMNormalHints(Window window, (double width, double height) size)
         {
             var sizeHints = new XSizeHints();
             var data = GetData(window);
@@ -1886,16 +1888,11 @@ namespace NStuff.WindowSystem.Linux
             {
                 return 0;
             }
-            switch (xevent.type)
+            return xevent.type switch
             {
-                case SelectionClear:
-                case SelectionNotify:
-                case SelectionRequest:
-                    return 1;
-
-                default:
-                    return 0;
-            }
+                SelectionClear or SelectionNotify or SelectionRequest => 1,
+                _ => 0,
+            };
         }
 
         private void HandleSelectionClear(ref XEvent xevent)

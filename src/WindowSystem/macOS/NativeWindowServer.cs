@@ -1,4 +1,6 @@
-﻿using System;
+﻿#pragma warning disable CA1806 // Do not ignore method results
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
@@ -1464,10 +1466,7 @@ namespace NStuff.WindowSystem.macOS
             }
         }
 
-        private static double ConvertY(double y)
-        {
-            return CGDisplayBounds(CGMainDisplayID()).Size.Height - y - 1;
-        }
+        private static double ConvertY(double y) => CGDisplayBounds(CGMainDisplayID()).Size.Height - y - 1;
 
         private static bool IsEventInsideFrame(Id @event, NSRect frame)
         {
@@ -1503,10 +1502,7 @@ namespace NStuff.WindowSystem.macOS
             return result;
         }
 
-        private static Keycode TranslateKeyCode(ushort keyCode)
-        {
-            return (keyCode > 127) ? Keycode.Unknown : keycodeMappings[keyCode];
-        }
+        private static Keycode TranslateKeyCode(ushort keyCode) => (keyCode > 127) ? Keycode.Unknown : keycodeMappings[keyCode];
 
         private delegate void Message(IntPtr receiverPtr, IntPtr selectorPtr);
         private delegate void MessagePtr(IntPtr receiverPtr, IntPtr selectorPtr, IntPtr eventPtr);

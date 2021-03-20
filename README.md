@@ -2,7 +2,7 @@
 
 This repository provides building blocks to write cross-platform __GUI__ applications in __pure .NET__.
 
-The code only relies on __[.NET Core](https://dotnet.microsoft.com/download) 5 64bit__, and on a minimal set of functionalities from those APIs:
+The code only relies on __[.NET Core](https://dotnet.microsoft.com/download) 5.0 64bit__, and on a minimal set of functionalities from those APIs:
 * Win32 on __Windows__
 * Cocoa on __macOS__
 * Xlib on __Linux__
@@ -12,7 +12,7 @@ Native interoperability with these APIs is achieved in C# through __P/Invoke__: 
 
 ## Examples
 
-The code is developed on Windows 10 64bit, macOS Catalina, and Ubuntu 18.04 64bit installed in a virtual machine.
+The code is developed on Windows 10, macOS Catalina, and Ubuntu 20.04.
 Once .NET Core is installed, samples and tests work out-of-the-box.
 
 To run the samples launcher use the following command:
